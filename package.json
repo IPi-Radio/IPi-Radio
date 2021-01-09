@@ -23,5 +23,8 @@
   "bugs": {
     "url": "https://github.com/IPi-Radio/IPi-Radio-webUI/issues"
   },
-  "homepage": "https://github.com/IPi-Radio/IPi-Radio-webUI#readme"
+  "homepage": "https://github.com/IPi-Radio/IPi-Radio-webUI#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
