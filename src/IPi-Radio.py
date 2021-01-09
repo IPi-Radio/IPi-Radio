@@ -26,7 +26,7 @@ class Player(QMainWindow, Ui_MainWindow):
         super().__init__()
 
         self.currStation = None
-        self.autoTimer = True
+        self.autoTimer = False
         self.volume = 100
 
         self.instance = vlc.Instance("--no-xlib")
@@ -34,6 +34,7 @@ class Player(QMainWindow, Ui_MainWindow):
 
         self.setupUi(self)
         self.initRadioList()
+        self.checkAutoTimer()
 
         #self.button_vol_plus.clicked.connect(self.add)
         #self.button_vol_minus.clicked.connect(self.sub)
@@ -52,6 +53,7 @@ class Player(QMainWindow, Ui_MainWindow):
         timer_sec.start(1000)
 
     def initRadioList(self):
+        """init the list of radio stations by reading from the json file"""
         with open(os.path.join(os.path.dirname(__file__), "radiostationsv2.json"), "r") as f:
             self.radioStations: dict = json.load(fp=f)
 
@@ -59,6 +61,10 @@ class Player(QMainWindow, Ui_MainWindow):
         for i, (key, value) in enumerate(self.radioStations.items()):
             print(key, value)
             self.radiolist.addItem(f"({i+1}){key}")
+
+    def resetRadioInformation(self): # should get called, when pressing the STOP button
+        """"resets all information of the current radio station"""
+        pass
 
     def testfunction(self):
         self.showQuestionMSG("some cool message")
@@ -163,12 +169,14 @@ class Player(QMainWindow, Ui_MainWindow):
         #return super().keyPressEvent(a0)
 
     def toggleAutoTimer(self):
-        if self.autoTimer:
-            self.button_auto.setText("AUTO: OFF")
-        else:
-            self.button_auto.setText("AUTO: ON")
-        
         self.autoTimer = not self.autoTimer
+        self.checkAutoTimer()
+
+    def checkAutoTimer(self):
+        if self.autoTimer:
+            self.button_auto.setText("AUTO: ON")
+        else:
+            self.button_auto.setText("AUTO: OFF")
 
     def reboot(self):
         subprocess.run(["sudo", "reboot", "now"])
