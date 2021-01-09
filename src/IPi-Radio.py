@@ -52,7 +52,7 @@ class Player(QMainWindow, Ui_MainWindow):
         timer_sec.start(1000)
 
     def initRadioList(self):
-        with open(os.path.join(os.path.dirname(__file__), "radiostations.json"), "r") as f:
+        with open(os.path.join(os.path.dirname(__file__), "radiostationsv2.json"), "r") as f:
             self.radioStations: dict = json.load(fp=f)
 
         #print(self.radioStations)
@@ -83,7 +83,7 @@ class Player(QMainWindow, Ui_MainWindow):
     def setRadio(self, stationName: str):
         self.label_radioname.setText(stationName)
         
-        media: vlc.Media = self.instance.media_new( self.radioStations.get(stationName) )
+        media: vlc.Media = self.instance.media_new( self.radioStations.get(stationName).get("url") )
 
         self.vlcPlayer.set_media(media)
         self.vlcPlayer.play()
@@ -96,7 +96,7 @@ class Player(QMainWindow, Ui_MainWindow):
 
         self.label_radioname.setText(stationName)
         
-        media: vlc.Media = self.instance.media_new(self.radioStations.get(stationName))
+        media: vlc.Media = self.instance.media_new(self.radioStations.get(stationName).get("url") )
 
         self.vlcPlayer.set_media(media)
         self.vlcPlayer.play()
@@ -155,7 +155,7 @@ class Player(QMainWindow, Ui_MainWindow):
             rNameItem: QListWidgetItem = self.radiolist.item(key_pressed)
             print("playing", rNameItem.text())
 
-            if self.radioStations.get(rNameItem.text()):
+            if self.radioStations.get(rNameItem.text().get("url")):
                 print(rNameItem.text())
                 rNameItem.setSelected(True)
                 self.selectRadio(rNameItem)
