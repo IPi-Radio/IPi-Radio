@@ -9,7 +9,7 @@ import vlc
 
 from PyQt5 import uic, QtGui
 from PyQt5.QtCore import QTimer, Qt, QTime
-from PyQt5.QtWidgets import QApplication, QMainWindow, QListWidgetItem
+from PyQt5.QtWidgets import QApplication, QMainWindow, QListWidgetItem, QMessageBox
 
 from gui import Ui_MainWindow
 
@@ -44,6 +44,8 @@ class Player(QMainWindow, Ui_MainWindow):
         self.button_reboot.clicked.connect(self.reboot)
         self.button_shutdown.clicked.connect(self.shutdown)
 
+        #self.button_test.clicked.connect(self.testfunction)
+
         # init clock
         timer_sec = QTimer(self)
         timer_sec.timeout.connect(self._timer)
@@ -54,10 +56,29 @@ class Player(QMainWindow, Ui_MainWindow):
             self.radioStations: dict = json.load(fp=f)
 
         #print(self.radioStations)
-        for key, value in self.radioStations.items():
+        for i, (key, value) in enumerate(self.radioStations.items()):
             print(key, value)
-            self.radiolist.addItem(key)
+            self.radiolist.addItem(f"({i+1}){key}")
 
+    def testfunction(self):
+        self.showQuestionMSG("some cool message")
+
+    # Messageboxes
+    def showQuestionMSG(self, msg_str: str, title_msg="QUESTION"):
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Question)
+        msg.setText(msg_str)
+        msg.setWindowTitle(title_msg)
+        msg.addButton(QMessageBox.Yes)
+        msg.addButton(QMessageBox.No)
+        msg.setDefaultButton(QMessageBox.Yes)
+        
+        reply = msg.exec_()
+
+        if reply == QMessageBox.Yes:
+            return True
+        else:
+            return False
 
     def setRadio(self, stationName: str):
         self.label_radioname.setText(stationName)
@@ -71,7 +92,7 @@ class Player(QMainWindow, Ui_MainWindow):
 
     def selectRadio(self, ev: QListWidgetItem):
         #print(ev.text())
-        stationName = ev.text()
+        stationName = ev.text().split(')')[-1]
 
         self.label_radioname.setText(stationName)
         
