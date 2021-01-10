@@ -16,11 +16,11 @@ let read = function()
   {
     let data = fs.readFileSync(stations.file);
     let collection = JSON.parse(data);
-    stations.setAllStations(collection);
+    stations.setAll(collection);
   }
   else
   {
-    stations.clearAllStations();
+    stations.clearAll();
   }
 }
 
@@ -33,18 +33,18 @@ let write = function(data)
   fs.writeFileSync(stations.file, JSON.stringify(stations.collection));
 }
 
-stations.getAllStations = function()
+stations.getAll = function()
 {
   return stations.collection;
 }
 
-stations.setAllStations = function(collection)
+stations.setAll = function(collection)
 {
   stations.collection = collection;
   write();
 }
 
-stations.clearAllStations = function()
+stations.clearAll = function()
 {
-  stations.setAllStations({});
+  stations.setAll({});
 }

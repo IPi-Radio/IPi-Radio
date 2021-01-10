@@ -5,16 +5,16 @@ const api = module.exports = {};
 api.attach = function(app)
 {
   app.get("/api/stations/all", function (req, res) {
-    res.send(stations.getAllStations());
+    res.send(stations.getAll());
   });
 
   app.post("/api/stations/clear", function (req, res) {
-    stations.clearAllStations();
+    stations.clearAll();
     res.send("OK");
   });
 
   app.post("/api/stations/set", function (req, res) {
-    stations.setAllStations(req.body);
+    stations.setAll(req.body);
     res.send("OK");
   });
 
