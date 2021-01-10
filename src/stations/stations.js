@@ -44,6 +44,14 @@ stations.setAll = function(collection)
   write();
 }
 
+stations.remove = function(name)
+{
+  let removed = stations.collection[name] != null;
+  stations.collection[name] = null;
+  write();
+  return removed;
+}
+
 stations.clearAll = function()
 {
   stations.setAll({});

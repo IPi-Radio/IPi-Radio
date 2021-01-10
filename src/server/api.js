@@ -18,4 +18,13 @@ api.attach = function(app)
     res.send("OK");
   });
 
+  app.post("/api/stations/remove", function (req, res) {
+    let name = req.param("name");
+    if (stations.remove(name) == false)
+    {
+      res.status(204); // no content
+    }
+    res.send("OK");
+  });
+
 }
