@@ -1,5 +1,10 @@
 
+.stationDeleteButton
+{
+  float: right;
+}
+
 #stations
 {
-  width: 50%
+  width: 50%;
 }
