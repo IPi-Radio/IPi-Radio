@@ -1,3 +1,13 @@
+// prototype improvements
+
+Array.prototype.remove = function(item) {
+    for (let i = 0; i < this.length; i++) {
+        if (this[i] === item) {
+            this.splice(i, 1);
+        }
+    }
+}
+
 // Jquery UI setup
 
 $(function(){
@@ -13,7 +23,7 @@ $(".widget input[type=submit], .widget a, .widget button").button();
 
 // State variables
 
-let collection = [];
+let stations = [];
 
 // methods
 
@@ -22,42 +32,73 @@ function addEntry(entry)
 
 }
 
-function removeEntry(name)
+function removeEntry(entry)
 {
+  // send api request
+  $.post("/api/stations/remove/"+encodeURIComponent(entry.name), function(data)
+  {
+    console.log("remove station: "+data);
+  });
 
+  // remove from ui
+  entry.html.remove();
+  $("#stations").accordion("refresh");
+
+
+  // remove from internal collectio
+  stations.remove(entry);
+}
+
+function generateHtml(entry)
+{
+  let html = entry.html = $("<div class=\"station\">");
+
+  // title
+  html.append("<h3>"+entry.name+"</h3>");
+
+  // info container
+  let container = $("<div>");
+  html.append(container);
+  container.append("<p>url: "+entry.url+"</p>");
+  container.append("<p>time: "+entry.time+"</p>");
+
+  // delete button
+  let deleteButton = $(`
+    <button class="stationDeleteButton">
+      <span class="ui-icon ui-icon-closethick"></span>
+    </button>
+    `);
+  deleteButton.button();
+  deleteButton.click(function()
+  {
+    removeEntry(entry);
+  });
+  container.append(deleteButton);
+
+  return html;
 }
 
 // initialization
 
-$.get("/api/stations/all", function(data)
+$(function()
 {
-  for (const [key, value] of Object.entries(data))
+  $.get("/api/stations/all", function(data)
   {
-    // row
-    let row = $("<div class=\"station\">");
+    for (const [key, value] of Object.entries(data))
+    {
+      // collection
+      let entry = {};
+      entry.name = value.name;
+      entry.url = value.url;
+      entry.time = value.time;
+      entry.html = generateHtml(entry);
+      stations.push(entry);
 
-    // title
-    row.append("<h3>"+value.name+"</h3>");
+      // append
+      $("#stations").append(entry.html);
+    }
 
-    // info container
-    let container = $("<div>");
-    row.append(container);
-    container.append("<p>url: "+value.url+"</p>");
-    container.append("<p>time: "+value.time+"</p>");
+    $("#stations").accordion("refresh");
 
-    // delete button
-    let deleteButton = $(`
-      <button class="stationDeleteButton">
-        <span class="ui-icon ui-icon-closethick"></span>
-      </button>
-      `);
-    deleteButton.button();
-    container.append(deleteButton);
-
-    // append
-    $("#stations").append(row);
-  }
-
-  $("#stations").accordion("refresh");
-
+  });
 });
