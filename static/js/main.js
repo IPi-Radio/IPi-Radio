@@ -159,4 +159,10 @@ $(function()
     $("#stations").accordion("refresh");
 
   });
+
+  // show website
+  $("body").fadeIn({
+    speed: "fast"
+  });
+
 });
