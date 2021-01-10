@@ -2,7 +2,7 @@
   "name": "ipi-radio-webui",
   "version": "1.0.0",
   "description": "Interface for managing the radio stations of the Ipi Radio",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node src/index.js"
