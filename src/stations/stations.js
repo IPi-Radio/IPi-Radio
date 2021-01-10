@@ -1,4 +1,5 @@
 const fs = require("fs");
+const converter = require("./converter.js");
 
 const stations = module.exports = {};
 stations.file = null;
@@ -16,7 +17,7 @@ let read = function()
   {
     let data = fs.readFileSync(stations.file);
     let collection = JSON.parse(data);
-    stations.setAll(collection);
+    stations.setAll(converter.toInternal(collection));
   }
   else
   {
@@ -24,13 +25,18 @@ let read = function()
   }
 }
 
-let write = function(data)
+let write = function(commit=true)
 {
+  if (commit == false)
+  {
+    return false;
+  }
   if (stations.file == null)
   {
     throw new Error("Stations file not initialized");
   }
-  fs.writeFileSync(stations.file, JSON.stringify(stations.collection));
+  let collection = converter.toExternal(stations.collection);
+  fs.writeFileSync(stations.file, JSON.stringify(collection, null, 2));
 }
 
 stations.getAll = function()
@@ -38,21 +44,45 @@ stations.getAll = function()
   return stations.collection;
 }
 
-stations.setAll = function(collection)
+stations.setAll = function(collection, commit=true)
 {
-  stations.collection = collection;
-  write();
+  stations.clear(false);
+  for (let i in collection)
+  {
+    let station = collection[i];
+    stations.add(station, false);
+  }
+
+  write(commit);
 }
 
-stations.remove = function(name)
+stations.add = function(station, commit=true)
 {
-  let removed = stations.collection[name] != null;
-  stations.collection[name] = null;
-  write();
-  return removed;
+  let entry = {};
+  entry.name = station.name;
+  entry.url = station.url;
+  entry.time = station.time;
+  stations.collection.push(entry);
+
+  write(commit);
 }
 
-stations.clearAll = function()
+stations.remove = function(name, commit=true)
 {
-  stations.setAll({});
+  for (const [key, value] of Object.entries(stations.collection))
+  {
+    if (value.name === name)
+    {
+      stations.collection.splice(key, 1);
+      write(commit);
+      return true;
+    }
+  }
+  return false;
+}
+
+stations.clear = function(commit=true)
+{
+  stations.collection = [];
+  write(commit);
 }
