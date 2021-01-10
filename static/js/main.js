@@ -41,11 +41,20 @@ function removeEntry(entry)
   });
 
   // remove from ui
-  entry.html.remove();
-  $("#stations").accordion("refresh");
+  $("#stations").accordion(
+  {
+      active: false,
+      collapsible: true
+  });
+  entry.html.toggle("scale");
+  entry.html.fadeOut("slow",function()
+  {
+    $(this).remove();
+    $("#stations").accordion("refresh");
+  });
 
 
-  // remove from internal collectio
+  // remove from internal collection
   stations.remove(entry);
 }
 
