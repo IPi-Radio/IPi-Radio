@@ -58,6 +58,19 @@ function removeEntry(entry)
   stations.remove(entry);
 }
 
+function clearAllEntries()
+{
+  // api
+  $.post("/api/stations/clear/", function(data)
+  {
+    console.log("clear all stations: "+data);
+  });
+
+  // elements
+  $("#stations").remove();
+  $("#stations").accordion("refresh");
+}
+
 function generateHtml(entry)
 {
   let html = entry.html = $("<div class=\"station\">");
@@ -91,6 +104,42 @@ function generateHtml(entry)
 
 $(function()
 {
+  // button: clear all stations
+  $("#clearAllStations").button();
+
+  $("#dialogConfirmClearAllStations").hide();
+
+  $("#clearAllStations").click(function()
+  {
+    if (stations.length <= 1)
+    {
+      clearAllEntries();
+    }
+    else
+    {
+      let buttons = {};
+      buttons["Delete all "+stations.length+" stations"] = function()
+      {
+        clearAllEntries();
+        $(this).dialog("close");
+      }
+      buttons["let me think about it some more ..."] = function()
+      {
+        $(this).dialog("close");
+      }
+
+      $("#dialogConfirmClearAllStations").dialog(
+      {
+        resizable: false,
+        height: "auto",
+        width: 600,
+        modal: true,
+        buttons: buttons
+      });
+    }
+  });
+
+  // request all stations
   $.get("/api/stations/all", function(data)
   {
     for (const [key, value] of Object.entries(data))
