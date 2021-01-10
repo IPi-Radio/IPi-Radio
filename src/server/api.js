@@ -27,4 +27,9 @@ api.attach = function(app)
     res.send("OK");
   });
 
+  app.post("/api/stations/add", function (req, res) {
+    stations.add(req.body);
+    res.send("OK");
+  });
+
 }

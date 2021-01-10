@@ -1,5 +1,6 @@
 const fs = require("fs");
 const converter = require("./converter.js");
+const utility = require("../utility.js");
 
 const stations = module.exports = {};
 stations.file = null;
@@ -47,6 +48,11 @@ stations.getAll = function()
 stations.setAll = function(collection, commit=true)
 {
   stations.clear(false);
+  stations.addAll(collection, commit);
+}
+
+stations.addAll = function(collection, commit=true)
+{
   for (let i in collection)
   {
     let station = collection[i];
@@ -62,6 +68,7 @@ stations.add = function(station, commit=true)
   entry.name = station.name;
   entry.url = station.url;
   entry.time = station.time;
+  utility.validateStationEntry(entry);
   stations.collection.push(entry);
 
   write(commit);
