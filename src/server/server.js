@@ -7,12 +7,12 @@ module.exports = class Server
 	{
 		this.app = express();
 		this.app.use(express.json());
-    this.app.use(express.static("./static"));
-    api.attach(this.app);
+		this.app.use(express.static("./static"));
+		api.attach(this.app);
 	}
 
-  listen()
-  {
-    this.app.listen(8080);
-  }
+	listen()
+	{
+		this.app.listen(8080);
+	}
 }

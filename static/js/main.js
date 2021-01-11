@@ -1,24 +1,24 @@
 // prototype improvements
 
 Array.prototype.remove = function(item) {
-    for (let i = 0; i < this.length; i++) {
-        if (this[i] === item) {
-            this.splice(i, 1);
-        }
-    }
+		for (let i = 0; i < this.length; i++) {
+				if (this[i] === item) {
+						this.splice(i, 1);
+				}
+		}
 }
 
 // Jquery UI setup
 
 $(function(){
-  $("#stations").accordion({ header: "> div.station > h3", active: false, collapsible: true });
+	$("#stations").accordion({ header: "> div.station > h3", active: false, collapsible: true });
 });
 
 $(".widget input[type=submit], .widget a, .widget button").button();
 
  $("button, input, a").click(function(event)
  {
-   event.preventDefault();
+	 event.preventDefault();
  });
 
 // State variables
@@ -34,135 +34,135 @@ function addEntry(entry)
 
 function removeEntry(entry)
 {
-  // send api request
-  $.post("/api/stations/remove/"+encodeURIComponent(entry.name), function(data)
-  {
-    console.log("remove station: "+data);
-  });
+	// send api request
+	$.post("/api/stations/remove/"+encodeURIComponent(entry.name), function(data)
+	{
+		console.log("remove station: "+data);
+	});
 
-  // remove from ui
-  $("#stations").accordion(
-  {
-      active: false,
-      collapsible: true
-  });
-  entry.html.toggle("scale");
-  entry.html.fadeOut("slow",function()
-  {
-    $(this).remove();
-    $("#stations").accordion("refresh");
-  });
+	// remove from ui
+	$("#stations").accordion(
+	{
+			active: false,
+			collapsible: true
+	});
+	entry.html.toggle("scale");
+	entry.html.fadeOut("slow",function()
+	{
+		$(this).remove();
+		$("#stations").accordion("refresh");
+	});
 
 
-  // remove from internal collection
-  stations.remove(entry);
+	// remove from internal collection
+	stations.remove(entry);
 }
 
 function clearAllEntries()
 {
-  // api
-  $.post("/api/stations/clear/", function(data)
-  {
-    console.log("clear all stations: "+data);
-  });
+	// api
+	$.post("/api/stations/clear/", function(data)
+	{
+		console.log("clear all stations: "+data);
+	});
 
-  // elements
-  $("#stations").remove();
-  $("#stations").accordion("refresh");
+	// elements
+	$("#stations").remove();
+	$("#stations").accordion("refresh");
 }
 
 function generateHtml(entry)
 {
-  let html = entry.html = $("<div class=\"station\">");
+	let html = entry.html = $("<div class=\"station\">");
 
-  // title
-  html.append("<h3>"+entry.name+"</h3>");
+	// title
+	html.append("<h3>"+entry.name+"</h3>");
 
-  // info container
-  let container = $("<div>");
-  html.append(container);
-  container.append("<p>url: "+entry.url+"</p>");
-  container.append("<p>time: "+entry.time+"</p>");
+	// info container
+	let container = $("<div>");
+	html.append(container);
+	container.append("<p>url: "+entry.url+"</p>");
+	container.append("<p>time: "+entry.time+"</p>");
 
-  // delete button
-  let deleteButton = $(`
-    <button class="stationDeleteButton">
-      <span class="ui-icon ui-icon-closethick"></span>
-    </button>
-    `);
-  deleteButton.button();
-  deleteButton.click(function()
-  {
-    removeEntry(entry);
-  });
-  container.append(deleteButton);
+	// delete button
+	let deleteButton = $(`
+		<button class="stationDeleteButton">
+			<span class="ui-icon ui-icon-closethick"></span>
+		</button>
+		`);
+	deleteButton.button();
+	deleteButton.click(function()
+	{
+		removeEntry(entry);
+	});
+	container.append(deleteButton);
 
-  return html;
+	return html;
 }
 
 // initialization
 
 $(function()
 {
-  // button: clear all stations
-  $("#clearAllStations").button();
+	// button: clear all stations
+	$("#clearAllStations").button();
 
-  $("#dialogConfirmClearAllStations").hide();
+	$("#dialogConfirmClearAllStations").hide();
 
-  $("#clearAllStations").click(function()
-  {
-    if (stations.length <= 1)
-    {
-      clearAllEntries();
-    }
-    else
-    {
-      let buttons = {};
-      buttons["Delete all "+stations.length+" stations"] = function()
-      {
-        clearAllEntries();
-        $(this).dialog("close");
-      }
-      buttons["let me think about it some more ..."] = function()
-      {
-        $(this).dialog("close");
-      }
+	$("#clearAllStations").click(function()
+	{
+		if (stations.length <= 1)
+		{
+			clearAllEntries();
+		}
+		else
+		{
+			let buttons = {};
+			buttons["Delete all "+stations.length+" stations"] = function()
+			{
+				clearAllEntries();
+				$(this).dialog("close");
+			}
+			buttons["let me think about it some more ..."] = function()
+			{
+				$(this).dialog("close");
+			}
 
-      $("#dialogConfirmClearAllStations").dialog(
-      {
-        resizable: false,
-        height: "auto",
-        width: 600,
-        modal: true,
-        buttons: buttons
-      });
-    }
-  });
+			$("#dialogConfirmClearAllStations").dialog(
+			{
+				resizable: false,
+				height: "auto",
+				width: 600,
+				modal: true,
+				buttons: buttons
+			});
+		}
+	});
 
-  // request all stations
-  $.get("/api/stations/all", function(data)
-  {
-    for (const [key, value] of Object.entries(data))
-    {
-      // collection
-      let entry = {};
-      entry.name = value.name;
-      entry.url = value.url;
-      entry.time = value.time;
-      entry.html = generateHtml(entry);
-      stations.push(entry);
+	// request all stations
+	$.get("/api/stations/all", function(data)
+	{
+		for (const [key, value] of Object.entries(data))
+		{
+			// collection
+			let entry = {};
+			entry.name = value.name;
+			entry.url = value.url;
+			entry.time = value.time;
+			entry.html = generateHtml(entry);
+			stations.push(entry);
 
-      // append
-      $("#stations").append(entry.html);
-    }
+			// append
+			$("#stations").append(entry.html);
+		}
 
-    $("#stations").accordion("refresh");
+		$("#stations").accordion("refresh");
 
-  });
+	});
 
-  // show website
-  $("body").fadeIn({
-    speed: "fast"
-  });
+	// show website
+	$("body").fadeIn({
+		speed: "fast"
+	});
 
 });
