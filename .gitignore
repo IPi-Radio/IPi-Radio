@@ -5,3 +5,5 @@
 # project
 /stations.json
 
+# dolphin config file
+.directory
