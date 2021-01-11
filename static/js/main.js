@@ -8,19 +8,6 @@ Array.prototype.remove = function(item) {
 		}
 }
 
-// Jquery UI setup
-
-$(function(){
-	$("#stations").accordion({ header: "> div.station > h3", active: false, collapsible: true });
-});
-
-$(".widget input[type=submit], .widget a, .widget button").button();
-
- $("button, input, a").click(function(event)
- {
-	 event.preventDefault();
- });
-
 // State variables
 
 let stations = [];
@@ -47,7 +34,7 @@ function removeEntry(entry)
 			collapsible: true
 	});
 	entry.html.toggle("scale");
-	entry.html.fadeOut("slow",function()
+	entry.html.fadeOut("slow", function()
 	{
 		$(this).remove();
 		$("#stations").accordion("refresh");
@@ -73,7 +60,7 @@ function clearAllEntries()
 
 function generateHtml(entry)
 {
-	let html = entry.html = $("<div class=\"station\">");
+	let html = entry.html = $('<div class="station">');
 
 	// title
 	html.append("<h3>"+entry.name+"</h3>");
@@ -81,16 +68,13 @@ function generateHtml(entry)
 	// info container
 	let container = $("<div>");
 	html.append(container);
-	container.append("<p>url: "+entry.url+"</p>");
 	container.append("<p>time: "+entry.time+"</p>");
+	container.append("<p>url: "+entry.url+"</p>");
 
 	// delete button
 	let deleteButton = $(`
-		<button class="stationDeleteButton">
-			<span class="ui-icon ui-icon-closethick"></span>
-		</button>
-		`);
-	deleteButton.button();
+		<input class="btn btn-danger btn-sm stationDeleteButton" type="button" value="delete" />
+	`);
 	deleteButton.click(function()
 	{
 		removeEntry(entry);
@@ -102,41 +86,26 @@ function generateHtml(entry)
 
 // initialization
 
-$(function()
+$(document).ready( function()
 {
-	// button: clear all stations
-	$("#clearAllStations").button();
+	// Jquery UI setup
+	$("#stations").accordion({ header: "> div.station > h3", active: false, collapsible: true });
 
-	$("#dialogConfirmClearAllStations").hide();
 
-	$("#clearAllStations").click(function()
+	$("#clearAllStationsNew").click(function()
 	{
-		if (stations.length <= 1)
+		$("#clearAllStationsDialog").show("slow");
+
+		$("#clearAllStationsNO").click(function()
+		{
+			$(this).parent().parent(".alert").hide("slow");
+		});
+
+		$("#clearAllStationsYES").click(function()
 		{
 			clearAllEntries();
-		}
-		else
-		{
-			let buttons = {};
-			buttons["Delete all "+stations.length+" stations"] = function()
-			{
-				clearAllEntries();
-				$(this).dialog("close");
-			}
-			buttons["let me think about it some more ..."] = function()
-			{
-				$(this).dialog("close");
-			}
-
-			$("#dialogConfirmClearAllStations").dialog(
-			{
-				resizable: false,
-				height: "auto",
-				width: 600,
-				modal: true,
-				buttons: buttons
-			});
-		}
+			$(this).parent().parent(".alert").hide("slow");
+		});
 	});
 
 	// request all stations

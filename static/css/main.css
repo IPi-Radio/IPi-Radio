@@ -4,6 +4,21 @@ body
 	display: none;
 }
 
+.btn-delete
+{
+	margin-top: 10%;
+}
+
+.btn-new
+{
+	margin-top: 10%;
+}
+
+.btn-confirm
+{
+	width: 20%;
+}
+
 .screen-container
 {
 	/* border: 1px black solid; */
@@ -33,7 +48,9 @@ body
 	float: right;
 }
 
+/*
 #stations
 {
 
 }
+*/
