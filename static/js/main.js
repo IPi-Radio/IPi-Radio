@@ -58,9 +58,23 @@ function clearAllEntries()
 	$("#stations").accordion("refresh");
 }
 
+function getEntriesOrder()
+{
+	let listData = [];
+
+	$(".station").each(function()
+	{
+		listData.push($(this).attr("name"));
+	});
+
+	console.log(listData);
+
+	return listData;
+}
+
 function generateHtml(entry)
 {
-	let html = entry.html = $('<div class="list-group-item station">');
+	let html = entry.html = $('<div class="list-group-item station" name="'+entry.name+'">');
 
 	// title
 	html.append("<h3>"+entry.name+"</h3>");
