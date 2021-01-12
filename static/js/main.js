@@ -112,21 +112,28 @@ $(document).ready( function()
 		.disableSelection();
 
 
+	// init buttons
 	$("#clearAllStationsNew").click(function()
 	{
 		$("#clearAllStationsDialog").show("slow");
 
 		$("#clearAllStationsNO").click(function()
 		{
-			$(this).parent().parent(".alert").hide("slow");
+			$("#clearAllStationsDialog").hide("slow");
 		});
 
 		$("#clearAllStationsYES").click(function()
 		{
 			clearAllEntries();
-			$(this).parent().parent(".alert").hide("slow");
+			$("#clearAllStationsDialog").hide("slow");
 		});
 	});
+
+	$("#addNewStation").click(function()
+	{
+		getEntriesOrder();
+	});
+
 
 	// request all stations
 	$.get("/api/stations/all", function(data)
