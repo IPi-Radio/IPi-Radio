@@ -74,7 +74,7 @@ function getEntriesOrder()
 
 function generateHtml(entry)
 {
-	let html = entry.html = $('<div class="list-group-item station" name="'+entry.name+'">');
+	let html = entry.html = $('<div class="sortable-item station" name="'+entry.name+'">');
 
 	// title
 	html.append("<h3>"+entry.name+"</h3>");
@@ -105,11 +105,18 @@ $(document).ready( function()
 	// Jquery UI setup
 	$("#stations").accordion({ header: "> div.station > h3", active: false, collapsible: true });
 	// setup draggable list
-	$("#stations").sortable(
+	$("#stations")
+		.sortable(
 		{
 			opacity: 0.35
 		})
 		.disableSelection();
+	$(".sortable-item")
+		.on("dragover", false)
+		.on("drop", function()
+		{
+			alert("dropped");
+		});
 
 
 	// init buttons
@@ -131,7 +138,7 @@ $(document).ready( function()
 
 	$("#addNewStation").click(function()
 	{
-		getEntriesOrder();
+
 	});
 
 
