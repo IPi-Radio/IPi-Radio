@@ -60,7 +60,7 @@ function clearAllEntries()
 
 function generateHtml(entry)
 {
-	let html = entry.html = $('<div class="station">');
+	let html = entry.html = $('<div class="list-group-item station">');
 
 	// title
 	html.append("<h3>"+entry.name+"</h3>");
@@ -90,6 +90,12 @@ $(document).ready( function()
 {
 	// Jquery UI setup
 	$("#stations").accordion({ header: "> div.station > h3", active: false, collapsible: true });
+	// setup draggable list
+	$("#stations").sortable(
+		{
+			opacity: 0.35
+		})
+		.disableSelection();
 
 
 	$("#clearAllStationsNew").click(function()
