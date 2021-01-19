@@ -11,12 +11,77 @@ Array.prototype.remove = function(item) {
 // State variables
 
 let stations = [];
+let searchResult = [];
 
-// methods
+// Methods
+
+function checkButton(id)
+{
+    var new_name = $(id).val();
+    $("#addRadioName").prop("disabled", new_name.length < 1);
+}
+
+
+// Search functions
+function searchByName()
+{
+	// http://all.api.radio-browser.info/json/stations/byname/{searchterm}
+
+	rName = $("#radioStatioName").val();
+	console.log(rName);
+
+	$.get("http://all.api.radio-browser.info/json/stations/byname/"+encodeURIComponent(rName), function(data)
+	{
+		console.log(data);
+		// clear search result array
+		searchResult = [];
+		$(".resultItem").remove();
+
+		for (const [key, value] of Object.entries(data))
+		{
+			let entry = value;
+			entry.html = generateResultItem(entry);
+			searchResult.push(entry);
+
+			$("#resultList").append(entry.html);
+		}
+	});
+}
+
+function generateResultItem(entry)
+{
+	let html = $(`<button type="button" class="list-group-item list-group-item-action resultItem" name="${searchResult.length}" onclick="addEntry(this)">`);
+	let stationInfo = entry.name
+		+" | codec: "+entry.codec
+		/*+" | bitrate: "+entry.bitrate*/
+		+" | country: "+entry.country+" "+entry.state
+		+" | lang: "+entry.language
+		+" | clicks:"+entry.clickcount;
+
+	html.append(stationInfo);
+
+	return html;
+}
 
 function addEntry(entry)
 {
+	//console.log(entry);
+	//console.log(entry.name);
+	//console.log(searchResult[entry.name]);
 
+	let newEntry = searchResult[entry.name];
+	newEntry.time = "";
+	newEntry.html = generateHtml(newEntry);
+	stations.push(newEntry);
+
+	// append
+	$("#stations").append(newEntry.html);
+	$("#stations").accordion("refresh");
+
+	$.post("/api/stations/add", JSON.stringify(newEntry) , function(data)
+	{
+		console.log("add station: "+data);
+	});
 }
 
 function removeEntry(entry)
@@ -30,8 +95,8 @@ function removeEntry(entry)
 	// remove from ui
 	$("#stations").accordion(
 	{
-			active: false,
-			collapsible: true
+		active: false,
+		collapsible: true
 	});
 	entry.html.toggle("scale");
 	entry.html.fadeOut("slow", function()
@@ -40,7 +105,6 @@ function removeEntry(entry)
 		$("#stations").accordion("refresh");
 	});
 
-
 	// remove from internal collection
 	stations.remove(entry);
 }
@@ -48,7 +112,7 @@ function removeEntry(entry)
 function clearAllEntries()
 {
 	// api
-	$.post("/api/stations/clear/", function(data)
+	$.post("/api/stations/clear", function(data)
 	{
 		console.log("clear all stations: "+data);
 	});
@@ -58,23 +122,52 @@ function clearAllEntries()
 	$("#stations").accordion("refresh");
 }
 
-function getEntriesOrder()
+function pushAllEntries()
 {
-	let listData = [];
+	// workaround for some cyclic error bug whatever the fuck
+	let tmp_stations = stations;
 
-	$(".station").each(function()
+	tmp_stations.forEach(function(item)
 	{
-		listData.push($(this).attr("name"));
+		delete item.html;
 	});
 
-	console.log(listData);
+	//console.log(JSON.stringify(stations));
 
-	return listData;
+	$.post("/api/stations/saveall", JSON.stringify(stations), function(data)
+	{
+		console.log("update all stations: "+data);
+		if (data == "OK")
+		{
+			alert("Saving successful!");
+		}
+	})
+}
+
+function entryGenerator(label, value, disabled)
+{
+	let entry = $('<div class="input-group mb-3 radio-property">');
+	let labelHtml = $('<div class="input-group-prepend">');
+
+	if (disabled)
+	{
+		var valueHtml = $(`<input class="form-control" type="text" value="${value}" disabled />`);
+	} else
+	{
+		var valueHtml = $(`<input class="form-control" type="text" value="${value}" />`);
+	}
+	
+	// put all together
+	labelHtml.append(`<span class="input-group-text">${label}</span>`);
+	entry.append(labelHtml);
+	entry.append(valueHtml);
+
+	return entry;
 }
 
 function generateHtml(entry)
 {
-	let html = entry.html = $('<div class="sortable-item station" name="'+entry.name+'">');
+	let html = entry.html = $(`<div class="sortable-item station" name="${entry.name}">`);
 
 	// title
 	html.append("<h3>"+entry.name+"</h3>");
@@ -82,8 +175,10 @@ function generateHtml(entry)
 	// info container
 	let container = $("<div>");
 	html.append(container);
-	container.append("<p>time: "+entry.time+"</p>");
-	container.append("<p>url: "+entry.url+"</p>");
+	/* container.append(`<p>time: ${entry.time}</p>`); */
+
+	container.append( entryGenerator("time", entry.time, false) );
+	container.append( entryGenerator("url", entry.url, true) );
 
 	// delete button
 	let deleteButton = $(`
@@ -98,6 +193,47 @@ function generateHtml(entry)
 	return html;
 }
 
+function getEntriesOrder()
+{
+	let listData = [];
+
+	$(".station").each(function()
+	{
+		listData.push($(this).attr("name"));
+	});
+
+	console.log(listData);
+	generateHtml(newEntry);
+}
+
+function updateOrder()
+{
+	let newOrder = [];
+
+	// fetch current order
+	$(".station").each(function()
+	{
+		let currName = $(this).attr("name");
+
+		stations.forEach(function(item)
+		{
+			if (item.name === currName)
+			{
+				//console.log("FOUND: "+ item.name);
+				newOrder.push(item);
+			}
+		});
+	});
+
+	//console.log(stations);
+	//console.log(newOrder);
+
+	stations = newOrder;
+}
+
+
+
+
 // initialization
 
 $(document).ready( function()
@@ -111,13 +247,6 @@ $(document).ready( function()
 			opacity: 0.35
 		})
 		.disableSelection();
-	$(".sortable-item")
-		.on("dragover", false)
-		.on("drop", function()
-		{
-			alert("dropped");
-		});
-
 
 	// init buttons
 	$("#clearAllStationsNew").click(function()
@@ -138,20 +267,26 @@ $(document).ready( function()
 
 	$("#addNewStation").click(function()
 	{
-
+		$("#newStationFormHead").toggle("slow");
+		$("#newStationForm").toggle("slow");
 	});
 
+	$("#saveStationOrder").click(function()
+	{
+		updateOrder();
+		pushAllEntries();
+	});
 
 	// request all stations
-	$.get("/api/stations/all", function(data)
+	$.post("/api/stations/all", function(data)
 	{
+		//console.log(data);
+
+		// collection
 		for (const [key, value] of Object.entries(data))
 		{
-			// collection
-			let entry = {};
-			entry.name = value.name;
-			entry.url = value.url;
-			entry.time = value.time;
+			let entry = value;
+			entry.name = key;
 			entry.html = generateHtml(entry);
 			stations.push(entry);
 
@@ -160,12 +295,10 @@ $(document).ready( function()
 		}
 
 		$("#stations").accordion("refresh");
-
-	});
+	}, "json");
 
 	// show website
 	$("body").fadeIn({
 		speed: "fast"
 	});
-
 });
