@@ -3,6 +3,7 @@
 import os
 import sys
 import json
+import socket
 import mimetypes
 import urllib.parse as urlparse
 
@@ -161,12 +162,26 @@ class Webserver(BaseHTTPRequestHandler):
         return data
 
 if __name__ == "__main__":
-    
+    print("loading settings...")
     # load settings
     with open(SETTINGS, "r") as f:
         settings: dict = json.load(f)
 
-    httpServer = HTTPServer((settings.get("IP"), settings.get("Port")), Webserver)
+    print("checking network connection...")
+    with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as s:
+        s.connect(("1.1.1.1", 80))
+        global CURRIP
+        CURRIP = s.getsockname()[0]
+
+    if settings.get("useWebserver"):
+        print("starting HTTP server...")
+        if settings.get("IP") not in ["DHCP, AUTO, auto"]:
+            CURRIP = settings.get("IP")
+
+        print(f"current IP is: {CURRIP}")
+        httpServer = HTTPServer((CURRIP, settings.get("Port")), Webserver)
+    else:
+        sys.exit()
 
     try:
         httpServer.serve_forever()
