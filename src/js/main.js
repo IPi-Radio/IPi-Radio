@@ -21,6 +21,20 @@ function checkButton(id)
     $("#addRadioName").prop("disabled", new_name.length < 1);
 }
 
+function checkTime(input)
+{
+	const regex = /^[0-2][0-9]:[0-5][0-9](\s-\s[0-2][0-9]:[0-5][0-9])?$/;
+
+	if (regex.test($(input).val()))
+	{
+		$(input).css("color", "");
+		$("#saveStationOrder").prop("disabled", false);
+	}else
+	{
+		$(input).css("color", "red");
+		$("#saveStationOrder").prop("disabled", true);
+	}
+}
 
 // Search functions
 function searchByName()
@@ -146,15 +160,26 @@ function pushAllEntries()
 
 function entryGenerator(label, value, disabled)
 {
-	let entry = $('<div class="input-group mb-3 radio-property">');
+	let entry = $('<div class="input-group mb-3">');
 	let labelHtml = $('<div class="input-group-prepend">');
+
+	let classes = "form-control radio-property"
+
+	// add placeholder for the time field
+	if (label === "time")
+	{
+		var addon = 'placeholder="hh:mm[ - hh:mm]" onkeyup="checkTime(this)"';
+	} else
+	{
+		var addon = "";
+	}
 
 	if (disabled)
 	{
-		var valueHtml = $(`<input class="form-control" type="text" value="${value}" disabled />`);
+		var valueHtml = $(`<input class="${classes}" type="text" name="${label}" value="${value}" ${addon} disabled />`);
 	} else
 	{
-		var valueHtml = $(`<input class="form-control" type="text" value="${value}" />`);
+		var valueHtml = $(`<input class="${classes}" type="text" name="${label}" value="${value}" ${addon} />`);
 	}
 	
 	// put all together
@@ -231,7 +256,29 @@ function updateOrder()
 	stations = newOrder;
 }
 
+function updateRadiolist()
+{
+	let newList = [];
 
+	$(".station").each(function()
+	{
+		let newEntry = {};
+
+		newEntry["name"] = $(this).attr("name");
+
+		$(this).find(".radio-property").each(function()
+		{
+			//console.log($(this).attr("name") + ": " + $(this).val());
+			newEntry[$(this).attr("name")] = $(this).val();
+		});
+
+		newList.push(newEntry);
+	});
+
+	console.log(newList);
+
+	stations = newList;
+}
 
 
 // initialization
@@ -273,7 +320,8 @@ $(document).ready( function()
 
 	$("#saveStationOrder").click(function()
 	{
-		updateOrder();
+		updateRadiolist();
+		/* updateOrder(); */
 		pushAllEntries();
 	});
 
