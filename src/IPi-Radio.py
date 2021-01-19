@@ -1,4 +1,7 @@
+#! /usr/bin/env python3
+
 import os
+import re
 import sys
 import json
 import time
@@ -6,6 +9,8 @@ import time
 import subprocess
 
 import vlc
+
+from datetime import datetime, timedelta
 
 from PyQt5 import uic, QtGui
 from PyQt5.QtCore import QTimer, Qt, QTime
@@ -115,7 +120,8 @@ class Player(QMainWindow, Ui_MainWindow):
 
     def stopRadio(self):
         self.vlcPlayer.stop()
-
+        self.currStation = None
+        self.label_radioname.setText("IPi-Radio")
 
     def add(self):
         if 0 <= self.volume+5 <= 100:
@@ -127,21 +133,51 @@ class Player(QMainWindow, Ui_MainWindow):
             self.volume -= 5
             self.label_volume.setText(f"Volume: {self.volume}%")
 
+    def _getTimeComponents(self, time: str):
+        exactTime = re.compile(r"^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$")
+        timeFrame = re.compile(r"^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9](\s-\s|-)([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$")
+
+        if exactTime.match(time):
+            timeObjStart = datetime.strptime(time, '%H:%M')
+            timeObjEnd = timeObjStart + timedelta(seconds=59)
+
+            return timeObjStart.time(), timeObjEnd.time()
+            
+        elif timeFrame.match(time):
+            time = time.replace(' ', '') # remove whitespace
+            t1, t2 = time.split("-")
+
+            timeObjStart = datetime.strptime(t1, '%H:%M')
+            timeObjEnd = datetime.strptime(t2, '%H:%M')
+
+            return timeObjStart.time(), timeObjEnd.time()
+        else:
+            # TODO: show error message
+            return False, False
+
+    def _timeInBetween(self, start, end):
+        now = datetime.now().time()
+        if start <= end:
+            return start <= now <= end
+        else: # over midnight e.g., 23:30-04:15
+            return start <= now or now <= end
+
     def _checkRadioStation(self):
         if self.autoTimer:
-            currTime = QTime.currentTime().toString("hh")
+            playing = False
+            for key, value in self.radioStations.items():
+                tTime = value["time"]
+                if not tTime: continue
 
-            if currTime == "20":
-                newStation = "Radio Vatikan"
-            elif currTime == "21":
-                newStation = "Bayern 5 plus"
-            elif currTime == "15":
-                newStation = "Radio Maria Schweiz"
-            else:
-                newStation = self.currStation
+                if self._timeInBetween( *self._getTimeComponents(tTime) ):
+                    playing = True
+                    if self.currStation != key:
+                        self.setRadio(key)
+                    break
 
-            if self.currStation != newStation:
-                self.setRadio(newStation)
+            if not playing and self.currStation:
+                print("stop")
+                self.stopRadio()
 
     def _timer(self):
         self.label_time.setText( QTime.currentTime().toString("hh:mm:ss") )
@@ -190,8 +226,6 @@ if __name__ == "__main__":
     # run without X server
     #os.environ["QWS_DISPLAY"] = r"linuxfb:fb=/dev/fb0"
     os.environ["QT_QPA_PLATFORM"] = "linuxfb:fb=/dev/fb0"
-
-    #gui = uic.loadUi("1024x600.ui")
 
     app = QApplication(sys.argv)
 
