@@ -111,9 +111,10 @@ class Webserver(BaseHTTPRequestHandler):
             entry = {
                 "url": newStation.get("url"),
                 "time": newStation.get("time"),
-                "codec": f'{newStation.get("codec")} ({newStation.get("bitrate")} kbits)',
-                "country": newStation.get("time"),
-                "language": newStation.get("time")
+                "codec": newStation.get("codec"),
+                "bitrate": newStation.get("bitrate"),
+                "country": newStation.get("country"),
+                "language": newStation.get("language")
             }
 
             stations[newStation["name"]] = entry
@@ -142,8 +143,12 @@ class Webserver(BaseHTTPRequestHandler):
 
         for st in data:
             tmp = {
-                "time": st["time"],
-                "url": st["url"],
+                "time": st.get("time"),
+                "url": st.get("url"),
+                "codec": st.get("codec"),
+                "bitrate": st.get("bitrate"),
+                "country": st.get("country"),
+                "language": st.get("language"),
             }
             
             stations[st["name"]] = tmp
