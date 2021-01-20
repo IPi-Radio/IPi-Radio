@@ -17,8 +17,8 @@ let searchResult = [];
 
 function checkButton(id)
 {
-    var new_name = $(id).val();
-    $("#addRadioName").prop("disabled", new_name.length < 1);
+	var new_name = $(id).val();
+	$("#addRadioName").prop("disabled", new_name.length < 1);
 }
 
 function checkTime(input)
