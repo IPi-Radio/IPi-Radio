@@ -25,6 +25,7 @@ screen res:
 480x320
 """
 
+STATIONS = "stations.json"
 
 class Player(QMainWindow, Ui_MainWindow):
     def __init__(self):
@@ -59,7 +60,7 @@ class Player(QMainWindow, Ui_MainWindow):
 
     def readRadioList(self):
         """init the list of radio stations by reading from the json file"""
-        with open(os.path.join(os.path.dirname(__file__), "radiostationsv2.json"), "r") as f:
+        with open(os.path.join(os.path.dirname(__file__), STATIONS), "r") as f:
             self.radioStations: dict = json.load(fp=f)
 
         #print(self.radioStations)
