@@ -24,9 +24,9 @@ function checkButton(id)
 function checkTime(input)
 {
 	// const regex = /^[0-2][0-9]:[0-5][0-9](\s-\s[0-2][0-9]:[0-5][0-9])?$/;
-	const regex = /^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9](\s-\s|-)([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
+	const regex = /^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]((\s-\s|-)([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9])?$/;
 
-	if (regex.test($(input).val()))
+	if (regex.test($(input).val()) || $(input).val() === "")
 	{
 		$(input).css("color", "");
 		$("#saveStationOrder").prop("disabled", false);
