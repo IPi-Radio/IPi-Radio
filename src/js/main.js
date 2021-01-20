@@ -68,10 +68,10 @@ function generateResultItem(entry)
 	let html = $(`<button type="button" class="list-group-item list-group-item-action resultItem" name="${searchResult.length}" onclick="addEntry(this)">`);
 	let stationInfo = entry.name
 		+" | codec: "+entry.codec
-		/*+" | bitrate: "+entry.bitrate*/
+		+" | bitrate: "+entry.bitrate
 		+" | country: "+entry.country+" "+entry.state
 		+" | lang: "+entry.language
-		+" | clicks:"+entry.clickcount;
+		+" | clicks: "+entry.clickcount;
 
 	html.append(stationInfo);
 
