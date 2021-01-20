@@ -1,0 +1,5 @@
+{
+    "IP": "192.168.8.50",
+    "Port": 8088,
+    "useWebserver": true
+}

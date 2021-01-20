@@ -4,12 +4,12 @@ body
 	display: none;
 }
 
-.btn-delete
+.add-button
 {
-	margin-top: 10%;
+	margin-left: 2%;
 }
 
-.btn-new
+.btn-right
 {
 	margin-top: 10%;
 }
@@ -17,6 +17,11 @@ body
 .btn-confirm
 {
 	width: 20%;
+}
+
+.form-control
+{
+	width: 80%;
 }
 
 .screen-container
