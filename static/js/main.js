@@ -58,9 +58,23 @@ function clearAllEntries()
 	$("#stations").accordion("refresh");
 }
 
+function getEntriesOrder()
+{
+	let listData = [];
+
+	$(".station").each(function()
+	{
+		listData.push($(this).attr("name"));
+	});
+
+	console.log(listData);
+
+	return listData;
+}
+
 function generateHtml(entry)
 {
-	let html = entry.html = $('<div class="station">');
+	let html = entry.html = $('<div class="sortable-item station" name="'+entry.name+'">');
 
 	// title
 	html.append("<h3>"+entry.name+"</h3>");
@@ -90,23 +104,43 @@ $(document).ready( function()
 {
 	// Jquery UI setup
 	$("#stations").accordion({ header: "> div.station > h3", active: false, collapsible: true });
+	// setup draggable list
+	$("#stations")
+		.sortable(
+		{
+			opacity: 0.35
+		})
+		.disableSelection();
+	$(".sortable-item")
+		.on("dragover", false)
+		.on("drop", function()
+		{
+			alert("dropped");
+		});
 
 
+	// init buttons
 	$("#clearAllStationsNew").click(function()
 	{
 		$("#clearAllStationsDialog").show("slow");
 
 		$("#clearAllStationsNO").click(function()
 		{
-			$(this).parent().parent(".alert").hide("slow");
+			$("#clearAllStationsDialog").hide("slow");
 		});
 
 		$("#clearAllStationsYES").click(function()
 		{
 			clearAllEntries();
-			$(this).parent().parent(".alert").hide("slow");
+			$("#clearAllStationsDialog").hide("slow");
 		});
 	});
+
+	$("#addNewStation").click(function()
+	{
+
+	});
+
 
 	// request all stations
 	$.get("/api/stations/all", function(data)
