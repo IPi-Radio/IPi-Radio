@@ -38,7 +38,7 @@ class Player(QMainWindow, Ui_MainWindow):
         self.vlcPlayer: vlc.MediaPlayer = self.instance.media_player_new()
 
         self.setupUi(self)
-        self.initRadioList()
+        self.readRadioList()
         self.checkAutoTimer()
 
         #self.button_vol_plus.clicked.connect(self.add)
@@ -57,7 +57,7 @@ class Player(QMainWindow, Ui_MainWindow):
         timer_sec.timeout.connect(self._timer)
         timer_sec.start(1000)
 
-    def initRadioList(self):
+    def readRadioList(self):
         """init the list of radio stations by reading from the json file"""
         with open(os.path.join(os.path.dirname(__file__), "radiostationsv2.json"), "r") as f:
             self.radioStations: dict = json.load(fp=f)
@@ -65,7 +65,7 @@ class Player(QMainWindow, Ui_MainWindow):
         #print(self.radioStations)
         for i, (key, value) in enumerate(self.radioStations.items()):
             print(key, value)
-            self.radiolist.addItem(f"({i+1}){key}")
+            self.radiolist.addItem(f"({i+1}) {key}")
 
     def resetRadioInformation(self): # should get called, when pressing the STOP button
         """"resets all information of the current radio station"""
@@ -92,9 +92,14 @@ class Player(QMainWindow, Ui_MainWindow):
             return False
 
     def setRadio(self, stationName: str):
+        station: dict = self.radioStations.get(stationName)
+        self.label_info_codec.setText(station.get("codec"))
+        self.label_info_country.setText(station.get("country"))
+        self.label_info_language.setText(station.get("language"))
+
         self.label_radioname.setText(stationName)
-        
-        media: vlc.Media = self.instance.media_new( self.radioStations.get(stationName).get("url") )
+
+        media: vlc.Media = self.instance.media_new( station.get("url") )
 
         self.vlcPlayer.set_media(media)
         self.vlcPlayer.play()
@@ -103,18 +108,12 @@ class Player(QMainWindow, Ui_MainWindow):
 
     def selectRadio(self, ev: QListWidgetItem):
         #print(ev.text())
-        stationName = ev.text().split(')')[-1]
+        stationName = ev.text()[4:]
 
-        self.label_radioname.setText(stationName)
-        
-        media: vlc.Media = self.instance.media_new(self.radioStations.get(stationName).get("url") )
-
-        self.vlcPlayer.set_media(media)
-        self.vlcPlayer.play()
+        self.setRadio(stationName)
 
         self._timer()
         ev.setSelected(False)
-        self.currStation = stationName
         self.autoTimer = True
         self.toggleAutoTimer()
 
@@ -122,6 +121,9 @@ class Player(QMainWindow, Ui_MainWindow):
         self.vlcPlayer.stop()
         self.currStation = None
         self.label_radioname.setText("IPi-Radio")
+        self.label_info_codec.setText("---")
+        self.label_info_country.setText("---")
+        self.label_info_language.setText("---")
 
     def add(self):
         if 0 <= self.volume+5 <= 100:

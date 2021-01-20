@@ -132,23 +132,23 @@
             </widget>
            </item>
            <item row="1" column="1">
-            <widget class="QLabel" name="label_4">
+            <widget class="QLabel" name="label_info_country">
              <property name="text">
-              <string>TextLabel</string>
+              <string>---</string>
              </property>
             </widget>
            </item>
            <item row="2" column="1">
-            <widget class="QLabel" name="label_6">
+            <widget class="QLabel" name="label_info_language">
              <property name="text">
-              <string>TextLabel</string>
+              <string>---</string>
              </property>
             </widget>
            </item>
            <item row="0" column="1">
-            <widget class="QLabel" name="label_2">
+            <widget class="QLabel" name="label_info_codec">
              <property name="text">
-              <string>codec + bitrate</string>
+              <string>---</string>
              </property>
             </widget>
            </item>
@@ -194,9 +194,9 @@
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="label_8">
+            <widget class="QLabel" name="label_info_IP">
              <property name="text">
-              <string>TextLabel</string>
+              <string>unknown</string>
              </property>
             </widget>
            </item>
