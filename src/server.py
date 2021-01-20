@@ -169,7 +169,7 @@ class Webserver(BaseHTTPRequestHandler):
 
         return data
 
-if __name__ == "__main__":
+def run():
     print("loading settings...")
     # load settings
     with open(SETTINGS, "r") as f:
@@ -189,11 +189,15 @@ if __name__ == "__main__":
         print(f"current IP is: {CURRIP}")
         httpServer = HTTPServer((CURRIP, settings.get("Port")), Webserver)
     else:
-        sys.exit()
+        print("Webserver is disabled!")
+        return False
 
     try:
         httpServer.serve_forever()
     except KeyboardInterrupt:
         httpServer.server_close()
-        print("exit...")
-        sys.exit()
+        print("Webserver exited")
+        return False
+
+if __name__ == "__main__":
+    run()
