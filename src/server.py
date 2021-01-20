@@ -107,10 +107,13 @@ class Webserver(BaseHTTPRequestHandler):
     def _addStation(self, newStation: dict):
         with open(RADIOSTATIONS, "r+") as f:
             stations: dict = json.load(f)
-            
+
             entry = {
                 "url": newStation.get("url"),
-                "time": newStation.get("time")
+                "time": newStation.get("time"),
+                "codec": f'{newStation.get("codec")} ({newStation.get("bitrate")} kbits)',
+                "country": newStation.get("time"),
+                "language": newStation.get("time")
             }
 
             stations[newStation["name"]] = entry
