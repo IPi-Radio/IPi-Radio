@@ -317,6 +317,7 @@ $(document).ready( function()
 	{
 		$("#newStationFormHead").toggle("slow");
 		$("#newStationForm").toggle("slow");
+		$("#resultList").toggle();
 	});
 
 	$("#saveStationOrder").click(function()
