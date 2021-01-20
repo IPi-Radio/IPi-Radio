@@ -1,0 +1,61 @@
+/* hide website, faded in by js */
+body
+{
+	display: none;
+}
+
+.add-button
+{
+	margin-left: 2%;
+}
+
+.btn-right
+{
+	margin-top: 10%;
+}
+
+.btn-confirm
+{
+	width: 20%;
+}
+
+.form-control
+{
+	width: 80%;
+}
+
+.screen-container
+{
+	/* border: 1px black solid; */
+	padding: 5px;
+	height: 500px;
+}
+
+.screen
+{
+	/* border: 1px black solid; */
+	width: 49%;
+	height: 100%;
+}
+
+.screen-left
+{
+	float: left;
+}
+
+.screen-right
+{
+	float: right;
+}
+
+.stationDeleteButton
+{
+	float: right;
+}
+
+/*
+#stations
+{
+
+}
+*/

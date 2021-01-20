@@ -1,3 +1,9 @@
 
+# npm
+/node_modules/
+
+# project
+/stations.json
+
+# dolphin config file
 .directory
-src/__pycache__/
