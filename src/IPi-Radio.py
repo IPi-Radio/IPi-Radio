@@ -139,16 +139,6 @@ class Player(QMainWindow, Ui_MainWindow):
         self.currStation = None
         self.resetRadioInformation()
 
-    def add(self):
-        if 0 <= self.volume+5 <= 100:
-            self.volume += 5
-            self.label_volume.setText(f"Volume: {self.volume}%")
-
-    def sub(self):
-        if 0 <= self.volume-5 <= 100:
-            self.volume -= 5
-            self.label_volume.setText(f"Volume: {self.volume}%")
-
     def _getTimeComponents(self, time: str):
         exactTime = re.compile(r"^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$")
         timeFrame = re.compile(r"^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9](\s-\s|-)([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$")
