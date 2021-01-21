@@ -28,7 +28,7 @@ screen res:
 
 STATIONS = "stations.json"
 
-SELECTION_INTERVAL = 5*1000
+SELECTION_TIMEOUT = 5*1000
 
 class Player(QMainWindow, Ui_MainWindow):
     def __init__(self):
@@ -181,9 +181,9 @@ class Player(QMainWindow, Ui_MainWindow):
 
     def _triggerSelectionTimer(self):
         if not self.timer_selection.isActive():
-            self.timer_selection.start(SELECTION_INTERVAL)
+            self.timer_selection.start(SELECTION_TIMEOUT)
         else:
-            self.timer_selection.setInterval(SELECTION_INTERVAL)
+            self.timer_selection.setInterval(SELECTION_TIMEOUT)
 
     def _getTimeComponents(self, time: str):
         exactTime = re.compile(r"^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$")
