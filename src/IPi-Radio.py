@@ -249,7 +249,8 @@ class Player(QMainWindow, Ui_MainWindow):
 
             self.setRadio(rName)
         elif key_pressed == 0:
-            self.stopRadio()
+            self.button_stop.click()
+            #self.stopRadio()
 
         elif key_pressed == 16777189:
             self.selectDown()
