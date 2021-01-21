@@ -127,6 +127,7 @@ class Player(QMainWindow, Ui_MainWindow):
         ev.setSelected(True)
         
         itemIndex = self.radiolist.currentRow()
+        self.currListItem = itemIndex
         rName = self.getStationName(itemIndex)
 
         self.autoTimer = True
@@ -134,12 +135,13 @@ class Player(QMainWindow, Ui_MainWindow):
 
         self.setRadio(rName)
 
-        self._blinkOff(ev, 1000)
+        self._blinkOff(ev, 200)
 
     def _blinkOff(self, li: QListWidgetItem, initMilis: int):
         QTimer.singleShot(initMilis, lambda:li.setSelected(False))
         QTimer.singleShot(initMilis + 100, lambda:li.setSelected(True))
         QTimer.singleShot(initMilis + 300, lambda:li.setSelected(False))
+        QTimer.singleShot(initMilis + 300, self.disableSelection)
 
     def stopRadio(self):
         self.vlcPlayer.stop()
@@ -258,7 +260,9 @@ class Player(QMainWindow, Ui_MainWindow):
             self.selectUp()
 
         elif key_pressed == 16777172: # ENTER button
-            self.disableSelection()
+            cItem = self.radiolist.currentItem()
+            if cItem:
+                self.selectRadio(cItem)
 
         #return super().keyPressEvent(a0)
 
