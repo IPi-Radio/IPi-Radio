@@ -174,7 +174,7 @@ class Ui_MainWindow(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.radiolist.sizePolicy().hasHeightForWidth())
         self.radiolist.setSizePolicy(sizePolicy)
-        self.radiolist.setFocusPolicy(QtCore.Qt.WheelFocus)
+        self.radiolist.setFocusPolicy(QtCore.Qt.NoFocus)
         self.radiolist.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContentsOnFirstShow)
         self.radiolist.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.radiolist.setProperty("showDropIndicator", False)
