@@ -74,10 +74,11 @@ class Player(QMainWindow, Ui_MainWindow):
 
     def readRadioList(self):
         """init the list of radio stations by reading from the json file"""
+        print("reading radiolist from json...")
         with open(os.path.join(os.path.dirname(__file__), STATIONS), "r") as f:
             self.radioStations: OrderedDict = json.load(fp=f, object_pairs_hook=OrderedDict)
 
-        print(list(self.radioStations.items()))
+        #print(list(self.radioStations.items()))
         for i, (key, value) in enumerate(self.radioStations.items()):
             #print(key, value)
             self.radiolist.addItem(f"({i+1}) {key}")
