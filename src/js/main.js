@@ -204,7 +204,7 @@ function generateHtml(entry)
 	/* container.append(`<p>time: ${entry.time}</p>`); */
 
 	container.append( entryGenerator("time", entry.time, false) );
-	container.append( entryGenerator("url", entry.url, true) );
+	container.append( entryGenerator("url", entry.url, false) );
 	container.append( entryGenerator("codec", entry.codec, true) );
 	container.append( entryGenerator("bitrate", entry.bitrate, true) );
 	container.append( entryGenerator("county", entry.country, true) );
