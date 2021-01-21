@@ -74,7 +74,10 @@ class Player(QMainWindow, Ui_MainWindow):
 
     def resetRadioInformation(self): # should get called, when pressing the STOP button
         """"resets all information of the current radio station"""
-        pass
+        self.label_radioname.setText("IPi-Radio")
+        self.label_info_codec.setText("---")
+        self.label_info_country.setText("---")
+        self.label_info_language.setText("---")
 
     def testfunction(self):
         self.showQuestionMSG("some cool message")
@@ -134,10 +137,7 @@ class Player(QMainWindow, Ui_MainWindow):
     def stopRadio(self):
         self.vlcPlayer.stop()
         self.currStation = None
-        self.label_radioname.setText("IPi-Radio")
-        self.label_info_codec.setText("---")
-        self.label_info_country.setText("---")
-        self.label_info_language.setText("---")
+        self.resetRadioInformation()
 
     def add(self):
         if 0 <= self.volume+5 <= 100:
