@@ -28,11 +28,14 @@ screen res:
 
 STATIONS = "stations.json"
 
+SELECTION_INTERVAL = 5*1000
+
 class Player(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
 
         self.currStation = None
+        self.currListItem = 0
         self.autoTimer = False
         self.volume = 100
 
@@ -58,6 +61,10 @@ class Player(QMainWindow, Ui_MainWindow):
         timer_sec = QTimer(self)
         timer_sec.timeout.connect(self._timer)
         timer_sec.start(1000)
+
+        # timer for selectin timeout
+        self.timer_selection = QTimer(self)
+        self.timer_selection.timeout.connect(self.disableSelection)
 
         # lambdas
         self.getStationName = lambda x: list(self.radioStations.items())[x][0]
@@ -139,6 +146,42 @@ class Player(QMainWindow, Ui_MainWindow):
         self.currStation = None
         self.resetRadioInformation()
 
+    def selectDown(self):
+        currIndex = self.radiolist.currentRow()
+        if currIndex < 0:
+            self.radiolist.setCurrentRow(self.currListItem)
+        else:
+            if self.radiolist.item(self.currListItem+1):
+                self.currListItem += 1
+            else:
+                self.currListItem = 0
+            self.radiolist.setCurrentRow(self.currListItem)
+
+        self._triggerSelectionTimer()
+
+    def selectUp(self):
+        currIndex = self.radiolist.currentRow()
+        if currIndex < 0:
+            self.radiolist.setCurrentRow(self.currListItem)
+        else:
+            if self.radiolist.item(self.currListItem-1):
+                self.currListItem -= 1
+            else:
+                self.currListItem = len(self.radiolist)-1
+            self.radiolist.setCurrentRow(self.currListItem)
+
+        self._triggerSelectionTimer()
+
+    def disableSelection(self):
+        self.radiolist.setCurrentRow(-1)
+        self.timer_selection.stop()
+
+    def _triggerSelectionTimer(self):
+        if not self.timer_selection.isActive():
+            self.timer_selection.start(SELECTION_INTERVAL)
+        else:
+            self.timer_selection.setInterval(SELECTION_INTERVAL)
+
     def _getTimeComponents(self, time: str):
         exactTime = re.compile(r"^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$")
         timeFrame = re.compile(r"^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9](\s-\s|-)([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$")
@@ -197,7 +240,7 @@ class Player(QMainWindow, Ui_MainWindow):
         #print("key pressed", a0.key())
 
         key_pressed = a0.key() - Qt.Key_0
-        print(key_pressed)
+        #print(key_pressed)
 
         if 1 <= key_pressed <= min(len(self.radioStations), 9):
             #rNameItem: QListWidgetItem = self.radiolist.item(key_pressed-1)
@@ -207,6 +250,14 @@ class Player(QMainWindow, Ui_MainWindow):
             self.setRadio(rName)
         elif key_pressed == 0:
             self.stopRadio()
+
+        elif key_pressed == 16777189:
+            self.selectDown()
+        elif key_pressed == 16777187:
+            self.selectUp()
+
+        elif key_pressed == 16777172:
+            self.disableSelection()
 
         #return super().keyPressEvent(a0)
 
