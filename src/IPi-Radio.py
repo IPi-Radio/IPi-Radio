@@ -7,10 +7,10 @@ import json
 import time
 #import keyboard
 import subprocess
-from collections import OrderedDict
 
 import vlc
 
+from collections import OrderedDict
 from datetime import datetime, timedelta
 
 from PyQt5 import uic, QtGui
@@ -123,7 +123,13 @@ class Player(QMainWindow, Ui_MainWindow):
         self.toggleAutoTimer()
 
         self.setRadio(rName)
-        ev.setSelected(False)
+
+        self._blinkOff(ev, 1000)
+
+    def _blinkOff(self, li: QListWidgetItem, initMilis: int):
+        QTimer.singleShot(initMilis, lambda:li.setSelected(False))
+        QTimer.singleShot(initMilis + 100, lambda:li.setSelected(True))
+        QTimer.singleShot(initMilis + 300, lambda:li.setSelected(False))
 
     def stopRadio(self):
         self.vlcPlayer.stop()
