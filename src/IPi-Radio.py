@@ -51,6 +51,7 @@ class Player(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.readRadioList()
         self.checkAutoTimer()
+        self.label_info_IP.setText(f"{ip_port[0]}:{ip_port[1]}")
 
         #self.button_vol_plus.clicked.connect(self.add)
         #self.button_vol_minus.clicked.connect(self.sub)
@@ -351,6 +352,8 @@ if __name__ == "__main__":
         else:
             print("ERROR: network not available!")
             sys.exit()
+    else:
+        ip_port = ("webserver disabled", None)
 
     app = QApplication(sys.argv)
 
