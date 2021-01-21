@@ -203,12 +203,14 @@ class Player(QMainWindow, Ui_MainWindow):
         key_pressed = a0.key() - Qt.Key_0
         print(key_pressed)
 
-        if 0 < key_pressed <= min(len(self.radioStations), 9):
+        if 1 <= key_pressed <= min(len(self.radioStations), 9):
             #rNameItem: QListWidgetItem = self.radiolist.item(key_pressed-1)
             rName = self.getStationName(key_pressed-1)
             print("playing", rName)
 
             self.setRadio(rName)
+        elif key_pressed == 0:
+            self.stopRadio()
 
         #return super().keyPressEvent(a0)
 

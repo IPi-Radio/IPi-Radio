@@ -203,5 +203,5 @@ class Ui_MainWindow(object):
         self.button_shutdown.setText(_translate("MainWindow", "Shutdown"))
         self.button_auto.setText(_translate("MainWindow", "AUTO: --"))
         self.button_reboot.setText(_translate("MainWindow", "Reboot"))
-        self.button_stop.setText(_translate("MainWindow", "STOP"))
+        self.button_stop.setText(_translate("MainWindow", "(0) STOP"))
 

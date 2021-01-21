@@ -297,7 +297,7 @@
            </size>
           </property>
           <property name="text">
-           <string>STOP</string>
+           <string>(0) STOP</string>
           </property>
          </widget>
         </item>
