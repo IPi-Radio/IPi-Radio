@@ -170,7 +170,23 @@ class Webserver(BaseHTTPRequestHandler):
 
         return data
 
-def run():
+def run(ip_port: tuple):
+
+    httpServer = HTTPServer(ip_port, Webserver)
+
+    try:
+        signal.signal(signal.SIGTERM, httpServer.server_close)
+        httpServer.serve_forever()
+    except KeyboardInterrupt:
+        httpServer.server_close()
+        print("Webserver exited")
+
+if __name__ == "__main__":
+    #run()
+    print("running directly is not supported")
+
+    exit()
+
     print("loading settings...")
     # load settings
     with open(SETTINGS, "r") as f:
@@ -188,18 +204,3 @@ def run():
             CURRIP = settings.get("IP")
 
         print(f"current IP is: {CURRIP}")
-        httpServer = HTTPServer((CURRIP, settings.get("Port")), Webserver)
-    else:
-        print("Webserver is disabled!")
-        return False
-
-    try:
-        signal.signal(signal.SIGTERM, httpServer.server_close)
-        httpServer.serve_forever()
-    except KeyboardInterrupt:
-        httpServer.server_close()
-        print("Webserver exited")
-        return False
-
-if __name__ == "__main__":
-    run()

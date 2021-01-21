@@ -5,6 +5,7 @@ import re
 import sys
 import json
 import time
+import socket
 #import keyboard
 import subprocess
 
@@ -300,13 +301,33 @@ class Player(QMainWindow, Ui_MainWindow):
     def shutdown(self):
         subprocess.run(["sudo", "shutdown", "now"])
 
-def parseSettings():
+def parseSettings() -> dict:
     with open(SETTINGS, "r") as f:
         settings: dict = json.load(f)
 
     return settings
 
+def checkNetwork():
+    print("checking network connection...")
+    try:
+        with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as s:
+            s.connect(("1.1.1.1", 80))
+            ip = s.getsockname()[0]
+    except:
+        return False
+
+    if settings.get("IP") not in ["DHCP, AUTO, auto"]:
+        ip = settings.get("IP")
+
+    port = settings.get("Port")
+    if 0 < port < 65535:
+        ip_port = (ip, port)
+    else:
+        return False
+    return ip_port
+
 if __name__ == "__main__":
+    global ip_port
     settings = parseSettings()
 
     # this is from https://doc.qt.io/qt-5/embedded-linux.html
@@ -315,8 +336,19 @@ if __name__ == "__main__":
     os.environ["QT_QPA_PLATFORM"] = f'linuxfb:fb={settings["framebuffer"]}'
 
     # init webserver
-    webserver = Process(target=server.run)
-    webserver.start()
+    webserver = None
+    if settings.get("runWebserver"):
+        ip_port = checkNetwork()
+
+        if ip_port:
+            print(f"starting HTTP server on: {ip_port[0]}:{ip_port[1]}")
+
+            webserver = Process(target=server.run, args=(ip_port,))
+            webserver.start()
+            print("webserver started")
+        else:
+            print("ERROR: network not available!")
+            sys.exit()
 
     app = QApplication(sys.argv)
 
@@ -325,7 +357,8 @@ if __name__ == "__main__":
 
     # handle exit
     exitcode = app.exec()
-    print("stopping webserver...")
-    webserver.terminate()
+    if webserver != None:
+        print("stopping webserver...")
+        webserver.terminate()
 
     sys.exit(exitcode)
