@@ -115,6 +115,7 @@ class Player(QMainWindow, Ui_MainWindow):
         self.label_radioname.setText(stationName)
 
         media: vlc.Media = self.instance.media_new( station.get("url") )
+        media.get_mrl()
 
         self.vlcPlayer.set_media(media)
         self.vlcPlayer.play()
@@ -233,8 +234,18 @@ class Player(QMainWindow, Ui_MainWindow):
     def _timer(self):
         self.label_time.setText( QTime.currentTime().toString("hh:mm:ss") )
 
+        # set VLC state
         state: vlc.State = self.vlcPlayer.get_state()
         self.label_status.setText(f"Status: {state.__str__().split('.')[-1]}")
+
+        media: vlc.Media = self.vlcPlayer.get_media()
+        if media:
+            media.parse_with_options(vlc.MediaParseFlag(0), 500)
+            
+            #for i in range(20):
+            #    print("MEDIA:", i, media.get_meta(i))
+            print("Radiotext:", media.get_meta(12))
+            print("----------------------------")
 
         self._checkRadioStation()
 
