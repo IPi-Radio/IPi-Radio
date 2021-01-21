@@ -250,16 +250,16 @@ class Player(QMainWindow, Ui_MainWindow):
             print("playing", rName)
 
             self.setRadio(rName)
-        elif key_pressed == 0:
+        elif key_pressed == 0x0:
             self.button_stop.click()
             #self.stopRadio()
 
-        elif key_pressed == 16777189: # UP button
+        elif key_pressed == 0xFFFFE5: # UP button
             self.selectDown()
-        elif key_pressed == 16777187: # DOWN button
+        elif key_pressed == 0xFFFFE3: # DOWN button
             self.selectUp()
 
-        elif key_pressed == 16777172: # ENTER button
+        elif key_pressed == 0xFFFFD4: # ENTER button
             cItem = self.radiolist.currentItem()
             if cItem:
                 self.selectRadio(cItem)
