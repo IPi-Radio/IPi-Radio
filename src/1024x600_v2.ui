@@ -214,6 +214,9 @@
             <height>80</height>
            </size>
           </property>
+          <property name="focusPolicy">
+           <enum>Qt::NoFocus</enum>
+          </property>
           <property name="styleSheet">
            <string notr="true">color: rgb(255, 140, 140);</string>
           </property>
@@ -235,6 +238,9 @@
             <width>250</width>
             <height>80</height>
            </size>
+          </property>
+          <property name="focusPolicy">
+           <enum>Qt::NoFocus</enum>
           </property>
           <property name="text">
            <string>AUTO: --</string>
@@ -260,6 +266,9 @@
             <width>0</width>
             <height>70</height>
            </size>
+          </property>
+          <property name="focusPolicy">
+           <enum>Qt::NoFocus</enum>
           </property>
           <property name="styleSheet">
            <string notr="true">color: rgb(140, 140, 255);</string>
@@ -288,6 +297,9 @@
             <width>0</width>
             <height>70</height>
            </size>
+          </property>
+          <property name="focusPolicy">
+           <enum>Qt::NoFocus</enum>
           </property>
           <property name="text">
            <string>(0) STOP</string>
@@ -320,7 +332,7 @@
        </sizepolicy>
       </property>
       <property name="focusPolicy">
-       <enum>Qt::NoFocus</enum>
+       <enum>Qt::WheelFocus</enum>
       </property>
       <property name="sizeAdjustPolicy">
        <enum>QAbstractScrollArea::AdjustToContentsOnFirstShow</enum>
