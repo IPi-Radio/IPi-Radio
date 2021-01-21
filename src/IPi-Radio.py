@@ -27,6 +27,7 @@ screen res:
 """
 
 STATIONS = "stations.json"
+SETTINGS = "settings.json"
 
 SELECTION_TIMEOUT = 5*1000
 
@@ -296,12 +297,19 @@ class Player(QMainWindow, Ui_MainWindow):
     def shutdown(self):
         subprocess.run(["sudo", "shutdown", "now"])
 
+def parseSettings():
+    with open(SETTINGS, "r") as f:
+        settings: dict = json.load(f)
+
+    return settings
+
 if __name__ == "__main__":
+    settings = parseSettings()
 
     # this is from https://doc.qt.io/qt-5/embedded-linux.html
     # run without X server
     #os.environ["QWS_DISPLAY"] = r"linuxfb:fb=/dev/fb0"
-    os.environ["QT_QPA_PLATFORM"] = "linuxfb:fb=/dev/fb0"
+    os.environ["QT_QPA_PLATFORM"] = f'linuxfb:fb={settings["framebuffer"]}'
 
     app = QApplication(sys.argv)
 
