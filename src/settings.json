@@ -2,5 +2,6 @@
     "IP": "192.168.8.70",
     "Port": 8088,
     "runWebserver": true,
+    "useFramebuffer": true,
     "framebuffer": "/dev/fb0"
 }
