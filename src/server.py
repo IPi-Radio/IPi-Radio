@@ -4,6 +4,7 @@ import os
 import sys
 import json
 import socket
+import signal
 import mimetypes
 import urllib.parse as urlparse
 
@@ -181,7 +182,7 @@ def run():
         global CURRIP
         CURRIP = s.getsockname()[0]
 
-    if settings.get("useWebserver"):
+    if settings.get("runWebserver"):
         print("starting HTTP server...")
         if settings.get("IP") not in ["DHCP, AUTO, auto"]:
             CURRIP = settings.get("IP")
@@ -193,6 +194,7 @@ def run():
         return False
 
     try:
+        signal.signal(signal.SIGTERM, httpServer.server_close)
         httpServer.serve_forever()
     except KeyboardInterrupt:
         httpServer.server_close()

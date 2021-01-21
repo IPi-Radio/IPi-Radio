@@ -1,5 +1,5 @@
 {
-    "IP": "192.168.8.50",
+    "IP": "192.168.8.70",
     "Port": 8088,
     "runWebserver": true,
     "framebuffer": "/dev/fb0"

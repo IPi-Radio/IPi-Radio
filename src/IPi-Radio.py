@@ -10,6 +10,7 @@ import subprocess
 
 import vlc
 
+from multiprocessing import Process
 from collections import OrderedDict
 from datetime import datetime, timedelta
 
@@ -17,6 +18,7 @@ from PyQt5 import uic, QtGui
 from PyQt5.QtCore import QTimer, Qt, QTime
 from PyQt5.QtWidgets import QApplication, QMainWindow, QListWidgetItem, QMessageBox
 
+import server
 from gui import Ui_MainWindow
 
 """
@@ -311,9 +313,18 @@ if __name__ == "__main__":
     #os.environ["QWS_DISPLAY"] = r"linuxfb:fb=/dev/fb0"
     os.environ["QT_QPA_PLATFORM"] = f'linuxfb:fb={settings["framebuffer"]}'
 
+    # init webserver
+    webserver = Process(target=server.run)
+    webserver.start()
+
     app = QApplication(sys.argv)
 
     window = Player()
     window.show()
 
-    sys.exit(app.exec())
+    # handle exit
+    exitcode = app.exec()
+    print("stopping webserver...")
+    webserver.terminate()
+
+    sys.exit(exitcode)
