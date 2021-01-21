@@ -238,15 +238,17 @@ class Player(QMainWindow, Ui_MainWindow):
         state: vlc.State = self.vlcPlayer.get_state()
         self.label_status.setText(f"Status: {state.__str__().split('.')[-1]}")
 
-        media: vlc.Media = self.vlcPlayer.get_media()
-        if media:
-            media.parse_with_options(vlc.MediaParseFlag(0), 500)
-            radioDLS: str = media.get_meta(12)
+        # set DLS from stream metadata
+        if self.vlcPlayer.is_playing() == 1 and self.currStation:
+            media: vlc.Media = self.vlcPlayer.get_media()
+            if media:
+                media.parse_with_options(vlc.MediaParseFlag(0), 500)
+                radioDLS: str = media.get_meta(12)
 
-            if self.label_info_dls.text() != radioDLS and radioDLS:
-                self.label_info_dls.setText(radioDLS)
-            elif not radioDLS:
-                self.label_info_dls.setText("no DLS")
+                if self.label_info_dls.text() != radioDLS and radioDLS:
+                    self.label_info_dls.setText(radioDLS)
+                elif not radioDLS:
+                    self.label_info_dls.setText("no DLS")
 
         self._checkRadioStation()
 
