@@ -84,7 +84,7 @@ class Player(QMainWindow, Ui_MainWindow):
         self.label_radioname.setText("IPi-Radio")
         self.label_info_codec.setText("---")
         self.label_info_country.setText("---")
-        self.label_info_language.setText("---")
+        self.label_info_dls.setText("---")
 
     def testfunction(self):
         self.showQuestionMSG("some cool message")
@@ -107,10 +107,10 @@ class Player(QMainWindow, Ui_MainWindow):
             return False
 
     def setRadio(self, stationName: str):
+        self.resetRadioInformation()
         station: dict = self.radioStations.get(stationName)
         self.label_info_codec.setText(station.get("codec"))
-        self.label_info_country.setText(station.get("country"))
-        self.label_info_language.setText(station.get("language"))
+        self.label_info_country.setText(f'{station.get("country")} {station.get("language")}')
 
         self.label_radioname.setText(stationName)
 
@@ -241,11 +241,12 @@ class Player(QMainWindow, Ui_MainWindow):
         media: vlc.Media = self.vlcPlayer.get_media()
         if media:
             media.parse_with_options(vlc.MediaParseFlag(0), 500)
-            
-            #for i in range(20):
-            #    print("MEDIA:", i, media.get_meta(i))
-            print("Radiotext:", media.get_meta(12))
-            print("----------------------------")
+            radioDLS: str = media.get_meta(12)
+
+            if self.label_info_dls.text() != radioDLS and radioDLS:
+                self.label_info_dls.setText(radioDLS)
+            elif not radioDLS:
+                self.label_info_dls.setText("no DLS")
 
         self._checkRadioStation()
 
