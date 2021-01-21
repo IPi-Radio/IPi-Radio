@@ -252,12 +252,12 @@ class Player(QMainWindow, Ui_MainWindow):
             self.button_stop.click()
             #self.stopRadio()
 
-        elif key_pressed == 16777189:
+        elif key_pressed == 16777189: # UP button
             self.selectDown()
-        elif key_pressed == 16777187:
+        elif key_pressed == 16777187: # DOWN button
             self.selectUp()
 
-        elif key_pressed == 16777172:
+        elif key_pressed == 16777172: # ENTER button
             self.disableSelection()
 
         #return super().keyPressEvent(a0)
