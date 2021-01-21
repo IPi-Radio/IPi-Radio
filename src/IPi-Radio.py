@@ -7,6 +7,7 @@ import json
 import time
 #import keyboard
 import subprocess
+from collections import OrderedDict
 
 import vlc
 
@@ -58,14 +59,17 @@ class Player(QMainWindow, Ui_MainWindow):
         timer_sec.timeout.connect(self._timer)
         timer_sec.start(1000)
 
+        # lambdas
+        self.getStationName = lambda x: list(self.radioStations.items())[x][0]
+
     def readRadioList(self):
         """init the list of radio stations by reading from the json file"""
         with open(os.path.join(os.path.dirname(__file__), STATIONS), "r") as f:
-            self.radioStations: dict = json.load(fp=f)
+            self.radioStations: OrderedDict = json.load(fp=f, object_pairs_hook=OrderedDict)
 
-        #print(self.radioStations)
+        print(list(self.radioStations.items()))
         for i, (key, value) in enumerate(self.radioStations.items()):
-            print(key, value)
+            #print(key, value)
             self.radiolist.addItem(f"({i+1}) {key}")
 
     def resetRadioInformation(self): # should get called, when pressing the STOP button
@@ -104,19 +108,22 @@ class Player(QMainWindow, Ui_MainWindow):
 
         self.vlcPlayer.set_media(media)
         self.vlcPlayer.play()
-
+        self._timer()
+        
         self.currStation = stationName
 
     def selectRadio(self, ev: QListWidgetItem):
         #print(ev.text())
-        stationName = ev.text()[4:]
+        ev.setSelected(True)
+        
+        itemIndex = self.radiolist.currentRow()
+        rName = self.getStationName(itemIndex)
 
-        self.setRadio(stationName)
-
-        self._timer()
-        ev.setSelected(False)
         self.autoTimer = True
         self.toggleAutoTimer()
+
+        self.setRadio(rName)
+        ev.setSelected(False)
 
     def stopRadio(self):
         self.vlcPlayer.stop()
@@ -193,17 +200,15 @@ class Player(QMainWindow, Ui_MainWindow):
     def keyPressEvent(self, a0: QtGui.QKeyEvent) -> None:
         #print("key pressed", a0.key())
 
-        key_pressed = a0.key() - Qt.Key_1
-        #print(key_pressed)
+        key_pressed = a0.key() - Qt.Key_0
+        print(key_pressed)
 
-        if 0 <= key_pressed < len(self.radioStations):
-            rNameItem: QListWidgetItem = self.radiolist.item(key_pressed)
-            print("playing", rNameItem.text())
+        if 0 < key_pressed <= min(len(self.radioStations), 9):
+            #rNameItem: QListWidgetItem = self.radiolist.item(key_pressed-1)
+            rName = self.getStationName(key_pressed-1)
+            print("playing", rName)
 
-            if self.radioStations.get(rNameItem.text().get("url")):
-                print(rNameItem.text())
-                rNameItem.setSelected(True)
-                self.selectRadio(rNameItem)
+            self.setRadio(rName)
 
         #return super().keyPressEvent(a0)
 
