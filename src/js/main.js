@@ -87,6 +87,16 @@ function addEntry(entry)
 	let newEntry = searchResult[entry.name];
 	newEntry.time = "";
 	newEntry.url = newEntry.url_resolved;
+
+	// check entries using the same name (name has to be unique)
+	stations.forEach(function(item)
+	{
+		if (item.name === newEntry.name)
+		{
+			newEntry.name += "_";
+		}
+	});
+
 	newEntry.html = generateHtml(newEntry);
 	stations.push(newEntry);
 
