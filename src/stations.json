@@ -41,9 +41,9 @@
     },
     "Antenne Bayern": {
         "time": "",
-        "url": "http://play.antenne.de/antenne.m3u",
-        "codec": "MP3",
-        "bitrate": "128",
+        "url": "http://www.antenne.de/webradio/antenne.aac.pls",
+        "codec": "AAC",
+        "bitrate": "0",
         "country": null,
         "language": "german"
     }
