@@ -69,7 +69,7 @@ class Player(QMainWindow, Ui_MainWindow):
         timer_sec.timeout.connect(self._timer)
         timer_sec.start(1000)
 
-        # timer for selectin timeout
+        # timer for selecting timeout
         self.timer_selection = QTimer(self)
         self.timer_selection.timeout.connect(self.disableSelection)
 
