@@ -118,7 +118,7 @@ class Player(QMainWindow, Ui_MainWindow):
         self.resetRadioInformation()
         station: dict = self.radioStations.get(stationName)
         self.label_info_codec.setText(station.get("codec"))
-        self.label_info_country.setText(f'{station.get("country")} {station.get("language")}')
+        self.label_info_country.setText(f'{station.get("countrycode")} {station.get("language")}')
 
         self.label_radioname.setText(stationName)
 

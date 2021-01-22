@@ -114,7 +114,7 @@ class Webserver(BaseHTTPRequestHandler):
                 "time": newStation.get("time"),
                 "codec": newStation.get("codec"),
                 "bitrate": newStation.get("bitrate"),
-                "country": newStation.get("country"),
+                "countrycode": newStation.get("countrycode"),
                 "language": newStation.get("language")
             }
 
@@ -148,7 +148,7 @@ class Webserver(BaseHTTPRequestHandler):
                 "url": st.get("url"),
                 "codec": st.get("codec"),
                 "bitrate": st.get("bitrate"),
-                "country": st.get("country"),
+                "countrycode": st.get("countrycode"),
                 "language": st.get("language"),
             }
             

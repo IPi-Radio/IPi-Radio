@@ -69,7 +69,7 @@ function generateResultItem(entry)
 	let stationInfo = entry.name
 		+" | codec: "+entry.codec
 		+" | bitrate: "+entry.bitrate
-		+" | country: "+entry.country+" "+entry.state
+		+" | countrycode: "+entry.countrycode+" "+entry.state
 		+" | lang: "+entry.language
 		+" | clicks: "+entry.clickcount;
 
@@ -207,7 +207,7 @@ function generateHtml(entry)
 	container.append( entryGenerator("url", entry.url, false) );
 	container.append( entryGenerator("codec", entry.codec, true) );
 	container.append( entryGenerator("bitrate", entry.bitrate, true) );
-	container.append( entryGenerator("county", entry.country, true) );
+	container.append( entryGenerator("countycode", entry.countrycode, true) );
 	container.append( entryGenerator("language", entry.language, true) );
 
 	// delete button
