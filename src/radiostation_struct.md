@@ -2,16 +2,23 @@
 
 ```json
 {
-    "station name 1": {
+    "station name": {
         "time": "hh:mm",
-        "url": ""
+        "url": "",
+        "favicon": "",
+        "codec": "",
+        "bitrate": 0,
+        "countrycode": "",
+        "language": ""
     },
-    "station name 2": {
-        "time": "hh:mm",
-        "url": ""
-    },
+    (...)
+}
 }
 ```
 
-- `time`: time to play this station, when automation is enabled | can be empty
-- `url`: url of the audiostream | should not be empty
+- `time`: time to play this station, when automation is enabled | optional
+- `url`: url of the audiostream
+- `favicon`: url to the icon of the radio station | optional
+- `codec`: format of the audiostream (usually MP3 or AAC) | optional
+- `birate`: must be integer | optional
+- `countrycode` and `language`: optional
