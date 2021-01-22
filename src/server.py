@@ -150,6 +150,7 @@ class Webserver(BaseHTTPRequestHandler):
             tmp = {
                 "time": st.get("time"),
                 "url": st.get("url"),
+                "favicon": st.get("favicon"),
                 "codec": st.get("codec"),
                 "bitrate": bitr,
                 "countrycode": st.get("countrycode"),

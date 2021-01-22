@@ -282,6 +282,7 @@ function generateHtml(entry, generated=true)
 	container.append( nameEntry );
 	container.append( entryGenerator("time", entry.time, false) );
 	container.append( entryGenerator("url", entry.url, false) );
+	container.append( entryGenerator("favicon", entry.favicon, false) );
 	container.append( entryGenerator("codec", entry.codec, generated) );
 	container.append( entryGenerator("bitrate", entry.bitrate, generated) );
 	container.append( entryGenerator("countrycode", entry.countrycode, generated) );

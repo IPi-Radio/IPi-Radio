@@ -6,6 +6,7 @@ import sys
 import json
 import time
 import socket
+import urllib.request
 #import keyboard
 import subprocess
 
@@ -102,6 +103,7 @@ class Player(QMainWindow, Ui_MainWindow):
     def resetRadioInformation(self): # should get called, when pressing the STOP button
         """"resets all information of the current radio station"""
         self.label_radioname.setText("IPi-Radio")
+        self.label_radio_icon.clear()
         self.label_info_codec.setText("---")
         self.label_info_country.setText("---")
         self.label_info_dls.setText("---")
@@ -132,7 +134,20 @@ class Player(QMainWindow, Ui_MainWindow):
         self.label_info_codec.setText(station.get("codec"))
         self.label_info_country.setText(f'{station.get("countrycode")} {station.get("language")}')
 
+        # set radio name and image
         self.label_radioname.setText(stationName)
+        iconURL = station.get("favicon")
+        try:
+            rIcon_data = urllib.request.urlopen(iconURL, timeout=1).read()
+            rPixmap = QtGui.QPixmap()
+            rPixmap.loadFromData(rIcon_data)
+
+            print("set ICON")
+            self.label_radio_icon.setPixmap(rPixmap)
+        except Exception as e: 
+            print(str(e))
+            print("clear icon")
+            self.label_radio_icon.clear()
 
         media: vlc.Media = self.instance.media_new( station.get("url") )
         media.get_mrl()
