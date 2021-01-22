@@ -1,7 +1,7 @@
 {
-    "IP": "192.168.8.70",
+    "IP": "auto",
     "Port": 8088,
     "runWebserver": true,
-    "useFramebuffer": true,
+    "useFramebuffer": false,
     "framebuffer": "/dev/fb0"
 }

@@ -3,48 +3,48 @@
         "time": "",
         "url": "http://rs16.stream24.org:8100/horeb.aac",
         "codec": " ",
-        "bitrate": "undefined",
-        "country": null,
+        "bitrate": 0,
+        "countrycode": "null",
         "language": "undefined"
     },
     "Radio Maria Schweiz": {
         "time": "",
         "url": "https://streaming2.elitecomunicacion.es:9000/radiomaria_lo",
         "codec": " ",
-        "bitrate": "undefined",
-        "country": null,
+        "bitrate": 0,
+        "countrycode": "null",
         "language": "undefined"
     },
     "Bayern 5 plus": {
         "time": "",
         "url": "http://br-b5plus-live.cast.addradio.de/br/b5plus/live/aac/low",
         "codec": " ",
-        "bitrate": "undefined",
-        "country": null,
+        "bitrate": 0,
+        "countrycode": "null",
         "language": "undefined"
     },
     "Radio Vatikan": {
         "time": "20:45",
         "url": "https://rvl.azureedge.net/channel2.mp3",
         "codec": " ",
-        "bitrate": "undefined",
-        "country": null,
+        "bitrate": 0,
+        "countrycode": "null",
         "language": "undefined"
     },
-    "Bayern 3 (AAC)": {
+    "Bayern 3": {
         "time": "",
         "url": "http://br-br3-live.cast.addradio.de/br/br3/live/aac/low",
         "codec": " ",
-        "bitrate": "undefined",
-        "country": null,
+        "bitrate": 0,
+        "countrycode": "null",
         "language": "undefined"
     },
     "Antenne Bayern": {
         "time": "",
-        "url": "http://www.antenne.de/webradio/antenne.aac.pls",
+        "url": "http://s7-webradio.antenne.de/antenne/stream/aacp",
         "codec": "AAC",
-        "bitrate": "0",
-        "country": null,
+        "bitrate": 0,
+        "countrycode": "DE",
         "language": "german"
     }
 }
