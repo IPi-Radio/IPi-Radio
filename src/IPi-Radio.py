@@ -39,6 +39,8 @@ class Player(QMainWindow, Ui_MainWindow):
         super().__init__()
 
         self.currStation = None
+        self.radioStations = OrderedDict()
+
         self.currListItem = 0
         self.autoTimer = False
         self.volume = 100
@@ -73,19 +75,29 @@ class Player(QMainWindow, Ui_MainWindow):
         self.timer_selection = QTimer(self)
         self.timer_selection.timeout.connect(self.disableSelection)
 
+        # timer for updating the radio list
+        timer_listupdate = QTimer(self)
+        timer_listupdate.timeout.connect(self.readRadioList)
+        timer_listupdate.start(10 * 1000)
+
         # lambdas
         self.getStationName = lambda x: list(self.radioStations.items())[x][0]
 
     def readRadioList(self):
         """init the list of radio stations by reading from the json file"""
-        print("reading radiolist from json...")
         with open(os.path.join(os.path.dirname(__file__), STATIONS), "r") as f:
-            self.radioStations: OrderedDict = json.load(fp=f, object_pairs_hook=OrderedDict)
+            stationData: OrderedDict = json.load(fp=f, object_pairs_hook=OrderedDict)
 
-        #print(list(self.radioStations.items()))
-        for i, (key, value) in enumerate(self.radioStations.items()):
-            #print(key, value)
-            self.radiolist.addItem(f"({i+1}) {key}")
+        # only update UI when there are changes
+        if stationData != self.radioStations:
+            self.radioStations = stationData
+
+            self.radiolist.clear()
+            #print(list(self.radioStations.items()))
+            for i, (key, value) in enumerate(self.radioStations.items()):
+                #print(key, value)
+                self.radiolist.addItem(f"({i+1}) {key}")
+            print("radio list updated!")
 
     def resetRadioInformation(self): # should get called, when pressing the STOP button
         """"resets all information of the current radio station"""
