@@ -1,0 +1,2 @@
+python-vlc
+PyQt5
