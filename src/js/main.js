@@ -121,15 +121,22 @@ function generateResultItem(entry)
 	return html;
 }
 
-function addEntry(entry)
+function addEntry(entry, fromSearch=true)
 {
 	//console.log(entry);
 	//console.log(entry.name);
 	//console.log(searchResult[entry.name]);
+	let newEntry = {};
 
-	let newEntry = searchResult[entry.name];
-	newEntry.time = "";
-	newEntry.url = newEntry.url_resolved;
+	if (fromSearch)
+	{
+		newEntry = searchResult[entry.name];
+		newEntry.time = "";
+		newEntry.url = newEntry.url_resolved;
+	}else
+	{
+		newEntry = entry;
+	}
 
 	// check entries using the same name (name has to be unique)
 	stations.forEach(function(item)
@@ -153,6 +160,15 @@ function addEntry(entry)
 		console.log("add station: "+data);
 	});
 	*/
+}
+
+function addEmptyStation()
+{
+	let newEntry = {};
+	newEntry.name = "new custom station";
+	newEntry.time = "";
+
+	addEntry(newEntry, false);
 }
 
 function removeEntry(entry)
@@ -251,7 +267,7 @@ function entryGenerator(label, value, disabled)
 	return entry;
 }
 
-function generateHtml(entry)
+function generateHtml(entry, generated=true)
 {
 	let html = entry.html = $(`<div class="sortable-item station" name="${entry.name}">`);
 
@@ -266,10 +282,10 @@ function generateHtml(entry)
 	container.append( nameEntry );
 	container.append( entryGenerator("time", entry.time, false) );
 	container.append( entryGenerator("url", entry.url, false) );
-	container.append( entryGenerator("codec", entry.codec, true) );
-	container.append( entryGenerator("bitrate", entry.bitrate, true) );
-	container.append( entryGenerator("countrycode", entry.countrycode, true) );
-	container.append( entryGenerator("language", entry.language, true) );
+	container.append( entryGenerator("codec", entry.codec, generated) );
+	container.append( entryGenerator("bitrate", entry.bitrate, generated) );
+	container.append( entryGenerator("countrycode", entry.countrycode, generated) );
+	container.append( entryGenerator("language", entry.language, generated) );
 
 	// name change event
 	nameEntry.keyup(function()
@@ -391,9 +407,7 @@ $(document).ready( function()
 
 	$("#addNewStation").click(function()
 	{
-		$("#newStationFormHead").toggle("slow");
 		$("#newStationForm").toggle("slow");
-		$("#resultList").toggle();
 	});
 
 	$("#saveStationOrder").click(function()

@@ -38,19 +38,22 @@
 			</div>
 
 			<hr style="background-color: grey; height: 1px; width: 80%;">
-
-			<h4 id="newStationFormHead" style="display: none;">Add new radio station:</h4>
-			<div class="input-group mb-3" id="newStationForm" style="display: none;">
-				<div class="input-group-prepend">
-				  <span class="input-group-text">Radio name</span>
+			
+			<span id="newStationForm" style="display: none;">
+				<h4>Add new radio station:</h4>
+				<input class="btn btn-info" style="margin-bottom: 1%;" type="button" value="add custom" onclick="addEmptyStation()" />
+				<div class="input-group mb-3">
+					<div class="input-group-prepend">
+					<span class="input-group-text">Radio name</span>
+					</div>
+					<input class="form-control" type="text" id="radioStatioName" placeholder="Radio Station" onkeyup="checkButton(this)" />
+					<input class="btn btn-success add-button" id="addRadioName" type="button" value="search" disabled="true" onclick="searchByName(this)" />
 				</div>
-				<input class="form-control" type="text" id="radioStatioName" placeholder="Radio Station" onkeyup="checkButton(this)" />
-				<input class="btn btn-success add-button" id="addRadioName" type="button" value="search" disabled="true" onclick="searchByName(this)" />
-			</div>
 
-			<div class="list-group" id="resultList" style="display: none;">
-				<!-- <button type="button" class="list-group-item list-group-item-action resultItem" disabled>Name | Codec | Bitrate | Country | Language | Clicks</button>> -->
-			</div>
+				<div class="list-group" id="resultList">
+					<!-- <button type="button" class="list-group-item list-group-item-action resultItem" disabled>Name | Codec | Bitrate | Country | Language | Clicks</button>> -->
+				</div>
+			</span>
 
 			<!-- 
 				<div class="input-group mb-3">
