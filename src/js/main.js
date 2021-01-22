@@ -37,18 +37,27 @@ function checkTime(input)
 	}
 }
 
-function checkUniqueName(input, entry)
+function checkNewName(input, entry)
 {
-	let unique = true;
+	let valid = true;
+	let newName = $(input).val();
+
+	// check if name is unique
 	$(".acc-header").each(function()
 	{
-		if ($(this).html() === $(input).val() && $(input).val() != $("h3", entry.html).find(".acc-header").html())
+		if ($(this).html() === newName && newName != $("h3", entry.html).find(".acc-header").html())
 		{
-			unique = false;
+			valid = false;
 		}
 	});
 
-	if (unique)
+	// check if name is empty
+	if (!newName)
+	{
+		valid = false;
+	}
+
+	if (valid)
 	{
 		$(input).css("color", "");
 		$("#saveStationOrder").prop("disabled", false);
@@ -58,7 +67,7 @@ function checkUniqueName(input, entry)
 		$("#saveStationOrder").prop("disabled", true);
 	}
 
-	return unique
+	return valid
 }
 
 function updateName(input_element, entry)
@@ -267,7 +276,7 @@ function generateHtml(entry)
 	{
 		input_element = $(".radio-property", this);
 
-		if (checkUniqueName(input_element, entry))
+		if (checkNewName(input_element, entry))
 		{
 			updateName(input_element, entry);
 		}
