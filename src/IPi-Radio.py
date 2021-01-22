@@ -32,6 +32,7 @@ screen res:
 
 STATIONS = "stations.json"
 SETTINGS = "settings.json"
+ICON = "favicon.png"
 
 SELECTION_TIMEOUT = 5*1000
 
@@ -52,6 +53,7 @@ class Player(QMainWindow, Ui_MainWindow):
 
         # setup UI
         self.setupUi(self)
+        self.setRadioIcon(False)
         self.readRadioList()
         self.checkAutoTimer()
         self.label_info_IP.setText(f"{ip_port[0]}:{ip_port[1]}")
@@ -103,10 +105,26 @@ class Player(QMainWindow, Ui_MainWindow):
     def resetRadioInformation(self): # should get called, when pressing the STOP button
         """"resets all information of the current radio station"""
         self.label_radioname.setText("IPi-Radio")
-        self.label_radio_icon.clear()
+        self.setRadioIcon(False)
         self.label_info_codec.setText("---")
         self.label_info_country.setText("---")
         self.label_info_dls.setText("---")
+
+    def setRadioIcon(self, isURL: bool, data=None):
+        if isURL:
+            try:
+                rIcon_data = urllib.request.urlopen(data, timeout=1).read()
+                rPixmap = QtGui.QPixmap()
+                rPixmap.loadFromData(rIcon_data)
+
+                print("set ICON")
+                self.label_radio_icon.setPixmap(rPixmap)
+            except:
+                print("clear ICON")
+                self.label_radio_icon.clear()
+        else:
+            self.label_radio_icon.setPixmap( QtGui.QPixmap(ICON) )
+            
 
     def testfunction(self):
         self.showQuestionMSG("some cool message")
@@ -139,18 +157,7 @@ class Player(QMainWindow, Ui_MainWindow):
 
         # set radio name and image
         self.label_radioname.setText(stationName)
-        iconURL = station.get("favicon")
-        try:
-            rIcon_data = urllib.request.urlopen(iconURL, timeout=1).read()
-            rPixmap = QtGui.QPixmap()
-            rPixmap.loadFromData(rIcon_data)
-
-            print("set ICON")
-            self.label_radio_icon.setPixmap(rPixmap)
-        except Exception as e: 
-            print(str(e))
-            print("clear icon")
-            self.label_radio_icon.clear()
+        self.setRadioIcon(data=station.get("favicon"), isURL=True)
 
         media: vlc.Media = self.instance.media_new( station.get("url") )
         media.get_mrl()
