@@ -37,6 +37,11 @@ function checkTime(input)
 	}
 }
 
+function updateName(input)
+{
+	// TODO
+}
+
 // Search functions
 function searchByName()
 {
@@ -104,19 +109,23 @@ function addEntry(entry)
 	$("#stations").append(newEntry.html);
 	$("#stations").accordion("refresh");
 
+	/*
 	$.post("/api/stations/add", JSON.stringify(newEntry) , function(data)
 	{
 		console.log("add station: "+data);
 	});
+	*/
 }
 
 function removeEntry(entry)
 {
+	/*
 	// send api request
 	$.post("/api/stations/remove/"+encodeURIComponent(entry.name), function(data)
 	{
 		console.log("remove station: "+data);
 	});
+	*/
 
 	// remove from ui
 	$("#stations").accordion(
@@ -178,12 +187,18 @@ function entryGenerator(label, value, disabled)
 	let classes = "form-control radio-property"
 
 	// add placeholder for the time field
-	if (label === "time")
-	{
-		var addon = 'placeholder="hh:mm[ - hh:mm]" onkeyup="checkTime(this)"';
-	} else
-	{
-		var addon = "";
+	switch (label) {
+		case "name":
+			var addon = 'onkeyup="updateName(this)"';
+			break;
+
+		case "time":
+			var addon = 'placeholder="hh:mm[ - hh:mm]" onkeyup="checkTime(this)"';
+			break;
+	
+		default:
+			var addon = "";
+			break;
 	}
 
 	if (disabled)
@@ -214,6 +229,7 @@ function generateHtml(entry)
 	html.append(container);
 	/* container.append(`<p>time: ${entry.time}</p>`); */
 
+	container.append( entryGenerator("name", entry.name, false) );
 	container.append( entryGenerator("time", entry.time, false) );
 	container.append( entryGenerator("url", entry.url, false) );
 	container.append( entryGenerator("codec", entry.codec, true) );
