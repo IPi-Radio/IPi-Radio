@@ -208,7 +208,7 @@ function generateHtml(entry)
 	container.append( entryGenerator("url", entry.url, false) );
 	container.append( entryGenerator("codec", entry.codec, true) );
 	container.append( entryGenerator("bitrate", entry.bitrate, true) );
-	container.append( entryGenerator("countycode", entry.countrycode, true) );
+	container.append( entryGenerator("countrycode", entry.countrycode, true) );
 	container.append( entryGenerator("language", entry.language, true) );
 
 	// delete button
