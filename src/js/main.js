@@ -37,9 +37,38 @@ function checkTime(input)
 	}
 }
 
-function updateName(input)
+function checkUniqueName(input, entry)
 {
-	// TODO
+	let unique = true;
+	$(".acc-header").each(function()
+	{
+		if ($(this).html() === $(input).val() && $(input).val() != $("h3", entry.html).find(".acc-header").html())
+		{
+			unique = false;
+		}
+	});
+
+	if (unique)
+	{
+		$(input).css("color", "");
+		$("#saveStationOrder").prop("disabled", false);
+	} else
+	{
+		$(input).css("color", "red");
+		$("#saveStationOrder").prop("disabled", true);
+	}
+
+	return unique
+}
+
+function updateName(input_element, entry)
+{
+	new_name = input_element.val();
+
+	$(entry.html).attr("name", new_name);
+	$("h3", entry.html).find(".acc-header").html(new_name);
+
+	$("#stations").accordion("refresh");
 }
 
 // Search functions
@@ -188,10 +217,6 @@ function entryGenerator(label, value, disabled)
 
 	// add placeholder for the time field
 	switch (label) {
-		case "name":
-			var addon = 'onkeyup="updateName(this)"';
-			break;
-
 		case "time":
 			var addon = 'placeholder="hh:mm[ - hh:mm]" onkeyup="checkTime(this)"';
 			break;
@@ -222,20 +247,31 @@ function generateHtml(entry)
 	let html = entry.html = $(`<div class="sortable-item station" name="${entry.name}">`);
 
 	// title
-	html.append("<h3>"+entry.name+"</h3>");
+	html.append(`<h3><span class="acc-header">${entry.name}</span></h3>`);
 
 	// info container
 	let container = $("<div>");
 	html.append(container);
 	/* container.append(`<p>time: ${entry.time}</p>`); */
-
-	container.append( entryGenerator("name", entry.name, false) );
+	nameEntry = entryGenerator("name", entry.name, false)
+	container.append( nameEntry );
 	container.append( entryGenerator("time", entry.time, false) );
 	container.append( entryGenerator("url", entry.url, false) );
 	container.append( entryGenerator("codec", entry.codec, true) );
 	container.append( entryGenerator("bitrate", entry.bitrate, true) );
 	container.append( entryGenerator("countrycode", entry.countrycode, true) );
 	container.append( entryGenerator("language", entry.language, true) );
+
+	// name change event
+	nameEntry.keyup(function()
+	{
+		input_element = $(".radio-property", this);
+
+		if (checkUniqueName(input_element, entry))
+		{
+			updateName(input_element, entry);
+		}
+	});
 
 	// delete button
 	let deleteButton = $(`
