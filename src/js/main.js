@@ -86,6 +86,7 @@ function addEntry(entry)
 
 	let newEntry = searchResult[entry.name];
 	newEntry.time = "";
+	newEntry.url = newEntry.url_resolved;
 	newEntry.html = generateHtml(newEntry);
 	stations.push(newEntry);
 
