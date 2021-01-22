@@ -319,7 +319,7 @@ def checkNetwork():
     except:
         return False
 
-    if settings.get("IP") not in ["DHCP, AUTO, auto"]:
+    if settings.get("IP") not in ["DHCP", "AUTO", "auto"]:
         ip = settings.get("IP")
 
     port = settings.get("Port")
