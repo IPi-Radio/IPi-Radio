@@ -131,7 +131,10 @@ class Player(QMainWindow, Ui_MainWindow):
     def setRadio(self, stationName: str):
         self.resetRadioInformation()
         station: dict = self.radioStations.get(stationName)
-        self.label_info_codec.setText(station.get("codec"))
+        if station.get("bitrate") > 0:
+            self.label_info_codec.setText(f'{station.get("codec")} ({station.get("bitrate")} kbps)')    
+        else:
+            self.label_info_codec.setText(station.get("codec"))
         self.label_info_country.setText(f'{station.get("countrycode")} {station.get("language")}')
 
         # set radio name and image
