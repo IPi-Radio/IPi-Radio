@@ -143,11 +143,15 @@ class Webserver(BaseHTTPRequestHandler):
         stations = dict()
 
         for st in data:
+            try:
+                bitr = int(st.get("bitrate"))
+            except:
+                bitr = 0
             tmp = {
                 "time": st.get("time"),
                 "url": st.get("url"),
                 "codec": st.get("codec"),
-                "bitrate": st.get("bitrate"),
+                "bitrate": bitr,
                 "countrycode": st.get("countrycode"),
                 "language": st.get("language"),
             }
