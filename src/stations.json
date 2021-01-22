@@ -1,4 +1,13 @@
 {
+    "Radio Horeb (127 kbps)": {
+        "time": "",
+        "url": "http://rs16.stream24.org:8000/horeb.mp3",
+        "favicon": "https://www.horeb.org///favicon.ico",
+        "codec": "MP3",
+        "bitrate": 0,
+        "countrycode": "DE",
+        "language": "german"
+    },
     "Radio Horeb": {
         "time": "",
         "url": "http://rs16.stream24.org:8100/horeb.aac",
