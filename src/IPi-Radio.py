@@ -4,10 +4,8 @@ import os
 import re
 import sys
 import json
-import time
 import socket
 import urllib.request
-#import keyboard
 import subprocess
 
 import vlc
@@ -16,12 +14,12 @@ from multiprocessing import Process
 from collections import OrderedDict
 from datetime import datetime, timedelta
 
-from PyQt5 import uic, QtGui
+from PyQt5 import QtGui
 from PyQt5.QtCore import QTimer, Qt, QTime
 from PyQt5.QtWidgets import QApplication, QMainWindow, QListWidgetItem, QMessageBox
 
 import server
-from gui import Ui_MainWindow
+from ui.gui import Ui_MainWindow
 
 """
 screen res:
@@ -30,9 +28,12 @@ screen res:
 480x320
 """
 
-STATIONS = "stations.json"
-SETTINGS = "settings.json"
-ICON = "favicon.png"
+curr_location = os.path.dirname(os.path.realpath(__file__))
+getAbsPath = lambda x, y: os.path.join(curr_location, x, y)
+
+STATIONS = getAbsPath("settings", "stations.json")
+SETTINGS = getAbsPath("settings", "settings.json")
+ICON = getAbsPath("lib", "favicon.png")
 
 SELECTION_TIMEOUT = 5*1000
 

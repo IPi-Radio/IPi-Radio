@@ -1,17 +1,18 @@
 #! /usr/bin/env python3
 
 import os
-import sys
 import json
 import socket
-import signal
 import mimetypes
 import urllib.parse as urlparse
 
 from http.server import HTTPServer, BaseHTTPRequestHandler, SimpleHTTPRequestHandler
 
-RADIOSTATIONS = "stations.json"
-SETTINGS = "settings.json"
+curr_location = os.path.dirname(os.path.realpath(__file__))
+getAbsPath = lambda x, y: os.path.join(curr_location, x, y)
+
+RADIOSTATIONS = getAbsPath("settings", "stations.json")
+SETTINGS = getAbsPath("settings", "settings.json")
 
 class Webserver(BaseHTTPRequestHandler):
 
@@ -24,9 +25,9 @@ class Webserver(BaseHTTPRequestHandler):
 
             # check for images
             if self.path.endswith("png"):
-                resp: bytes = open(filepath, "rb").read()
+                resp: bytes = open(os.path.join(curr_location, filepath), "rb").read()
             else:
-                file_to_open: str = open(filepath).read()
+                file_to_open: str = open(os.path.join(curr_location, filepath)).read()
                 resp: bytes = file_to_open.encode("utf-8")
 
             self.send_response(200)
@@ -180,7 +181,6 @@ def run(ip_port: tuple):
     httpServer = HTTPServer(ip_port, Webserver)
 
     try:
-        signal.signal(signal.SIGTERM, httpServer.server_close)
         httpServer.serve_forever()
     except KeyboardInterrupt:
         httpServer.server_close()
