@@ -2,11 +2,13 @@
 
 # Form implementation generated from reading ui file '1024x600_v2.ui'
 #
-# Created by: PyQt5 UI code generator 5.11.3
+# Created by: PyQt5 UI code generator 5.14.1
 #
 # WARNING! All changes made in this file will be lost!
 
+
 from PyQt5 import QtCore, QtGui, QtWidgets
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -25,7 +27,7 @@ class Ui_MainWindow(object):
         self.verticalLayout = QtWidgets.QVBoxLayout()
         self.verticalLayout.setObjectName("verticalLayout")
         self.groupBox = QtWidgets.QGroupBox(self.centralwidget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.MinimumExpanding)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Ignored, QtWidgets.QSizePolicy.MinimumExpanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.groupBox.sizePolicy().hasHeightForWidth())
@@ -66,6 +68,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_2.addLayout(self.horizontalLayout_2)
         self.label_info_dls = QtWidgets.QLabel(self.groupBox)
         self.label_info_dls.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_info_dls.setWordWrap(True)
         self.label_info_dls.setObjectName("label_info_dls")
         self.verticalLayout_2.addWidget(self.label_info_dls)
         self.label_time = QtWidgets.QLabel(self.groupBox)
@@ -169,11 +172,12 @@ class Ui_MainWindow(object):
         self.verticalLayout.addLayout(self.gridLayout)
         self.horizontalLayout.addLayout(self.verticalLayout)
         self.radiolist = QtWidgets.QListWidget(self.centralwidget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.radiolist.sizePolicy().hasHeightForWidth())
         self.radiolist.setSizePolicy(sizePolicy)
+        self.radiolist.setMinimumSize(QtCore.QSize(300, 0))
         self.radiolist.setFocusPolicy(QtCore.Qt.NoFocus)
         self.radiolist.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContentsOnFirstShow)
         self.radiolist.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
@@ -189,7 +193,7 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.groupBox.setTitle(_translate("MainWindow", "v1.0"))
+        self.groupBox.setTitle(_translate("MainWindow", "v1.1"))
         self.label_status.setText(_translate("MainWindow", "Status: unknown"))
         self.label_radioname.setText(_translate("MainWindow", "IPi-Radio"))
         self.label_info_dls.setText(_translate("MainWindow", "radio text (DLS)"))

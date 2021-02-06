@@ -105,6 +105,7 @@ class Player(QMainWindow, Ui_MainWindow):
 
     def resetRadioInformation(self): # should get called, when pressing the STOP button
         """"resets all information of the current radio station"""
+        self.label_radioname.setAlignment(Qt.AlignCenter)
         self.label_radioname.setText("IPi-Radio")
         self.setRadioIcon(False)
         self.label_info_codec.setText("---")
@@ -158,7 +159,12 @@ class Player(QMainWindow, Ui_MainWindow):
         self.label_info_country.setText(f'{station.get("countrycode")} {station.get("language")}')
 
         # set radio name and image
-        self.label_radioname.setText(stationName)
+        if len(stationName) >= 15:
+            stationName = stationName[:20]
+            self.label_radioname.setAlignment(Qt.AlignLeft)
+        else:
+            self.label_radioname.setAlignment(Qt.AlignCenter)
+        self.label_radioname.setText(stationName[:20])
         self.setRadioIcon(data=station.get("favicon"), isURL=True)
 
         media: vlc.Media = self.instance.media_new( station.get("url") )
