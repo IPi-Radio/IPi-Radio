@@ -2,6 +2,7 @@
     "IP": "auto",
     "Port": 8088,
     "runWebserver": true,
-    "useFramebuffer": false,
+    "touchOptimize": true,
+    "useFramebuffer": true,
     "framebuffer": "/dev/fb0"
 }
