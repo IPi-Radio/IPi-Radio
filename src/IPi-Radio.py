@@ -117,6 +117,7 @@ class Player(QMainWindow, Ui_MainWindow):
                 rIcon_data = urllib.request.urlopen(data, timeout=1).read()
                 rPixmap = QtGui.QPixmap()
                 rPixmap.loadFromData(rIcon_data)
+                rPixmap = rPixmap.scaledToWidth(40)
 
                 print("set ICON")
                 self.label_radio_icon.setPixmap(rPixmap)
