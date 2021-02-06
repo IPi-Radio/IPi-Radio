@@ -182,7 +182,7 @@
            <item>
             <widget class="QLabel" name="label_7">
              <property name="text">
-              <string>local IP:</string>
+              <string>webserver IP:</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
