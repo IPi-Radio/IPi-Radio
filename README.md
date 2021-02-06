@@ -35,7 +35,7 @@ Simple and easy IP Radio for Raspberry Pi
 sudo apt install git python3 python3-pyqt5 python3-vlc vlc pulseaudio qt5-style-kvantum qt5-style-plugins
 # Note: you will need at least Python 3.6 and vlc 3.0.0
 
-# a reboot is recommended
+# reboot
 sudo reboot now
 
 # clone this repo
