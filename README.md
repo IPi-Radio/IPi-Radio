@@ -13,7 +13,7 @@ Simple and easy IP Radio for Raspberry Pi
 ###### Requirements
 
 - Raspberry Pi 1/2/3/4
-- Screen with at least 640x480 (touchscreen is optional)
+- Screen with at least 800x480 (touchscreen is optional)
 
 ###### Pre Install
 
