@@ -16,7 +16,7 @@ from datetime import datetime, timedelta
 
 from PyQt5 import QtGui
 from PyQt5.QtCore import QTimer, Qt, QTime
-from PyQt5.QtWidgets import QApplication, QMainWindow, QListWidgetItem, QMessageBox
+from PyQt5.QtWidgets import QApplication, QMainWindow, QListWidgetItem, QMessageBox, QStyleFactory
 
 import server
 from ui.gui import Ui_MainWindow
@@ -395,6 +395,14 @@ if __name__ == "__main__":
         ip_port = ("webserver disabled", None)
 
     app = QApplication(sys.argv)
+
+    if settings.get("touchOptimize"):
+        app.setStyle("bb10dark")
+    else:
+        app.setStyle("kvantum-dark")
+
+    #print(app.style().metaObject().className()) # returns QBB10DarkStyle or bb10dark
+    print("available styles: ", QStyleFactory.keys())
 
     window = Player()
     window.show()
