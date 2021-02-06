@@ -12,8 +12,9 @@ Simple and easy IP Radio for Raspberry Pi
 
 ###### Requirements
 
-- Raspberry Pi 1/2/3/4
-- Screen with at least 800x480 (touchscreen is optional)
+- Raspberry Pi (tested on 3 and 4, but older should work too)
+- SDcard >= 4GB
+- Screen with at least 800x480 is recommended (touchscreen is optional)
 
 ###### Pre Install
 
@@ -34,7 +35,7 @@ Simple and easy IP Radio for Raspberry Pi
 sudo apt install git python3 python3-pyqt5 python3-vlc vlc pulseaudio qt5-style-kvantum qt5-style-plugins
 # Note: you will need at least Python 3.6 and vlc 3.0.0
 
-# now a reboot is recommended
+# a reboot is recommended
 sudo reboot now
 
 # clone this repo
@@ -42,9 +43,8 @@ git clone https://github.com/IPi-Radio/IPi-Radio.git
 
 # add IPi-Radio to autostart
 sudo nano /etc/rc.local
-# add
-python3 /path/to/repo/IPi-Radio/src/IPi-Radio.py
-# above the exit 0 statement
+    # insert above(!) the exit 0 statement:
+    python3 /path/to/repo/IPi-Radio/src/IPi-Radio.py
 ```
 
 ###### Post Install
