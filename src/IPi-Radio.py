@@ -399,7 +399,7 @@ if __name__ == "__main__":
             print("ERROR: network not available!")
             sys.exit()
     else:
-        ip_port = ("webserver disabled", None)
+        ip_port = ("webserver disabled", "")
 
     app = QApplication(sys.argv)
 
