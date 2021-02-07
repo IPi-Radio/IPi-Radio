@@ -61,6 +61,11 @@ you also may want to adjust the brightness of your screen:
 
 while `n` is a value between 0 and 255
 
+### Troubleshooting
+
+- the clock does not show the correct time
+  - configure timezone: `sudo dpkg-reconfigure tzdata`
+
 #### Any Linux powered machine
 
 - change settings in `src/settings/settings.json`
