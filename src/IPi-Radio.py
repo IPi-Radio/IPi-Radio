@@ -174,7 +174,7 @@ class Player(QMainWindow, Ui_MainWindow):
         self.vlcPlayer.set_media(media)
         self.vlcPlayer.play()
 
-        self.currStation = stationName
+        self.currStation = stationName # this HAS to run before the timer, otherwise you get infinite loop!
 
         self._timer()
 
