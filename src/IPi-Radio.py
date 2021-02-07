@@ -160,11 +160,12 @@ class Player(QMainWindow, Ui_MainWindow):
 
         # set radio name and image
         if len(stationName) >= 15:
-            stationName = stationName[:20]
+            tstationName = stationName[:20]
             self.label_radioname.setAlignment(Qt.AlignLeft)
         else:
+            tstationName = stationName
             self.label_radioname.setAlignment(Qt.AlignCenter)
-        self.label_radioname.setText(stationName[:20])
+        self.label_radioname.setText(tstationName)
         self.setRadioIcon(data=station.get("favicon"), isURL=True)
 
         media: vlc.Media = self.instance.media_new( station.get("url") )
@@ -172,9 +173,10 @@ class Player(QMainWindow, Ui_MainWindow):
 
         self.vlcPlayer.set_media(media)
         self.vlcPlayer.play()
-        self._timer()
-        
+
         self.currStation = stationName
+
+        self._timer()
 
     def selectRadio(self, ev: QListWidgetItem):
         #print(ev.text())
