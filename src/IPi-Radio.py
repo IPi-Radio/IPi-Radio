@@ -100,7 +100,11 @@ class Player(QMainWindow, Ui_MainWindow):
             #print(list(self.radioStations.items()))
             for i, (key, value) in enumerate(self.radioStations.items()):
                 #print(key, value)
-                self.radiolist.addItem(f"({i+1}) {key}")
+                if value.get("time"):
+                    self.radiolist.addItem(f'({i+1}) {key} \n time: ({value["time"]})')
+                else:
+                    self.radiolist.addItem(f'({i+1}) {key}')
+
             print("radio list updated!")
 
     def resetRadioInformation(self): # should get called, when pressing the STOP button
