@@ -2,7 +2,7 @@
 /stations.json
 
 # dolphin config file
-.directory
+*.directory
 
 # pycache
 __pycache__
