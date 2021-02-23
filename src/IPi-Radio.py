@@ -439,6 +439,10 @@ if __name__ == "__main__":
     window = Player()
     window.show()
 
+    # set autoTimer
+    if settings.get("autotimer"):
+        window.setAutoTimer(bool(settings["autotimer"]))
+
     # handle exit
     exitcode = app.exec()
     if webserver != None:

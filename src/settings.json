@@ -4,5 +4,6 @@
     "runWebserver": true,
     "touchOptimize": true,
     "useFramebuffer": true,
-    "framebuffer": "/dev/fb0"
+    "framebuffer": "/dev/fb0",
+    "autotimer": false
 }
