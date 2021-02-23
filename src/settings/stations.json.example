@@ -1,0 +1,65 @@
+{
+    "Radio Horeb (127 kbps)": {
+        "time": "",
+        "url": "http://rs16.stream24.org:8000/horeb.mp3",
+        "favicon": "https://www.horeb.org///favicon.ico",
+        "codec": "MP3",
+        "bitrate": 0,
+        "countrycode": "DE",
+        "language": "german"
+    },
+    "Radio Horeb": {
+        "time": "",
+        "url": "http://rs16.stream24.org:8100/horeb.aac",
+        "favicon": "https://www.horeb.org///favicon.ico",
+        "codec": "AAC+",
+        "bitrate": 0,
+        "countrycode": "DE",
+        "language": "german"
+    },
+    "Radio Maria Schweiz": {
+        "time": "",
+        "url": "http://player.radio-maria.ch:9000/radiomaria_lo",
+        "favicon": "https://www.radiomaria.ch//sites/all/themes/richer/assets/images/favicons/apple-icon-57x57.png",
+        "codec": "MP3",
+        "bitrate": 192,
+        "countrycode": "CH",
+        "language": "german"
+    },
+    "Bayern 5 plus": {
+        "time": "",
+        "url": "http://br-b5plus-live.cast.addradio.de/br/b5plus/live/aac/low",
+        "favicon": "undefined",
+        "codec": " ",
+        "bitrate": 0,
+        "countrycode": "null",
+        "language": "undefined"
+    },
+    "Radio Vatikan": {
+        "time": "20:45",
+        "url": "https://rvl.azureedge.net/channel2.mp3",
+        "favicon": "undefined",
+        "codec": " ",
+        "bitrate": 0,
+        "countrycode": "null",
+        "language": "undefined"
+    },
+    "Bayern 3": {
+        "time": "",
+        "url": "http://br-br3-live.cast.addradio.de/br/br3/live/aac/low",
+        "favicon": "undefined",
+        "codec": " ",
+        "bitrate": 0,
+        "countrycode": "null",
+        "language": "undefined"
+    },
+    "Antenne Bayern": {
+        "time": "",
+        "url": "http://s7-webradio.antenne.de/antenne/stream/aacp",
+        "favicon": "http://www.antenne.de//assets/icons/antenne-de/favicon-32x32.png?v=3",
+        "codec": "AAC",
+        "bitrate": 0,
+        "countrycode": "DE",
+        "language": "german"
+    }
+}
