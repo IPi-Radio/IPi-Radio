@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '1024x600_v2.ui'
+# Form implementation generated from reading ui file 'ui/1024x600_v2.ui'
 #
 # Created by: PyQt5 UI code generator 5.14.1
 #
@@ -32,9 +32,7 @@ class Ui_MainWindow(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.groupBox.sizePolicy().hasHeightForWidth())
         self.groupBox.setSizePolicy(sizePolicy)
-        self.groupBox.setStyleSheet("QGroupBox {\n"
-"    border: 4px solid rgb(255, 255, 255);\n"
-"}")
+        self.groupBox.setStyleSheet("QGroupBox {border: 4px solid rgb(255, 255, 255)}")
         self.groupBox.setObjectName("groupBox")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.groupBox)
         self.verticalLayout_2.setObjectName("verticalLayout_2")

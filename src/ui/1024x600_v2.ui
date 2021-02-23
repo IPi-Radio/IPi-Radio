@@ -35,9 +35,7 @@
          </sizepolicy>
         </property>
         <property name="styleSheet">
-         <string notr="true">QGroupBox {
-	border: 4px solid rgb(255, 255, 255);
-}</string>
+         <string notr="true">QGroupBox {border: 4px solid rgb(255, 255, 255)}</string>
         </property>
         <property name="title">
          <string>v1.1</string>

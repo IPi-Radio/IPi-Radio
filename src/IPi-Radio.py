@@ -342,8 +342,10 @@ class Player(QMainWindow, Ui_MainWindow):
     def checkAutoTimer(self):
         if self.autoTimer:
             self.button_auto.setText("AUTO: ON")
+            self.groupBox.setStyleSheet("QGroupBox {border: 4px solid rgb(255, 100, 100)}")
         else:
             self.button_auto.setText("AUTO: OFF")
+            self.groupBox.setStyleSheet("QGroupBox {border: 4px solid rgb(255, 255, 255)}")
 
     def reboot(self):
         subprocess.run(["sudo", "reboot", "now"])
