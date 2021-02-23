@@ -170,13 +170,15 @@ class Player(QMainWindow, Ui_MainWindow):
             tstationName = stationName
             self.label_radioname.setAlignment(Qt.AlignCenter)
         self.label_radioname.setText(tstationName)
-        self.setRadioIcon(data=station.get("favicon"), isURL=True)
 
         media: vlc.Media = self.instance.media_new( station.get("url") )
         media.get_mrl()
 
         self.vlcPlayer.set_media(media)
         self.vlcPlayer.play()
+
+        # TODO: run this in a separate thread to avoid blocking
+        self.setRadioIcon(data=station.get("favicon"), isURL=True)
 
         self.currStation = stationName # this HAS to run before the timer, otherwise you get infinite loop!
 
