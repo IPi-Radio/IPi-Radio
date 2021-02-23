@@ -277,7 +277,8 @@ class Player(QMainWindow, Ui_MainWindow):
             playing = False
             for key, value in self.radioStations.items():
                 tTime = value["time"]
-                if not tTime: continue
+                if not tTime or tTime == "default":
+                    continue
 
                 if self._timeInBetween( *self._getTimeComponents(tTime) ):
                     playing = True
