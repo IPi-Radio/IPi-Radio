@@ -1,5 +1,6 @@
 # project
 stations.json
+settings.json
 
 # dolphin config file
 *.directory
