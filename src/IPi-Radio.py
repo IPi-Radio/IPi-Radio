@@ -163,8 +163,8 @@ class Player(QMainWindow, Ui_MainWindow):
         self.label_info_country.setText(f'{station.get("countrycode")} {station.get("language")}')
 
         # set radio name and image
-        if len(stationName) >= 15:
-            tstationName = stationName[:20]
+        if len(stationName) >= 20:
+            tstationName = stationName[:30]
             self.label_radioname.setAlignment(Qt.AlignLeft)
         else:
             tstationName = stationName
