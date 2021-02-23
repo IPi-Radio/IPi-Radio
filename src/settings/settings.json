@@ -1,6 +1,6 @@
 {
     "IP": "auto",
-    "Port": 8088,
+    "Port": 80,
     "runWebserver": true,
     "touchOptimize": true,
     "useFramebuffer": true,
