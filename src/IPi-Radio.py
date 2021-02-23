@@ -285,6 +285,15 @@ class Player(QMainWindow, Ui_MainWindow):
                         self.setRadio(key)
                     break
 
+            # run second loop for checking default radio station
+            if not playing:
+                for key, value in self.radioStations.items():
+                    if value["time"] == "default":
+                        playing = True
+                        if self.currStation != key:
+                            self.setRadio(key)
+                        break
+
             if not playing and self.currStation:
                 print("stop")
                 self.stopRadio()

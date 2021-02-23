@@ -26,7 +26,7 @@ function checkTime(input)
 	// const regex = /^[0-2][0-9]:[0-5][0-9](\s-\s[0-2][0-9]:[0-5][0-9])?$/;
 	const regex = /^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]((\s-\s|-)([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9])?$/;
 
-	if (regex.test($(input).val()) || $(input).val() === "")
+	if (regex.test($(input).val()) || $(input).val() === "" || $(input).val() === "default")
 	{
 		$(input).css("color", "");
 		$("#saveStationOrder").prop("disabled", false);
@@ -243,7 +243,7 @@ function entryGenerator(label, value, disabled)
 	// add placeholder for the time field
 	switch (label) {
 		case "time":
-			var addon = 'placeholder="hh:mm[ - hh:mm]" onkeyup="checkTime(this)"';
+			var addon = 'placeholder="hh:mm[ - hh:mm] | default" onkeyup="checkTime(this)"';
 			break;
 	
 		default:
