@@ -63,7 +63,7 @@ class Player(QMainWindow, Ui_MainWindow):
         #self.button_vol_minus.clicked.connect(self.sub)
         self.radiolist.itemClicked.connect(self.selectRadio)
 
-        self.button_auto.clicked.connect(self.setAutoTimer)
+        self.button_auto.clicked.connect(lambda: self.setAutoTimer(None))
         self.button_stop.clicked.connect(self.stopRadio)
         self.button_reboot.clicked.connect(self.reboot)
         self.button_shutdown.clicked.connect(self.shutdown)
@@ -320,6 +320,7 @@ class Player(QMainWindow, Ui_MainWindow):
             #rNameItem: QListWidgetItem = self.radiolist.item(key_pressed-1)
             rName = self.getStationName(key_pressed-1)
             print("playing", rName)
+            self.setAutoTimer(False)
 
             self.setRadio(rName)
 
@@ -340,7 +341,7 @@ class Player(QMainWindow, Ui_MainWindow):
         #return super().keyPressEvent(a0)
 
     def setAutoTimer(self, state=None):
-        if state:
+        if state != None:
             self.autoTimer = state
         else:
             self.autoTimer = not self.autoTimer
