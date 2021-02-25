@@ -89,8 +89,17 @@ class Player(QMainWindow, Ui_MainWindow):
 
     def readRadioList(self):
         """init the list of radio stations by reading from the json file"""
-        with open(os.path.join(os.path.dirname(__file__), STATIONS), "r") as f:
-            stationData: OrderedDict = json.load(fp=f, object_pairs_hook=OrderedDict)
+
+        try:
+            with open(STATIONS, "r") as f:
+                stationData: OrderedDict = json.load(fp=f, object_pairs_hook=OrderedDict)
+        except FileNotFoundError:
+            print(f"WARNING: Could not find stations file: {STATIONS}")
+            print("generating new empty one...")
+
+            with open(STATIONS, "w") as f:
+                f.write("{}")
+            return
 
         # only update UI when there are changes
         if stationData != self.radioStations:
