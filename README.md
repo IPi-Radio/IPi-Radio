@@ -4,9 +4,7 @@ Simple and easy IP Radio for Raspberry Pi
 
 ## Showcase
 
-(video)
-
-(screenshots)
+<img title="" src="images/screenshot_1.png" alt="screenshot_1.png" data-align="left" width="693">
 
 ## Features
 
