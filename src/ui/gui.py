@@ -178,7 +178,7 @@ class Ui_MainWindow(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.radiolist.sizePolicy().hasHeightForWidth())
         self.radiolist.setSizePolicy(sizePolicy)
-        self.radiolist.setMinimumSize(QtCore.QSize(350, 0))
+        self.radiolist.setMinimumSize(QtCore.QSize(320, 0))
         self.radiolist.setFocusPolicy(QtCore.Qt.NoFocus)
         self.radiolist.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContentsOnFirstShow)
         self.radiolist.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
@@ -194,7 +194,7 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.groupBox.setTitle(_translate("MainWindow", "v1.0b"))
+        self.groupBox.setTitle(_translate("MainWindow", "v1.0"))
         self.label_status.setText(_translate("MainWindow", "Status: unknown"))
         self.label_radioname.setText(_translate("MainWindow", "IPi-Radio"))
         self.label_info_dls.setText(_translate("MainWindow", "radio text (DLS)"))

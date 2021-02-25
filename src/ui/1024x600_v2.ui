@@ -38,7 +38,7 @@
          <string notr="true">QGroupBox {border: 4px solid rgb(255, 255, 255)}</string>
         </property>
         <property name="title">
-         <string>v1.1</string>
+         <string>v1.0</string>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_2">
          <item>
@@ -338,7 +338,7 @@
       </property>
       <property name="minimumSize">
        <size>
-        <width>350</width>
+        <width>320</width>
         <height>0</height>
        </size>
       </property>
