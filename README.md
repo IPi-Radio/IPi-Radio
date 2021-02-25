@@ -4,15 +4,22 @@ Simple and easy IP Radio for Raspberry Pi
 
 ## Showcase
 
-<img title="" src="images/screenshot_1.png" alt="screenshot_1.png" data-align="left" width="693">
+<img title="" src="images/screenshot_1.png" alt="screenshot_1.png" data-align="left" width="700">
+
+<img title="" src="images/screenshot_2.png" alt="screenshot_2.png" width="500" data-align="left">
 
 ## Features
 
 - Play radio streams
+
 - Navigate using keyboard, remote or touchscreen
+
 - Configure radio stations with the WebUI
+
 - AUTO mode: automatically play specific radio stations at given time frames
+
 - Shows current DLS radio text
+
 - Clock
 
 - Liteweight (uses **~20MiB of RAM**)
