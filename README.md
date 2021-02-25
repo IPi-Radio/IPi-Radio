@@ -14,8 +14,8 @@ Simple and easy IP Radio for Raspberry Pi
 - Navigate using keyboard, remote or touchscreen
 - Configure radio stations with the WebUI
 - AUTO mode: automatically play specific radio stations at given time frames
-- Shows clock
 - Shows current DLS radio text
+- Clock
 
 ## How to install (Raspberry Pi)
 
