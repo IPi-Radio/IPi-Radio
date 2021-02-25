@@ -1,6 +1,6 @@
-# IPi-Radio-core
+# ![favicon.png](src/lib/favicon.png) IPi-Radio
 
-Simple and easy IP Radio for Raspberry Pi
+Simple and easy IP Radio for Raspberry Pi (and any Linux based machine)
 
 ## Showcase
 
@@ -22,7 +22,7 @@ Simple and easy IP Radio for Raspberry Pi
 
 - Clock
 
-- Liteweight (uses **~20MiB of RAM**)
+- Lightweight (uses **~20MiB of RAM**)
 
 ## How to install (Raspberry Pi)
 
@@ -81,7 +81,7 @@ you also may want to adjust the brightness of your screen:
 
 while `n` is a value between 0 and 255
 
-##### Any Linux powered machine
+#### For non-Raspberry Pi machines
 
 - change settings in `src/settings/settings.json`
   - set `useFramebuffer` to `false`
