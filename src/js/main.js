@@ -35,6 +35,9 @@ function checkTime(input)
 		$(input).css("color", "red");
 		$("#saveStationOrder").prop("disabled", true);
 	}
+
+	// turn save button red, to indicate unsaved changes
+	$("#saveStationOrder").removeClass("btn-info").addClass("btn-danger");
 }
 
 function checkNewName(input, entry)
@@ -66,6 +69,9 @@ function checkNewName(input, entry)
 		$(input).css("color", "red");
 		$("#saveStationOrder").prop("disabled", true);
 	}
+
+	// turn save button red, to indicate unsaved changes
+	$("#saveStationOrder").removeClass("btn-info").addClass("btn-danger");
 
 	return valid
 }
@@ -228,6 +234,7 @@ function pushAllEntries()
 		console.log("update all stations: "+data);
 		if (data == "OK")
 		{
+			$("#saveStationOrder").removeClass("btn-danger").addClass("btn-info");
 			alert("Saving successful!");
 		}
 	})
