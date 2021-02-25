@@ -434,7 +434,7 @@ if __name__ == "__main__":
         app.setStyle("kvantum-dark")
 
     #print(app.style().metaObject().className()) # returns QBB10DarkStyle or bb10dark
-    print("available styles: ", QStyleFactory.keys())
+    #print("available styles: ", QStyleFactory.keys())
 
     window = Player()
     window.show()
