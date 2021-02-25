@@ -15,6 +15,8 @@ Simple and easy IP Radio for Raspberry Pi
 - Shows current DLS radio text
 - Clock
 
+- Liteweight (uses **~20MiB of RAM**)
+
 ## How to install (Raspberry Pi)
 
 ###### Requirements
@@ -25,7 +27,7 @@ Simple and easy IP Radio for Raspberry Pi
 
 ###### Pre Install
 
-- Raspberry Pi OS **lite** is recommended
+- Raspberry Pi OS **lite** (without GUI / X server) is recommended
 - connect your Pi to the network
 - `sudo raspi-config`
   - `1 System Options`
