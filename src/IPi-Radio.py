@@ -401,7 +401,12 @@ def checkNetwork():
 
 if __name__ == "__main__":
     global ip_port
-    settings = parseSettings()
+
+    try:
+        settings = parseSettings()
+    except FileNotFoundError:
+        print(f"Could not find settings file: {SETTINGS}")
+        sys.exit()
 
     # this is from https://doc.qt.io/qt-5/embedded-linux.html
     # run without X server
