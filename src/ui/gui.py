@@ -203,7 +203,7 @@ class Ui_MainWindow(object):
         self.label_info_codec.setText(_translate("MainWindow", "---"))
         self.label.setText(_translate("MainWindow", "codec:"))
         self.label_3.setText(_translate("MainWindow", "country:"))
-        self.label_7.setText(_translate("MainWindow", "webserver IP:"))
+        self.label_7.setText(_translate("MainWindow", "webUI address:"))
         self.label_info_IP.setText(_translate("MainWindow", "unknown"))
         self.button_auto.setText(_translate("MainWindow", "AUTO: --"))
         self.button_stop.setText(_translate("MainWindow", "(0) STOP"))
