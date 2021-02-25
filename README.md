@@ -2,13 +2,22 @@
 
 Simple and easy IP Radio for Raspberry Pi
 
-### Showcase
+## Showcase
 
 (video)
 
 (screenshots)
 
-### How to install
+## Features
+
+- Play radio streams
+- Navigate using keyboard, remote or touchscreen
+- Configure radio stations with the WebUI
+- AUTO mode: automatically play specific radio stations at given time frames
+- Shows clock
+- Shows current DLS radio text
+
+## How to install (Raspberry Pi)
 
 ###### Requirements
 
@@ -22,7 +31,7 @@ Simple and easy IP Radio for Raspberry Pi
 - connect your Pi to the network
 - `sudo raspi-config`
   - `1 System Options`
-    - `S2 Audio` select the correct audio device
+    - `S2 Audio` select the correct audio device (you can also configure audio using `alsamixer`)
     - `S5 Boot / Auto Login` select `B2 Console Autologin`
     - `S6 Network at Boot` select `Yes`
   - `2 Display Options` > `D5 Screen Blanking` select `No`
@@ -40,6 +49,10 @@ sudo reboot now
 
 # clone this repo
 git clone https://github.com/IPi-Radio/IPi-Radio.git
+
+# "enable" config files inside src/settings
+mv settings.json.example settings.json
+mv stations.json.example stations.json
 
 # add IPi-Radio to autostart
 sudo nano /etc/rc.local
@@ -61,14 +74,38 @@ you also may want to adjust the brightness of your screen:
 
 while `n` is a value between 0 and 255
 
-### Troubleshooting
-
-- the clock does not show the correct time
-  - configure timezone: `sudo dpkg-reconfigure tzdata`
-
-#### Any Linux powered machine
+##### Any Linux powered machine
 
 - change settings in `src/settings/settings.json`
   - set `useFramebuffer` to `false`
   - (optional) set `IP` or `Port` of the webserver
 - start with `python3 src/IPi-Radio.py`
+
+### How to update
+
+- navigate into the folder of the cloned repository
+- run `git pull`
+- done!
+
+### Troubleshooting
+
+- the clock does not show the correct time
+  - configure timezone: `sudo dpkg-reconfigure tzdata`
+
+## Known issues / limitations
+
+- Drag & Drop in the WebUI leads to unfolding of the draged item (help needed)
+- No visual feedback when searching for new radio stations (planned for next release)
+- Only searching by name is possible for now (more to come)
+- Radio settings not editable using WebUI (planned for next release)
+- No indicator, when new version is available (planned for next release)
+
+Make sure to check out the [GitHub project board](https://github.com/IPi-Radio/IPi-Radio/projects).
+
+## Contribute
+
+If you want to help this project, feel free to create a new [issue](https://github.com/IPi-Radio/IPi-Radio/issues) or a [pull request](https://github.com/IPi-Radio/IPi-Radio/pulls).
+
+## Credits
+
+This project is using [segler-alex/radiobrowser-api-rust](https://github.com/segler-alex/radiobrowser-api-rust) via [www.radio-browser.info](https://www.radio-browser.info/#!/), thank you guys for this awesome API!
