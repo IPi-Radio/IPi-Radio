@@ -1,9 +1,3 @@
-/* hide website, faded in by js */
-body
-{
-	display: none;
-}
-
 .add-button
 {
 	margin-left: 2%;

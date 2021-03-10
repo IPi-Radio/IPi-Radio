@@ -448,9 +448,4 @@ $(document).ready( function()
 
 		$("#stations").accordion("refresh");
 	}, "json");
-
-	// show website
-	$("body").fadeIn({
-		speed: "fast"
-	});
 });
