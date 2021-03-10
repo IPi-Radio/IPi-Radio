@@ -92,7 +92,9 @@ function searchByName()
 	// http://all.api.radio-browser.info/json/stations/byname/{searchterm}
 
 	rName = $("#radioStatioName").val();
-	console.log(rName);
+	console.log("Searching for " + rName);
+
+	$("#addRadioName").attr("disabled", true).addClass("running");
 
 	$.get("http://all.api.radio-browser.info/json/stations/byname/"+encodeURIComponent(rName), function(data)
 	{
@@ -109,6 +111,8 @@ function searchByName()
 
 			$("#resultList").append(entry.html);
 		}
+
+		$("#addRadioName").attr("disabled", false).removeClass("running");
 	});
 }
 
