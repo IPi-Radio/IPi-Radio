@@ -102,10 +102,7 @@ while `n` is a value between 0 and 255
 ## Known issues / limitations
 
 - Drag & Drop in the WebUI leads to unfolding of the draged item (help needed)
-- No visual feedback when searching for new radio stations (planned for next release)
 - Only searching by name is possible for now (more to come)
-- Radio settings not editable using WebUI (planned for next release)
-- No indicator, when new version is available (planned for next release)
 
 Make sure to check out the [GitHub project board](https://github.com/IPi-Radio/IPi-Radio/projects).
 
