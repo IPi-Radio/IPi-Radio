@@ -397,7 +397,7 @@ class Player(QMainWindow, Ui_MainWindow):
             else:
                 print("latest version installed")
         except:
-            pass
+            print("failed!")
 
     def reboot(self):
         subprocess.run(["sudo", "reboot", "now"])
