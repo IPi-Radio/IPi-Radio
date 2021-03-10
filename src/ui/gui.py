@@ -194,7 +194,7 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.groupBox.setTitle(_translate("MainWindow", "v1.0"))
+        self.groupBox.setTitle(_translate("MainWindow", "v1.1"))
         self.label_status.setText(_translate("MainWindow", "Status: unknown"))
         self.label_radioname.setText(_translate("MainWindow", "IPi-Radio"))
         self.label_info_dls.setText(_translate("MainWindow", "radio text (DLS)"))

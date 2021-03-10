@@ -4,6 +4,7 @@ import os
 import json
 import socket
 import mimetypes
+from typing import Set
 import urllib.parse as urlparse
 
 from http.server import HTTPServer, BaseHTTPRequestHandler, SimpleHTTPRequestHandler
@@ -98,6 +99,32 @@ class Webserver(BaseHTTPRequestHandler):
 
             self.wfile.write(b"OK")
 
+        elif self.path == "/api/settings/all":
+            try:
+                resp: bytes = open(SETTINGS, "rb").read()
+            except FileNotFoundError:
+                resp: bytes = self._initSettings()
+
+            self.send_response(200)
+            self.send_header("Content-type", "application/json")
+            self.end_headers()
+
+            self.wfile.write(resp)
+
+        elif self.path == "/api/settings/saveall":
+            content_length = int(self.headers['Content-Length'])
+            body = self.rfile.read(content_length)
+
+            data: dict = json.loads(urlparse.unquote(body.decode()))
+
+            self._updateAllSettings(data)
+
+            self.send_response(200)
+            self.send_header("Content-type", "text/plain")
+            self.end_headers()
+
+            self.wfile.write(b"OK")
+
         else:
             self.send_error(404, "API Endpoint not found")
 
@@ -175,6 +202,18 @@ class Webserver(BaseHTTPRequestHandler):
             data = json.load(f)
 
         return data
+
+    def _initSettings(self) -> bytes:
+        tSettings: bytes = open(SETTINGS + ".example", "rb").read()
+
+        with open(SETTINGS, "wb") as f:
+            f.write(tSettings)
+
+        return tSettings
+
+    def _updateAllSettings(self, data: dict):
+        with open(SETTINGS, "w") as f:
+            json.dump(data, f)
 
 def run(ip_port: tuple):
 

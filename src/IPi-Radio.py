@@ -37,6 +37,8 @@ ICON = getAbsPath("lib", "favicon.png")
 
 SELECTION_TIMEOUT = 5*1000
 
+VERSION_URL = "https://raw.githubusercontent.com/IPi-Radio/IPi-Radio/master/VERSION"
+
 class Player(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
@@ -83,6 +85,11 @@ class Player(QMainWindow, Ui_MainWindow):
         timer_listupdate = QTimer(self)
         timer_listupdate.timeout.connect(self.readRadioList)
         timer_listupdate.start(10 * 1000)
+
+        timer_updatecheck = QTimer(self)
+        timer_updatecheck.timeout.connect(self.updateCheck)
+        self.updateCheck()
+        timer_updatecheck.start(3600 * 1000)
 
         # lambdas
         self.getStationName = lambda x: list(self.radioStations.items())[x][0]
@@ -376,6 +383,21 @@ class Player(QMainWindow, Ui_MainWindow):
         else:
             self.button_auto.setText("AUTO: OFF")
             self.groupBox.setStyleSheet("QGroupBox {border: 4px solid rgb(255, 255, 255)}")
+
+    def updateCheck(self):
+        # version check
+        try:
+            print("checking for updates...", end="")
+            latestVersion = float(urllib.request.urlopen(VERSION_URL, timeout=1).read())
+            installedVersion = float(self.groupBox.title()[1:])
+
+            if installedVersion < latestVersion:
+                print("found new version")
+                self.groupBox.setTitle(f"v{installedVersion} (new version available)")
+            else:
+                print("latest version installed")
+        except:
+            print("failed!")
 
     def reboot(self):
         subprocess.run(["sudo", "reboot", "now"])
