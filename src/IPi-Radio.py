@@ -86,6 +86,11 @@ class Player(QMainWindow, Ui_MainWindow):
         timer_listupdate.timeout.connect(self.readRadioList)
         timer_listupdate.start(10 * 1000)
 
+        timer_updatecheck = QTimer(self)
+        timer_updatecheck.timeout.connect(self.updateCheck)
+        self.updateCheck()
+        timer_updatecheck.start(3600 * 1000)
+
         # lambdas
         self.getStationName = lambda x: list(self.radioStations.items())[x][0]
 
@@ -379,6 +384,21 @@ class Player(QMainWindow, Ui_MainWindow):
             self.button_auto.setText("AUTO: OFF")
             self.groupBox.setStyleSheet("QGroupBox {border: 4px solid rgb(255, 255, 255)}")
 
+    def updateCheck(self):
+        # version check
+        try:
+            print("checking for updates...", end="")
+            latestVersion = float(urllib.request.urlopen(VERSION_URL, timeout=1).read())
+            installedVersion = float(self.groupBox.title()[1:])
+
+            if installedVersion < latestVersion:
+                print("found new version")
+                self.groupBox.setTitle(f"v{installedVersion} (new version available)")
+            else:
+                print("latest version installed")
+        except:
+            pass
+
     def reboot(self):
         subprocess.run(["sudo", "reboot", "now"])
 
@@ -458,20 +478,6 @@ if __name__ == "__main__":
     # set autoTimer
     if settings.get("autotimer"):
         window.setAutoTimer(bool(settings["autotimer"]))
-
-    # version check
-    try:
-        print("checking for updates...", end="")
-        latestVersion = float(urllib.request.urlopen(VERSION_URL, timeout=1).read())
-        installedVersion = float(window.groupBox.title()[1:])
-
-        if installedVersion < latestVersion:
-            print("found new version")
-            window.groupBox.setTitle(f"v{installedVersion} (new version available)")
-        else:
-            print("latest version installed")
-    except:
-        pass
 
     # handle exit
     exitcode = app.exec()
