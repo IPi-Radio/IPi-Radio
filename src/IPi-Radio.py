@@ -37,6 +37,8 @@ ICON = getAbsPath("lib", "favicon.png")
 
 SELECTION_TIMEOUT = 5*1000
 
+VERSION_URL = "https://raw.githubusercontent.com/IPi-Radio/IPi-Radio/master/VERSION"
+
 class Player(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
@@ -456,6 +458,20 @@ if __name__ == "__main__":
     # set autoTimer
     if settings.get("autotimer"):
         window.setAutoTimer(bool(settings["autotimer"]))
+
+    # version check
+    try:
+        print("checking for updates...", end="")
+        latestVersion = float(urllib.request.urlopen(VERSION_URL, timeout=1).read())
+        installedVersion = float(window.groupBox.title()[1:])
+
+        if installedVersion < latestVersion:
+            print("found new version")
+            window.groupBox.setTitle(f"v{installedVersion} (new version available)")
+        else:
+            print("latest version installed")
+    except:
+        pass
 
     # handle exit
     exitcode = app.exec()
