@@ -51,7 +51,7 @@ class Player(QMainWindow, Ui_MainWindow):
         self.volume = 100
 
         # create VLC instance
-        self.instance = vlc.Instance("--no-xlib")
+        self.instance: vlc.Instance = vlc.Instance("--no-xlib")
         self.vlcPlayer: vlc.MediaPlayer = self.instance.media_player_new()
 
         # setup UI

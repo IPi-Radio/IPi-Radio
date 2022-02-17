@@ -78,7 +78,11 @@ optionally you can change some settings, for that you open `IPi-Radio/src/settin
 
 you also may want to adjust the brightness of your screen:
 
+**Debian 10** \
 `echo n | sudo tee /sys/class/backlight/rpi_backlight/device/backlight/rpi_backlight/brightness`
+
+**Debian 11** \
+`echo n | sudo tee /sys/class/backlight/10-0045/brightness`
 
 while `n` is a value between 0 and 255
 
