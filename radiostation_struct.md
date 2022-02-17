@@ -13,7 +13,6 @@
     },
     (...)
 }
-}
 ```
 
 - `time`: time to play this station, when automation is enabled; setting to `default` will use that station as fallback | optional
