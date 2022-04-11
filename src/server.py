@@ -4,16 +4,9 @@ import os
 import json
 import socket
 import mimetypes
-from typing import Set
 import urllib.parse as urlparse
 
-from http.server import HTTPServer, BaseHTTPRequestHandler, SimpleHTTPRequestHandler
-
-curr_location = os.path.dirname(os.path.realpath(__file__))
-getAbsPath = lambda x, y: os.path.join(curr_location, x, y)
-
-RADIOSTATIONS = getAbsPath("settings", "stations.json")
-SETTINGS = getAbsPath("settings", "settings.json")
+from http.server import HTTPServer, BaseHTTPRequestHandler
 
 class Webserver(BaseHTTPRequestHandler):
 
@@ -26,9 +19,9 @@ class Webserver(BaseHTTPRequestHandler):
 
             # check for images
             if self.path.endswith("png"):
-                resp: bytes = open(os.path.join(curr_location, filepath), "rb").read()
+                resp: bytes = open(os.path.join(CUR_LOCATION, filepath), "rb").read()
             else:
-                file_to_open: str = open(os.path.join(curr_location, filepath)).read()
+                file_to_open: str = open(os.path.join(CUR_LOCATION, filepath)).read()
                 resp: bytes = file_to_open.encode("utf-8")
 
             self.send_response(200)
@@ -215,7 +208,14 @@ class Webserver(BaseHTTPRequestHandler):
         with open(SETTINGS, "w") as f:
             json.dump(data, f)
 
-def run(ip_port: tuple):
+def run(ip_port: tuple, settingsPath: str, stationsPath: str):
+    global RADIOSTATIONS
+    global SETTINGS
+    global CUR_LOCATION
+
+    SETTINGS = settingsPath
+    RADIOSTATIONS = stationsPath
+    CUR_LOCATION = os.path.dirname(os.path.realpath(__file__))
 
     httpServer = HTTPServer(ip_port, Webserver)
 

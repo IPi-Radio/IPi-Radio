@@ -31,7 +31,7 @@ Simple and easy IP Radio for Raspberry Pi (and any Linux based machine)
 
 - Raspberry Pi (tested on 3 and 4, but older should work too)
 - SDcard >= 4GB
-- Screen with at least 800x480 is recommended (touchscreen is optional)
+- Screen with at least 800x450 is recommended (touchscreen is optional)
 
 ###### Pre Install
 
