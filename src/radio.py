@@ -41,7 +41,7 @@ class Player(Controller):
         # setup UI
         #self.setRadioIcon(False)
         self.readRadioList()
-        self.setWebUrl(f"{ip_port[0]}:{ip_port[1]}")
+        self.setWebserverUrl(ip_port)
 
         # init clock
         timer_sec = QTimer(self)
@@ -189,6 +189,9 @@ class Player(Controller):
         self.currStation = stationName 
 
         self._timer()
+
+    def setWebserverUrl(self, ip_port: tuple):
+        self.setWebUrl(f"{ip_port[0]}:{ip_port[1]}")
 
     def _getTimeComponents(self, time: str):
         exactTime = re.compile(r"^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$")

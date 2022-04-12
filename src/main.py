@@ -75,11 +75,6 @@ if __name__ == "__main__":
         print("ERROR: network not available")
         sys.exit(-1)
 
-    if settings.get("runWebserver"):
-        webserver = initWebserver(ip_port)
-    else:
-        ip_port = ("webserver disabled", "")
-
     app = QGuiApplication(sys.argv)
     player = Player(ip_port)
 
@@ -91,6 +86,11 @@ if __name__ == "__main__":
     if not engine.rootObjects():
         sys.exit(-1)
     
+    if settings.get("runWebserver") == True:
+        webserver = initWebserver(ip_port)
+    else:
+        player.setWebserverUrl( ("webserver disabled", "") )
+
     if settings.get("autotimer"):
         player.setAutoTimer(True)
 
