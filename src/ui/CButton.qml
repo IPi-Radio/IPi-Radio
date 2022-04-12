@@ -24,6 +24,7 @@ Button {
     property string indicatorString: "0"
 
     property alias indicatorColor: keyIndicator.color
+    property alias indicatorTextColor: keyIndicatorKey.color
     property alias textColor: textItem.color
     property alias textSize: textItem.font.pointSize
     property alias border: buttonBackground.border
@@ -160,6 +161,6 @@ Button {
 }
 /*##^##
 Designer {
-    D{i:0;formeditorZoom:2}
+    D{i:0;height:60;width:200}
 }
 ##^##*/
