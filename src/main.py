@@ -5,15 +5,13 @@ import sys
 import json
 import socket
 from multiprocessing import Process
-from webbrowser import get
 
 from PyQt5.QtGui import QGuiApplication
 from PyQt5.QtQml import QQmlApplicationEngine
 
 import server
 from radio import Player
-from ui.GuiController import Controller
-from constants import SETTINGS, STATIONS
+from constants import QML, SETTINGS, STATIONS
 
 def parseSettings() -> dict:
     try:
@@ -81,7 +79,8 @@ if __name__ == "__main__":
     engine = QQmlApplicationEngine()
     engine.rootContext().setContextProperty("controller", player)
     engine.quit.connect(app.quit)
-    engine.load("ui/App.qml")
+    #engine.load("ui/App.qml")
+    engine.load(QML)
 
     if not engine.rootObjects():
         sys.exit(-1)

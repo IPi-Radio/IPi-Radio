@@ -10,6 +10,7 @@ VERSION_URL = "https://raw.githubusercontent.com/IPi-Radio/IPi-Radio/master/VERS
 
 STATIONS = getAbsPath("settings", "stations.json")
 SETTINGS = getAbsPath("settings", "settings.json")
+QML = getAbsPath("ui", "App.qml")
 ICON = getAbsPath("lib", "favicon.png")
 
 SELECTION_TIMEOUT = 5*1000
