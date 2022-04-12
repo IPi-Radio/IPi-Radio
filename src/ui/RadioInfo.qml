@@ -4,8 +4,8 @@ import QtQuick.Controls 2.12
 Rectangle {
     id: radioInfo
     width: 800
-    //height: 400
-    height: column.height + border.width * 4
+    height: 600
+    //height: column.height + border.width * 4
 
     color: "black"
     border.color: "white"
@@ -25,7 +25,8 @@ Rectangle {
     Rectangle {
         id: versionNumberRect
         width: versionNumberText.paintedWidth + 10
-        height: parent.height * 0.06
+        //height: 20
+        height: parent.border.width * 3
 
         color: parent.color
         radius: 5
@@ -47,13 +48,17 @@ Rectangle {
     }
 
     Column {
-        id: column
+        id: columnTop
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: parent.top
+        anchors.bottom: columnBottom.top
+        anchors.bottomMargin: radioInfo.border.width
         anchors.rightMargin: 0
         anchors.leftMargin: 0
         anchors.topMargin: radioInfo.border.width * 2
+
+        property int textSpace: height - playStatus.height - radioInfo.border.width
 
         TextKeyValue {
             id: playStatus
@@ -63,42 +68,65 @@ Rectangle {
             keyText: "Status:"
             valueText: "unknown"
         }
-
         Text {
             id: radioName
             width: radioInfo.width - radioInfo.border.width*4
             text: "IPi-Radio"
             elide: Text.ElideRight
             color: radioInfo.textColor
-            font.pointSize: 30
-            minimumPointSize: 25
+            font.pointSize: 45
+            font.bold: (height < 25) ? true : false
+            minimumPointSize: 20
 
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
-            fontSizeMode: Text.HorizontalFit
+            fontSizeMode: Text.Fit
             anchors.horizontalCenter: parent.horizontalCenter
+
+            height: parent.textSpace * 0.5
         }
         Text {
             id: dlsText
             width: radioInfo.width - radioInfo.border.width*4
             text: "radio text (DLS)"
+            elide: Text.ElideMiddle
             color: radioInfo.textColor
-            font.pointSize: 10
+            font.pointSize: 15
+            minimumPointSize: 10
+
             horizontalAlignment: Text.AlignHCenter
-            verticalAlignment: Text.AlignVCenter
-            wrapMode: Text.WordWrap
-            maximumLineCount: 2
+            verticalAlignment: Text.AlignTop
+            fontSizeMode: Text.Fit
+            //wrapMode: Text.WordWrap
+            //maximumLineCount: 1
+
             anchors.horizontalCenter: parent.horizontalCenter
+
+            height: parent.textSpace * 0.1
         }
         Text {
             id: clock
             width: parent.width
             text: "00:00:00"
             color: radioInfo.textColor
-            font.pointSize: 25
+            font.pointSize: 35
+            minimumPointSize: 20
+
             horizontalAlignment: Text.AlignHCenter
-            verticalAlignment: Text.AlignVCenter
+            verticalAlignment: Text.AlignBottom
+            fontSizeMode: Text.Fit
+
+            height: parent.textSpace * 0.4
         }
+    }
+
+    Column {
+        id: columnBottom
+        anchors.bottom: parent.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottomMargin: radioInfo.border.width * 2
+
         ToolSeparator {
             width: parent.width - radioInfo.border.width * 2
             height: radioInfo.border.width

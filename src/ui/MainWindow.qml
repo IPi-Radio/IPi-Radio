@@ -34,6 +34,9 @@ Rectangle {
             anchors.rightMargin: border.width
             anchors.leftMargin: border.width
 
+            anchors.bottom: buttonPanel.top
+            anchors.bottomMargin: border.width * 3
+
             state: controller.auto_timer ? "auto" : "base"
 
             versionText: controller.version_text
@@ -52,7 +55,7 @@ Rectangle {
             property int gridPadding: parent.width * 0.05
 
             rows: 2
-            rowSpacing: gridPadding
+            rowSpacing: 8
             columns: 3
             columnSpacing: gridPadding
             leftPadding: gridPadding
@@ -69,8 +72,8 @@ Rectangle {
             anchors.bottom: parent.bottom
             layoutDirection: Qt.RightToLeft
             anchors.horizontalCenter: parent.horizontalCenter
-            anchors.bottomMargin: radioInfo.border.width * 4
-            anchors.topMargin: radioInfo.border.width * 4
+            anchors.bottomMargin: radioInfo.border.width * 2
+            anchors.topMargin: radioInfo.border.width * 2
 
             CButton {
                 id: stopBtn
