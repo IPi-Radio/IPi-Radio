@@ -3,6 +3,7 @@
 import os
 import sys
 import json
+import time
 import socket
 from multiprocessing import Process
 
@@ -69,9 +70,9 @@ if __name__ == "__main__":
     if settings.get("useFramebuffer") and settings.get("framebuffer"):
         os.environ["QT_QPA_PLATFORM"] = f'linuxfb:fb={settings["framebuffer"]}'
 
-    if not (ip_port := checkNetwork()):
-        print("ERROR: network not available")
-        sys.exit(-1)
+    while not (ip_port := checkNetwork()):
+        print("ERROR: network not available, retrying...")
+        time.sleep(1)
 
     app = QGuiApplication(sys.argv)
     player = Player(ip_port)
