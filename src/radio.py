@@ -72,8 +72,8 @@ class Player(Controller):
         self.setRadio(radioName)
 
     @pyqtSlot()
-    def stopRadio(self):
-        self.setAutoTimer(False)
+    def stopRadio(self, resetTimer=True):
+        if resetTimer: self.setAutoTimer(False)
         self.vlcPlayer.stop()
         self.currStation = None
         self.resetRadioInfo()
@@ -248,7 +248,7 @@ class Player(Controller):
 
             if not playing and self.currStation:
                 print("stop")
-                self.stopRadio()
+                self.stopRadio(False)
 
     def _timer(self):
         self.setClock( QTime.currentTime().toString("hh:mm:ss") )
