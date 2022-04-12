@@ -5,7 +5,6 @@ Simple and easy IP Radio for Raspberry Pi (and any Linux based machine)
 ## Showcase
 
 <img title="" src="images/screenshot_1.png" alt="screenshot_1.png" data-align="left" width="800">
-
 <img title="" src="images/screenshot_2-1.png" alt="screenshot_2.png" width="600" data-align="left">
 <img title="" src="images/screenshot_2-2.png" alt="screenshot_2.png" width="600" data-align="right">
 
@@ -32,6 +31,7 @@ Simple and easy IP Radio for Raspberry Pi (and any Linux based machine)
 - Raspberry Pi (tested on 3 and 4, but older should work too)
 - SDcard >= 4GB
 - Screen with at least 800x450 is recommended (touchscreen is optional)
+- Python 3.8 or newer
 
 ###### Pre Install
 
@@ -49,8 +49,8 @@ Simple and easy IP Radio for Raspberry Pi (and any Linux based machine)
 
 ```bash
 # install dependencies
-sudo apt install git python3 python3-pyqt5 python3-vlc vlc pulseaudio qt5-style-kvantum qt5-style-plugins
-# Note: you will need at least Python 3.6 and vlc 3.0.0
+sudo apt install git python3 python3-pyqt5 python3-pyqt5.qtquick qml-module-qtquick2 qml-module-qtquick-controls2 qml-module-qtquick-window2 python3-vlc vlc pulseaudio
+# Note: you will need at least Python 3.8 and vlc 3.0.0
 
 # reboot
 sudo reboot now
