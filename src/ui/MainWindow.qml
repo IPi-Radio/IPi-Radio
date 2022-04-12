@@ -270,6 +270,21 @@ Rectangle {
         }
     }
 
+    property bool inListSelected: true
+    property int horSelection: 0
+    property int vertSelection: 0
+    property var btnMapping: [
+        btnMappingUpper, btnMappingLower
+    ]
+    property var btnMappingUpper: [
+        rebootBtn,
+        shutdownBtn,
+        stopBtn
+    ]
+    property var btnMappingLower: [
+        autoBtn
+    ]
+
     function updateTimer() {
         let hItem = radioList.highlightItem;
 
@@ -279,18 +294,40 @@ Rectangle {
         else
             hItem.timer.start();
     }
+    function updateSelector() {
+
+    }
 
     function selDown() {
-        if (radioList.currentIndex + 1 >= radioList.count)
-            return;
-        else
-            radioList.currentIndex += 1;
+        if (radioList.currentIndex >= 0) {
+            if (radioList.currentIndex + 1 >= radioList.count)
+                updateTimer();
+            else
+                radioList.currentIndex += 1;
+        }
+
+
     }
     function selUp() {
-        if (radioList.currentIndex <= 0)
-            return;
-        else
-            radioList.currentIndex -= 1;
+        if (radioList.currentIndex >= 0) {
+            if (radioList.currentIndex <= 0)
+                updateTimer();
+            else
+                radioList.currentIndex -= 1;
+        }
+
+
+    }
+
+    function selLeft() {
+        if (inListSelected) {
+            inListSelected = false;
+            horSelection = 0;
+            vertSelection = 0;
+        }
+    }
+    function selRight() {
+
     }
 
     Keys.onPressed: {
@@ -302,9 +339,18 @@ Rectangle {
         key = key - Qt.Key_0 - 1;
 
         if (0 <= key && key < radioList.count) {
+            updateTimer();
             radioList.currentIndex = key;
             controller.selectRadio(key, radioList.currentItem.radioName);
         }
+
+        if (event.key === 16777360) // Home button
+            autoBtn.clicked();
+
+        //if (event.key === 16777219) // backspace
+        //    shutdownBtn.clicked();
+
+        console.log(event.key);
     }
 
     Keys.onDownPressed: {
@@ -313,9 +359,14 @@ Rectangle {
     Keys.onUpPressed: {
         selUp();
     }
-    //Keys.onLeftPressed: {
-    //    radioList.currentIndex = -1;
-    //}
+    Keys.onLeftPressed: {
+        // TODO
+        //selLeft();
+    }
+    Keys.onRightPressed: {
+        // TODO
+        //selRight();
+    }
 
     Keys.onReturnPressed: {
         controller.selectRadio(radioList.currentIndex, radioList.currentItem.radioName);
