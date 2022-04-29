@@ -88,7 +88,7 @@ if __name__ == "__main__":
     if settings.get("runWebserver") == True:
         webserver = initWebserver(ip_port)
     else:
-        player.setWebserverUrl( ("webserver disabled", "") )
+        player.setWebserverUrl( *("webserver disabled", "") )
 
     if settings.get("autotimer"):
         player.setAutoTimer(True)
