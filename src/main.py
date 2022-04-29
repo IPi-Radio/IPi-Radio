@@ -80,7 +80,6 @@ if __name__ == "__main__":
     engine = QQmlApplicationEngine()
     engine.rootContext().setContextProperty("controller", player)
     engine.quit.connect(app.quit)
-    #engine.load("ui/App.qml")
     engine.load(QML)
 
     if not engine.rootObjects():

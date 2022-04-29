@@ -271,37 +271,6 @@ class Player(Controller):
 
         self._checkRadioStation()
 
-    def keyPressEvent(self, a0: QtGui.QKeyEvent) -> None:
-        #print("key pressed", a0.key())
-
-        key_pressed = a0.key() - Qt.Key_0
-        #print(key_pressed)
-
-        if 1 <= key_pressed <= min(len(self.radioStations), 9):
-            #rNameItem: QListWidgetItem = self.radiolist.item(key_pressed-1)
-            rName = self.getStationName(key_pressed-1)
-            print("playing", rName)
-            self.setAutoTimer(False)
-
-            self.setRadio(rName)
-
-        elif key_pressed == 0x0:
-            self.button_stop.click()
-            #self.stopRadio()
-
-        elif key_pressed == 0xFFFFE5: # UP button
-            self.selectDown()
-        elif key_pressed == 0xFFFFE3: # DOWN button
-            self.selectUp()
-
-        elif key_pressed == 0xFFFFD4: # ENTER button
-            cItem = self.radiolist.currentItem()
-            if cItem:
-                self.selectRadio(cItem)
-
-        #return super().keyPressEvent(a0)
-
-
     def updateCheck(self):
         # version check
         try:

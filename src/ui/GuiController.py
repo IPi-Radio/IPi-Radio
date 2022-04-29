@@ -1,10 +1,9 @@
 #! /usr/bin/env python3
 
-from PyQt5.QtGui import (
-    QGuiApplication, 
+from PyQt5.QtGui import ( 
     QStandardItem, QStandardItemModel
 )
-from PyQt5.QtQml import QQmlApplicationEngine
+
 from PyQt5.QtCore import (
     Qt, QObject, 
     pyqtSignal, pyqtSlot, pyqtProperty
@@ -61,10 +60,6 @@ class Controller(QObject):
         self.setVersion(VERSION)
 
         self.setAutoTimer(False)
-
-        #self.radioList.addRow("lmao")
-        #self.radioList.addRow("lmfao")
-        #self.radioList.addRow("LMAAAOOOOO", timeEnabled=True)
 
     def resetRadioInfo(self, all=False):
         self.setDLS(DEFAULT_STR)
