@@ -22,6 +22,7 @@ Button {
     property bool indicatorEnabled: true
     property int indicatorSize: 20
     property string indicatorString: "0"
+    property bool altMode: false
 
     property alias indicatorColor: keyIndicator.color
     property alias indicatorTextColor: keyIndicatorKey.color
@@ -57,7 +58,6 @@ Button {
                 color: "#131313"
             }
         }
-        border.color: "black"
 
         Behavior on border.color {
             ColorAnimation {
@@ -130,12 +130,20 @@ Button {
         onClicked: cbutton.clicked()
     }
 
+    state: "base"
     states: [
+        State {
+            name: "base"
+            PropertyChanges {
+                target: buttonBackground
+                border.color: cbutton.altMode ? "#008000" : "black"
+            }
+        },
         State {
             name: "selected"
             PropertyChanges {
                 target: buttonBackground
-                border.color: "#585858"
+                border.color: cbutton.altMode ? "#00c500" : "#585858"
             }
         },
         State {

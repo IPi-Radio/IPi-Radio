@@ -129,6 +129,7 @@ Rectangle {
                 radius: buttonPanel.radius
 
                 indicatorEnabled: false
+                altMode: controller.auto_timer
 
                 //onClicked: mainWindow.autoEnabled = !mainWindow.autoEnabled
                 onClicked: controller.auto_timer = !controller.auto_timer
