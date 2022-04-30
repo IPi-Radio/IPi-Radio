@@ -178,7 +178,7 @@ Rectangle {
             radioName: radio_name
             timeFrames: time_frames
             timeEnabled: time_enabled
-            width: parent.width
+            width: parent.width - radioList.highlightItem.border.width
 
             MouseArea {
                 anchors.fill: parent
