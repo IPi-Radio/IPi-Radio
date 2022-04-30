@@ -178,6 +178,7 @@ Rectangle {
             radioName: radio_name
             timeFrames: time_frames
             timeEnabled: time_enabled
+            width: parent.width
 
             MouseArea {
                 anchors.fill: parent
