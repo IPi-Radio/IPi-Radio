@@ -56,7 +56,7 @@ sudo apt install git python3 python3-pyqt5 python3-pyqt5.qtquick qml-module-qtqu
 sudo reboot now
 
 # clone this repo
-git clone https://github.com/IPi-Radio/IPi-Radio.git
+git clone https://github.com/IPi-Radio/IPi-Radio.git -b v2
 
 # "enable" config files inside src/settings
 mv settings.json.example settings.json
