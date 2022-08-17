@@ -279,11 +279,11 @@ class Player(Controller):
         """fetches version information from VERSION file on Github respository"""
         try:
             print("checking for updates...", end="")
-            latestVersion = urllib.request.urlopen(VERSION_URL, timeout=1).read().decode()
+            latestVersion = urllib.request.urlopen(VERSION_URL, timeout=1).read().decode().strip()
             installedVersion = VERSION
 
             if installedVersion < latestVersion:
-                print("found new version")
+                print(f"found new version {installedVersion} {latestVersion}")
                 self.setVersion(f"{VERSION} (new version available)")
             else:
                 print("latest version installed")
