@@ -276,16 +276,17 @@ class Player(Controller):
         self._checkRadioStation()
 
     def updateCheck(self):
-        # version check
+        """fetches version information from VERSION file on Github respository"""
         try:
             print("checking for updates...", end="")
-            latestVersion = float(urllib.request.urlopen(VERSION_URL, timeout=1).read())
-            installedVersion = float(VERSION)
+            latestVersion = urllib.request.urlopen(VERSION_URL, timeout=1).read().decode()
+            installedVersion = VERSION
 
             if installedVersion < latestVersion:
                 print("found new version")
-                self.groupBox.setTitle(f"v{installedVersion} (new version available)")
+                self.setVersion(f"{VERSION} (new version available)")
             else:
                 print("latest version installed")
-        except:
+        except Exception as e:
             print("failed!")
+            print(str(e))
