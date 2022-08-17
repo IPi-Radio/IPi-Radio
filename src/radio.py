@@ -109,7 +109,7 @@ class Player(Controller):
             self.radioList.clear()
 
             #print(list(self.radioStations.items()))
-            for i, (key, value) in enumerate(self.radioStations.items()):
+            for _, (key, value) in enumerate(self.radioStations.items()):
                 #print(key, value)
                 if value.get("time"):
                     self.radioList.addItem(
