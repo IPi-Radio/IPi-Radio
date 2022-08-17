@@ -8,6 +8,8 @@ import urllib.parse as urlparse
 
 from http.server import HTTPServer, BaseHTTPRequestHandler
 
+from constants import VERSION
+
 class Webserver(BaseHTTPRequestHandler):
 
     def do_GET(self):
@@ -117,6 +119,13 @@ class Webserver(BaseHTTPRequestHandler):
             self.end_headers()
 
             self.wfile.write(b"OK")
+
+        elif self.path == "/api/version/get":
+            self.send_response(200)
+            self.send_header("Content-type", "text/plain")
+            self.end_headers()
+
+            self.wfile.write(VERSION.encode())
 
         else:
             self.send_error(404, "API Endpoint not found")
