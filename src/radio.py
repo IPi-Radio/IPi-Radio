@@ -106,7 +106,8 @@ class Player(Controller):
         if stationData != self.radioStations:
             self.radioStations = stationData
 
-            self.radioList.clear()
+            #self.radioList.clear() # this causes issues with currentIndex, highlightItem etc crap being Null
+            self.radioList.setRowCount(0)
 
             #print(list(self.radioStations.items()))
             for _, (key, value) in enumerate(self.radioStations.items()):
