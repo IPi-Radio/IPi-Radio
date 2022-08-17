@@ -1,8 +1,22 @@
+<script>
+
+$(document).ready(function() {
+    // set version number in footer
+	$.post("/api/version/get", function(data)
+	{
+		console.log("version number: "+data);
+
+		$("#versionStr").html("v"+data);
+	});
+});
+
+</script>
+
 <footer class="footer">
     <hr style="background-color: grey; height: 1px;">
     <div class="container">
         <p class="text-muted">
-            this page uses <a href="https://api.radio-browser.info/">https://api.radio-browser.info/</a> for searching new radio stations | IPi-Radio webinterface | v1.1
+            this page uses <a href="https://api.radio-browser.info/">https://api.radio-browser.info/</a> for searching new radio stations | IPi-Radio webinterface | <span id="versionStr"></span>
         </p>
     </div>
 </footer>
