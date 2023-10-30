@@ -1,4 +1,4 @@
-# project
+# config
 stations.json
 settings.json
 
@@ -7,3 +7,7 @@ settings.json
 
 # pycache
 __pycache__
+
+# IDEs
+*.code-workspace
+.idea
