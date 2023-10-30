@@ -62,11 +62,11 @@ class Startup(QDialog):
     def __init__(self):
         super().__init__()
 
-        #self.resize(600, 200)
-
         label = QLabel("LOADING", self)
         label.resize(600, 200)
         label.setAlignment(Qt.AlignCenter)
+
+        self.setStyleSheet("background-color: #101010; color: white;")
 
         self.oninit.connect(lambda: label.setText("STARTING IPi-Radio"))
         self.onNetworkCheck.connect(lambda: label.setText("WAITING FOR NETWORK"))
