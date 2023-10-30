@@ -9,7 +9,13 @@ from threading import Thread
 
 from http.server import HTTPServer
 
-from PyQt5.QtGui import QGuiApplication
+from PyQt5.QtCore import pyqtSignal, Qt
+from PyQt5.QtWidgets import (
+    QApplication,
+    QDialog, 
+    QWidget,
+    QLabel,
+)
 from PyQt5.QtQml import QQmlApplicationEngine
 
 import server
@@ -46,26 +52,26 @@ def checkNetwork() -> tuple:
     
     return ip_port
 
-def initWebserver(ip_port: tuple) -> HTTPServer:
-    print(f"starting HTTP server on: {ip_port[0]}:{ip_port[1]}")
 
-    return server.run(ip_port, SETTINGS, STATIONS)
-
-
-    webserver = Thread(
-        target=server.run, args=(ip_port,SETTINGS,STATIONS))
+class Startup(QDialog):
     
-    webserver.start()
+    oninit = pyqtSignal()
+    onNetworkCheck = pyqtSignal()
 
-    print("webserver started")
-    return webserver
+    def __init__(self):
+        super().__init__()
 
+        #self.resize(600, 200)
+
+        label = QLabel("LOADING", self)
+        label.resize(600, 200)
+        label.setAlignment(Qt.AlignCenter)
+
+        self.oninit.connect(lambda: label.setText("STARTING IPi-Radio"))
+        self.onNetworkCheck.connect(lambda: label.setText("WAITING FOR NETWORK"))
 
 if __name__ == "__main__":
     global settings
-    settings = parseSettings()
-    webserver = None
-
 
     #os.environ["QT_QUICK_CONTROLS_STYLE"] = "org.kde.breeze"
     #os.environ["QT_QUICK_CONTROLS_STYLE"] = "org.kde.desktop"
@@ -76,26 +82,43 @@ if __name__ == "__main__":
     #if settings.get("useFramebuffer") and settings.get("framebuffer"):
     #    os.environ["QT_QPA_PLATFORM"] = f'linuxfb:fb={settings["framebuffer"]}'
 
-    while not (ip_port := checkNetwork()):
-        print("ERROR: network not available, retrying...")
-        time.sleep(1)
+    webserver = None
+    ip_port = None
+    settings = parseSettings()
 
-    app = QGuiApplication(sys.argv)
+    def _networkCheck(splash: Startup):
+        global ip_port
+
+        splash.onNetworkCheck.emit()
+
+        while not (ip_port := checkNetwork()):
+            print("ERROR: network not available, retrying...")
+            time.sleep(1)
+
+        splash.accept()
+
+    app = QApplication(sys.argv)
+
+    splash = Startup()
+    Thread(target=_networkCheck, args=(splash,)).start()
+    splash.exec()
+
     player = Player(ip_port)
-
     engine = QQmlApplicationEngine()
     engine.rootContext().setContextProperty("controller", player)
     engine.quit.connect(app.quit)
     engine.load(QML)
 
     if not engine.rootObjects():
-        sys.exit(-1)
-    
-    if settings.get("runWebserver") == True:
+        sys.exit(1)
+
+    if settings.get("runWebserver"):
         print(f"starting HTTP server on: {ip_port[0]}:{ip_port[1]}")
+
         webserver = server.initServer(ip_port, SETTINGS, STATIONS)
         webserverThread = Thread(target=webserver.serve_forever)
         webserverThread.start()
+
         print("webserver started")
 
     else:
