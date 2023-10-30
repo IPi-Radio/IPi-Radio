@@ -1,7 +1,7 @@
 #! /usr/bin/env python3
 
-import os
 import sys
+import signal
 import json
 import time
 import socket
@@ -92,6 +92,13 @@ if __name__ == "__main__":
 
     if settings.get("autotimer"):
         player.setAutoTimer(True)
+
+    def close(*args, **kwargs):
+        print("Exit triggered")
+        app.exit(0)
+
+    signal.signal(signal.SIGINT, close)
+    signal.signal(signal.SIGTERM, close)
 
     exitcode = app.exec()
     if webserver != None:
