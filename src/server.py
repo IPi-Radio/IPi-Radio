@@ -217,7 +217,7 @@ class Webserver(BaseHTTPRequestHandler):
         with open(SETTINGS, "w") as f:
             json.dump(data, f)
 
-def run(ip_port: tuple, settingsPath: str, stationsPath: str):
+def initServer(ip_port: tuple, settingsPath: str, stationsPath: str):
     global RADIOSTATIONS
     global SETTINGS
     global CUR_LOCATION
@@ -226,13 +226,8 @@ def run(ip_port: tuple, settingsPath: str, stationsPath: str):
     RADIOSTATIONS = stationsPath
     CUR_LOCATION = os.path.dirname(os.path.realpath(__file__))
 
-    httpServer = HTTPServer(ip_port, Webserver)
+    return HTTPServer(ip_port, Webserver)
 
-    try:
-        httpServer.serve_forever()
-    except KeyboardInterrupt:
-        httpServer.server_close()
-        print("Webserver exited")
 
 if __name__ == "__main__":
     #run()

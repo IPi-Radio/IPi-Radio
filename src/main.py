@@ -5,7 +5,9 @@ import signal
 import json
 import time
 import socket
-from multiprocessing import Process
+from threading import Thread
+
+from http.server import HTTPServer
 
 from PyQt5.QtGui import QGuiApplication
 from PyQt5.QtQml import QQmlApplicationEngine
@@ -44,11 +46,15 @@ def checkNetwork() -> tuple:
     
     return ip_port
 
-def initWebserver(ip_port: tuple) -> Process:
+def initWebserver(ip_port: tuple) -> HTTPServer:
     print(f"starting HTTP server on: {ip_port[0]}:{ip_port[1]}")
 
-    webserver = Process(
+    return server.run(ip_port, SETTINGS, STATIONS)
+
+
+    webserver = Thread(
         target=server.run, args=(ip_port,SETTINGS,STATIONS))
+    
     webserver.start()
 
     print("webserver started")
@@ -86,7 +92,12 @@ if __name__ == "__main__":
         sys.exit(-1)
     
     if settings.get("runWebserver") == True:
-        webserver = initWebserver(ip_port)
+        print(f"starting HTTP server on: {ip_port[0]}:{ip_port[1]}")
+        webserver = server.initServer(ip_port, SETTINGS, STATIONS)
+        webserverThread = Thread(target=webserver.serve_forever)
+        webserverThread.start()
+        print("webserver started")
+
     else:
         player.setWebserverUrl( *("webserver disabled", "") )
 
@@ -94,15 +105,17 @@ if __name__ == "__main__":
         player.setAutoTimer(True)
 
     def close(*args, **kwargs):
-        print("Exit triggered")
+        print("exit triggered")
         app.exit(0)
 
     signal.signal(signal.SIGINT, close)
     signal.signal(signal.SIGTERM, close)
 
-    exitcode = app.exec()
-    if webserver != None:
-        print("stopping webserver...")
-        webserver.terminate()
+    exitcode = app.exec_()
+    
+    if webserver and webserverThread:
+        print("stopping webserver")
+        webserver.shutdown()
+        webserverThread.join()
 
     sys.exit(exitcode)
