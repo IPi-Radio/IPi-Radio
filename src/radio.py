@@ -1,21 +1,21 @@
 #! /usr/bin/env python3
 
-import os
 import re
-import sys
 import json
-import socket
 import urllib.request
 import subprocess
-
-import vlc
 
 from collections import OrderedDict
 from datetime import datetime, timedelta
 
-from PyQt5 import QtGui
-from PyQt5.QtCore import QTimer, Qt, QTime, pyqtSlot
-from PyQt5.QtWidgets import QListWidgetItem, QMessageBox
+from PyQt5.QtCore import (
+    QTimer, 
+    QTime, 
+    QUrl,
+    pyqtSlot
+)
+from PyQt5.QtWidgets import QMessageBox
+from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent
 
 from constants import VERSION, VERSION_URL, STATIONS, ICON, SELECTION_TIMEOUT
 from ui.GuiController import Controller
@@ -34,9 +34,9 @@ class Player(Controller):
         self.currStation = None
         self.radioStations = OrderedDict()
 
-        # create VLC instance
-        self.instance: vlc.Instance = vlc.Instance("--no-xlib")
-        self.vlcPlayer: vlc.MediaPlayer = self.instance.media_player_new()
+        # mediaplayer
+        self.player = QMediaPlayer(self, QMediaPlayer.Flag.StreamPlayback)
+        self.player.metaDataChanged.connect(self._updateMetadata)
 
         # setup UI
         #self.setRadioIcon(False)
@@ -74,7 +74,9 @@ class Player(Controller):
     @pyqtSlot()
     def stopRadio(self, resetTimer=True):
         if resetTimer: self.setAutoTimer(False)
-        self.vlcPlayer.stop()
+
+        self.player.stop()
+
         self.currStation = None
         self.resetRadioInfo()
 
@@ -106,7 +108,8 @@ class Player(Controller):
         if stationData != self.radioStations:
             self.radioStations = stationData
 
-            #self.radioList.clear() # this causes issues with currentIndex, highlightItem etc crap being Null
+            # this causes issues with currentIndex, highlightItem etc crap being NULL
+            #self.radioList.clear()
             self.radioList.setRowCount(0)
 
             #print(list(self.radioStations.items()))
@@ -159,6 +162,7 @@ class Player(Controller):
             return False
 
     def setRadio(self, stationName: str):
+        print("SET RADIO")
         self.resetRadioInfo()
 
         station: dict = self.radioStations.get(stationName)
@@ -177,11 +181,8 @@ class Player(Controller):
         
         self.setRadioName(stationName)
 
-        media: vlc.Media = self.instance.media_new( station.get("url") )
-        media.get_mrl()
-
-        self.vlcPlayer.set_media(media)
-        self.vlcPlayer.play()
+        self.player.setMedia(QMediaContent(QUrl(station.get("url"))))
+        self.player.play()
 
         ## TODO: run this in a separate thread to avoid blocking
         #self.setRadioIcon(data=station.get("favicon"), isURL=True)
@@ -257,23 +258,47 @@ class Player(Controller):
     def _timer(self):
         self.setClock( QTime.currentTime().toString("hh:mm:ss") )
 
-        # set VLC state
-        state: vlc.State = self.vlcPlayer.get_state()
-        self.setStatusText( str(state.__str__().split('.')[-1]) )
+        stateText = ""
 
-        # set DLS from stream metadata
-        if self.vlcPlayer.is_playing() == 1 and self.currStation:
-            media: vlc.Media = self.vlcPlayer.get_media()
-            if media:
-                media.parse_with_options(vlc.MediaParseFlag(0), 500)
-                radioDLS: str = media.get_meta(12)
+        # set player state
+        state = self.player.state()
+        if state == QMediaPlayer.State.StoppedState:
+            stateText = "stopped"
 
-                if self.dls_text != radioDLS and radioDLS:
-                    self.setDLS(radioDLS)
-                elif not radioDLS:
-                    self.setDLS("no DLS")
+        elif state == QMediaPlayer.State.PausedState:
+            stateText = "paused"
+
+        elif state == QMediaPlayer.State.PlayingState:
+            stateText = "playing"
+
+        else:
+            stateText = "unknown"
+
+        if self.player.error() != QMediaPlayer.Error.NoError:
+            stateText = self.player.errorString()
+
+        self.setStatusText(f"({self.player.mediaStatus()}) {stateText}")
 
         self._checkRadioStation()
+
+    def _updateMetadata(self):
+        if not self.player.isMetaDataAvailable():
+            return
+        
+        #print("---")
+        #for entry in self.player.availableMetaData():
+        #    print(entry, ":", self.player.metaData(entry))
+
+        if title := self.player.metaData("Title"):
+            self.setDLS(title)
+        
+        if codec := self.player.metaData("AudioCodec"):
+            if bitrate := self.player.metaData("AudioBitRate"):
+                self.setCodec(f"{codec} ({int(bitrate)//1000} kbits)")
+            else:
+                self.setCodec(codec)
+
+        #print("metadata updated")
 
     def updateCheck(self):
         """fetches version information from VERSION file on Github respository"""

@@ -67,8 +67,8 @@ if __name__ == "__main__":
     # this is from https://doc.qt.io/qt-5/embedded-linux.html
     # run without X server
     #os.environ["QWS_DISPLAY"] = r"linuxfb:fb=/dev/fb0"
-    if settings.get("useFramebuffer") and settings.get("framebuffer"):
-        os.environ["QT_QPA_PLATFORM"] = f'linuxfb:fb={settings["framebuffer"]}'
+    #if settings.get("useFramebuffer") and settings.get("framebuffer"):
+    #    os.environ["QT_QPA_PLATFORM"] = f'linuxfb:fb={settings["framebuffer"]}'
 
     while not (ip_port := checkNetwork()):
         print("ERROR: network not available, retrying...")
