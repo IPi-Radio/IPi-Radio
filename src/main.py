@@ -57,6 +57,7 @@ class Startup(QDialog):
     
     oninit = pyqtSignal()
     onNetworkCheck = pyqtSignal()
+    onFinish = pyqtSignal()
 
     def __init__(self):
         super().__init__()
@@ -69,6 +70,8 @@ class Startup(QDialog):
 
         self.oninit.connect(lambda: label.setText("STARTING IPi-Radio"))
         self.onNetworkCheck.connect(lambda: label.setText("WAITING FOR NETWORK"))
+
+        self.onFinish.connect(self.accept)
 
 if __name__ == "__main__":
     global settings
@@ -95,9 +98,12 @@ if __name__ == "__main__":
             print("ERROR: network not available, retrying...")
             time.sleep(1)
 
-        splash.accept()
+        time.sleep(1)
+
+        splash.onFinish.emit()
 
     app = QApplication(sys.argv)
+    print(app.platformName())
 
     splash = Startup()
     Thread(target=_networkCheck, args=(splash,)).start()
