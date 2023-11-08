@@ -4,7 +4,7 @@ import QtQuick.Controls 2.12
 Rectangle {
     id: textKeyValue
     width: 100
-    height: key.paintedHeight
+    height: value.paintedHeight * 1.05
     color: "#00ffffff"
 
     property color textColor: "black"
@@ -14,37 +14,38 @@ Rectangle {
     property alias keyText: key.text
     property alias valueText: value.text
 
-
-    Text {
-        id: key
-        width: parent.width / 2 - textKeyValue.spacing
-        text: "key"
-        color: textKeyValue.textColor
-        horizontalAlignment: Text.AlignRight
-        font.pointSize: textKeyValue.textSize
-
+    Rectangle {
+        id: keyBack
+        height: key.paintedHeight
+        width: key.paintedWidth + 10
         anchors.left: parent.left
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
-        anchors.leftMargin: 0
-        anchors.bottomMargin: 0
-        anchors.topMargin: 0
+        anchors.leftMargin: 10
+        anchors.verticalCenter: parent.verticalCenter
+
+        color: "white"
+        radius: 10
+
+        Text {
+            id: key
+            anchors.centerIn: parent
+            color: "black"
+            text: "key"
+            font.pointSize: textKeyValue.textSize - 2
+
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+        }
     }
 
     Text {
         id: value
-        width: parent.width / 2 - textKeyValue.spacing
         text: "value"
         color: textKeyValue.textColor
-        horizontalAlignment: Text.AlignLeft
         font.pointSize: textKeyValue.textSize
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
 
-        anchors.right: parent.right
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
-        anchors.rightMargin: 0
-        anchors.bottomMargin: 0
-        anchors.topMargin: 0
+        anchors.fill: parent
     }
 }
 

@@ -189,7 +189,7 @@ Rectangle {
             width: parent.width
             textColor: radioInfo.textColor
             textSize: 10
-            keyText: "codec:"
+            keyText: "codec"
             valueText: "---"
         }
         TextKeyValue {
@@ -197,7 +197,7 @@ Rectangle {
             width: parent.width
             textColor: radioInfo.textColor
             textSize: 10
-            keyText: "country:"
+            keyText: "country"
             valueText: "---"
         }
         ToolSeparator {
@@ -212,7 +212,7 @@ Rectangle {
             width: parent.width
             textColor: radioInfo.textColor
             textSize: 10
-            keyText: "webUI address:"
+            keyText: "webUI address"
             valueText: "---"
         }
     }
