@@ -35,8 +35,7 @@ Rectangle {
             anchors.leftMargin: border.width
 
             anchors.bottom: buttonPanel.top
-            anchors.bottomMargin: border.width * 3
-
+            anchors.bottomMargin: border.width * 3            
             state: controller.auto_timer ? "auto" : "base"
 
             versionText: controller.version_text
