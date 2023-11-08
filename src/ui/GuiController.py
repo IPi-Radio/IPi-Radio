@@ -38,6 +38,10 @@ class RadioListModel(QStandardItemModel):
 
 
 class Controller(QObject):
+    waitingNetworkState = pyqtSignal()
+    waitingServerState = pyqtSignal()
+    waitingDone = pyqtSignal()
+
     pushMessage = pyqtSignal(str)
     triggerQuit = pyqtSignal()
 

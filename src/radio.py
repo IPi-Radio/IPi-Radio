@@ -28,7 +28,7 @@ screen res:
 """
 
 class Player(Controller):
-    def __init__(self, ip_port: tuple):
+    def __init__(self):
         super().__init__()
 
         self.currStation = None
@@ -41,7 +41,6 @@ class Player(Controller):
         # setup UI
         #self.setRadioIcon(False)
         self.readRadioList()
-        self.setWebserverUrl(*ip_port)
 
         # init clock
         timer_sec = QTimer(self)
