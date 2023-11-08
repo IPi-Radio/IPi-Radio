@@ -11,3 +11,6 @@ __pycache__
 # IDEs
 *.code-workspace
 .idea
+
+# Qt Creator autosave
+*.autosave
