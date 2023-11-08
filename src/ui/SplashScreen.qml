@@ -34,8 +34,8 @@ Rectangle {
 
     Rectangle {
         anchors.centerIn: parent
-        width: splashMessage.width * 1.1
-        height: splashMessage.height
+        width: splashMessage.paintedWidth * 1.1
+        height: splashMessage.paintedHeight
 
         radius: 10
         color: "#e56565"
