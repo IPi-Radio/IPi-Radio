@@ -4,9 +4,9 @@ import QtQuick.Window 2.12
 
 
 Rectangle {
-    anchors.margins: 10
     color: "black"
-    radius: 10
+    //anchors.margins: 10
+    //radius: 10
 
     property string message
     property string version
