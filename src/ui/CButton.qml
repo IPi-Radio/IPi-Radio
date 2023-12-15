@@ -166,6 +166,14 @@ Button {
             }
         }
     ]
+
+    function setSelected(selection) {
+        if (selection === true)
+            state = "selected";
+        else
+            state = "base";
+    }
+
 }
 /*##^##
 Designer {

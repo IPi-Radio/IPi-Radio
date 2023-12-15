@@ -232,7 +232,7 @@ Rectangle {
                 triggeredOnStart: false
                 onTriggered: {
                     console.log("timer trigger");
-                    parent.opacity = 0;
+                    parent.hide();
                 }
             }
 
@@ -253,6 +253,10 @@ Rectangle {
                     }
                 }
             ]
+
+            function hide() {
+                opacity = 0;
+            }
         }
     }
 
@@ -272,8 +276,8 @@ Rectangle {
     }
 
     property bool inListSelected: true
-    property int horSelection: 0
-    property int vertSelection: 0
+    property int xSelection: 2
+    property int ySelection: 0
     property var btnMapping: [
         btnMappingUpper, btnMappingLower
     ]
@@ -295,40 +299,71 @@ Rectangle {
         else
             hItem.timer.start();
     }
-    function updateSelector() {
 
+    function listDown() {
+        if (radioList.currentIndex < 0)
+            return;
+
+        if (radioList.currentIndex + 1 >= radioList.count)
+            updateTimer();
+        else
+            radioList.currentIndex += 1;
+    }
+    function listUp() {
+        if (radioList.currentIndex < 0)
+            return;
+
+        if (radioList.currentIndex == 0)
+            updateTimer();
+        else
+            radioList.currentIndex -= 1;
     }
 
-    function selDown() {
-        if (radioList.currentIndex >= 0) {
-            if (radioList.currentIndex + 1 >= radioList.count)
-                updateTimer();
-            else
-                radioList.currentIndex += 1;
+    function gridDown() {
+        if (ySelection == 0)
+            ySelection = 1;
+        gridSelectorUpdate();
+    }
+    function gridUp() {
+        if (ySelection == 1)
+            ySelection = 0;
+        gridSelectorUpdate();
+    }
+    function gridLeft() {
+        if (ySelection == 0) {
+            if (xSelection > 0)
+                xSelection -= 1;
+        }
+        gridSelectorUpdate();
+    }
+    function gridRight() {
+        let next = xSelection + 1;
+        if (next >= btnMapping[ySelection].length) {
+            inListSelected = true;
+            updateTimer();
+        } else {
+            xSelection = next;
         }
 
-
+        gridSelectorUpdate();
     }
-    function selUp() {
-        if (radioList.currentIndex >= 0) {
-            if (radioList.currentIndex <= 0)
-                updateTimer();
-            else
-                radioList.currentIndex -= 1;
+    function gridSelectorUpdate() {
+        console.log(inListSelected, xSelection, ySelection);
+        console.log(radioList.currentIndex);
+
+        resetGridSelection();
+
+        if (inListSelected == false)
+            btnMapping[ySelection][xSelection].setSelected(true);
+    }
+
+    function resetGridSelection() {
+        for (let i = 0; i < btnMappingUpper.length; i++) {
+            btnMappingUpper[i].setSelected(false);
         }
-
-
-    }
-
-    function selLeft() {
-        if (inListSelected) {
-            inListSelected = false;
-            horSelection = 0;
-            vertSelection = 0;
+        for (let j = 0; j < btnMappingLower.length; j++) {
+            btnMappingLower[j].setSelected(false);
         }
-    }
-    function selRight() {
-
     }
 
     Keys.onPressed: {
@@ -345,33 +380,55 @@ Rectangle {
             controller.selectRadio(key, radioList.currentItem.radioName);
         }
 
-        if (event.key === 16777360) // Home button
+        if (key === 16777360) // Home button
             autoBtn.clicked();
 
-        //if (event.key === 16777219) // backspace
+        //if (key === 16777219) // backspace
         //    shutdownBtn.clicked();
 
-        console.log(event.key);
+        console.log(key);
     }
 
     Keys.onDownPressed: {
-        selDown();
+        if (inListSelected)
+            listDown();
+
+        console.log("Curr index: ", radioList.currentIndex);
     }
     Keys.onUpPressed: {
-        selUp();
+        if (inListSelected)
+            listUp();
+
+        console.log("Curr index: ", radioList.currentIndex);
     }
     Keys.onLeftPressed: {
-        // TODO
-        //selLeft();
+        console.log("left");
+
+        if (inListSelected) {
+            inListSelected = false;
+            radioList.highlightItem.hide();
+            gridSelectorUpdate();
+        } else {
+            gridLeft();
+        }
     }
     Keys.onRightPressed: {
-        // TODO
-        //selRight();
+        console.log("right");
+
+        if (inListSelected) {
+            updateTimer();
+        } else {
+            gridRight();
+        }
     }
 
     Keys.onReturnPressed: {
-        controller.selectRadio(radioList.currentIndex, radioList.currentItem.radioName);
-        updateTimer();
+        if (inListSelected) {
+            controller.selectRadio(radioList.currentIndex, radioList.currentItem.radioName);
+            updateTimer();
+        } else {
+            btnMapping[ySelection][xSelection].clicked();
+        }
     }
 
     Keys.onEscapePressed: {

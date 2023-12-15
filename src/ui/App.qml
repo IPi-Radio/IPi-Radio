@@ -13,10 +13,10 @@ Window {
         target: controller
 
         function onWaitingNetworkState() {
-            splashScreen.message = "Waiting for network"
+            splashScreen.message = "Waiting for network";
         }
         function onWaitingServerState() {
-            splashScreen.message = "Starting webserver"
+            splashScreen.message = "Starting webserver";
         }
         function onWaitingDone() {
             console.log("init done");

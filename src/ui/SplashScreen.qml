@@ -52,6 +52,6 @@ Rectangle {
     }
 
     function hideBackground() {
-        color = "#000000ff"
+        color = "#000000ff";
     }
 }
