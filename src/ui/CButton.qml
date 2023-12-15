@@ -4,13 +4,6 @@ import QtQuick.Controls 2.12
 Button {
     id: cbutton
 
-    //width: Math.max(buttonBackground ? buttonBackground.implicitWidth : 0,
-    //                   textItem.implicitWidth + leftPadding + rightPadding)
-    //height: Math.max(buttonBackground ? buttonBackground.implicitHeight : 0,
-    //                    textItem.implicitHeight + topPadding + bottomPadding)
-
-    //width: keyIndicator.width + textItem.paintedWidth + leftPadding + rightPadding
-    //height: textItem.paintedHeight + topPadding + bottomPadding
     width: 250
     height: 70
 
@@ -25,7 +18,7 @@ Button {
     property bool altMode: false
 
     property alias indicatorColor: keyIndicator.color
-    property alias indicatorTextColor: keyIndicatorKey.color
+    property alias indicatorTextColor: keyIndicator.textColor
     property alias textColor: textItem.color
     property alias textSize: textItem.font.pointSize
     property alias border: buttonBackground.border
@@ -35,7 +28,6 @@ Button {
     Rectangle {
         id: buttonBackground
         radius: 2
-        //color: "#313431"
         color: "#313431"
         border.width: 1
         gradient: Gradient {
@@ -72,29 +64,26 @@ Button {
         anchors.fill: parent
         color: "#00ffffff"
 
-        Rectangle {
+        KeyIndicator {
             id: keyIndicator
-            radius: 100
-            width: cbutton.indicatorSize
+
+            width: indicatorSize
             height: width
-            opacity: cbutton.indicatorEnabled ? 1 : 0
-            color: "#008aff"
 
-            x: cbutton.width/2 - textItem.paintedWidth/2 - width*2
-            anchors.verticalCenter: parent.verticalCenter
-
-            Text {
-                id: keyIndicatorKey
-                anchors.fill: parent
-                color: "white"
-                opacity: cbutton.indicatorEnabled ? 1 : 0
-                text: "0"
-                font.pointSize: textItem.font.pointSize - 1
-
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
+            anchors {
+                left: parent.left
+                leftMargin: buttonBackground.border.width * 2
+                verticalCenter: parent.verticalCenter
             }
+
+            opacity: indicatorEnabled ? 1 : 0
+            color: parent.color
+
+            text: indicatorString
+            textColor: "white"
+            textFont.pointSize: textItem.font.pointSize - 1
         }
+
         Text {
             id: textItem
             text: cbutton.text

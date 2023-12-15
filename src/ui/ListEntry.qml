@@ -8,7 +8,7 @@ Item {
 
     property int margins: 8
 
-    property alias indicatorKey: indicatorText.text
+    property alias indicatorKey: indicatorBox.text
     property alias indicatorColor: indicatorBox.color
     property color textColor: "white"
 
@@ -34,26 +34,20 @@ Item {
         }
     }
 
-    Rectangle {
+    KeyIndicator {
         id: indicatorBox
+
         width: 25
         height: width
-        radius: 100
-        color: "#008aff"
-        
-        anchors.left: parent.left
-        anchors.leftMargin: listEntry.margins
-        anchors.verticalCenter: parent.verticalCenter
 
-        Text {
-            id: indicatorText
-            anchors.fill: parent
-            color: "white"
-            text: "1"
-            font.pixelSize: parent.width - 5
-            horizontalAlignment: Text.AlignHCenter
-            verticalAlignment: Text.AlignVCenter
+        anchors {
+            left: parent.left
+            leftMargin: listEntry.margins
+            verticalCenter: parent.verticalCenter
         }
+
+        color: "#000000ff"
+        textColor: "white"
     }
 
     Text {
