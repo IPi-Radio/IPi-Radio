@@ -1,0 +1,15 @@
+[Unit]
+Description=IPi-Radio
+Requires=pipewire.service
+Wants=network.target
+#After=pipewire.target
+
+[Service]
+WorkingDirectory=/home/pi/IPi-Radio/src
+ExecStart=python3 /home/pi/IPi-Radio/src/main.py -platform eglfs
+#Restart=always
+Restart=on-abnormal
+
+[Install]
+#WantedBy=multi-user.target
+WantedBy=default.target
