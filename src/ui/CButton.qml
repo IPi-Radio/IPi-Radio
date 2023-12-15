@@ -81,7 +81,6 @@ Button {
 
             text: indicatorString
             textColor: "white"
-            textFont.pointSize: textItem.font.pointSize - 1
         }
 
         Text {
