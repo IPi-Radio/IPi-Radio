@@ -35,7 +35,7 @@ class Player(Controller):
         self.radioStations = OrderedDict()
 
         # mediaplayer
-        self.player = QMediaPlayer(self, QMediaPlayer.Flag.StreamPlayback)
+        self.player = QMediaPlayer(self, QMediaPlayer.Flag.LowLatency)
         self.player.metaDataChanged.connect(self._updateMetadata)
 
         # setup UI
@@ -277,6 +277,14 @@ class Player(Controller):
             stateText = self.player.errorString()
 
         self.setStatusText(f"({self.player.mediaStatus()}) {stateText}")
+
+        if self.player.mediaStatus() == 8 and "seeking" in stateText: # FIXME magic number
+            # when network is too slow for streaming, this error happens
+            # "server does not support seeking"
+            # usually it helps to just restart the stream
+            print("restart")
+            self.player.stop()
+            self.player.play()
 
         self._checkRadioStation()
 

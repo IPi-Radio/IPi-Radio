@@ -33,7 +33,7 @@ class RadioListModel(QStandardItemModel):
         item.setData(radioName, self.radioName_r)
         item.setData(timeEnabled, self.timeEnabled_r)
         item.setData(timeFrames, self.timeFrames_r)
-        
+
         self.appendRow(item)
 
 
@@ -59,7 +59,7 @@ class Controller(QObject):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.radioList = RadioListModel()
-        
+
         self.resetRadioInfo(True)
         self.setVersion(VERSION)
 
