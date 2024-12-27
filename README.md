@@ -75,8 +75,8 @@ cd ~
 git clone https://github.com/IPi-Radio/IPi-Radio.git
 
 # "enable" config files inside src/settings
-mv settings.json.example settings.json
-mv stations.json.example stations.json
+cp settings.json.example settings.json
+cp stations.json.example stations.json
 
 # add IPi-Radio to autostart
 sudo nano /etc/rc.local
