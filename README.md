@@ -28,14 +28,14 @@ Simple and easy IP Radio for Raspberry Pi (and any Linux based machine)
 
 ###### Requirements
 
-- Raspberry Pi (tested on 3 and 4, but older should work too)
+- Raspberry Pi (tested on 3 and 4, but older ones should work too)
 - SDcard >= 4GB
 - Screen with at least 800x450 is recommended (touchscreen is optional)
 - Python 3.8 or newer
 
 ###### Pre Install
 
-- Raspberry Pi OS **lite** (without GUI / X server) is recommended
+- Raspberry Pi OS **lite** (without GUI / X server / Wayland) is recommended
 - connect your Pi to the network
 - `sudo raspi-config`
   - `1 System Options`
@@ -65,7 +65,7 @@ mv stations.json.example stations.json
 # add IPi-Radio to autostart
 sudo nano /etc/rc.local
     # insert above(!) the exit 0 statement:
-    python3 /path/to/repo/IPi-Radio/src/IPi-Radio.py
+    python3 /path/to/repo/IPi-Radio/src/main.py
 ```
 
 ###### Post Install
@@ -91,7 +91,7 @@ while `n` is a value between 0 and 255
 - change settings in `src/settings/settings.json`
   - set `useFramebuffer` to `false`
   - (optional) set `IP` or `Port` of the webserver
-- start with `python3 src/IPi-Radio.py`
+- start with `python3 src/main.py`
 
 ### How to update
 
