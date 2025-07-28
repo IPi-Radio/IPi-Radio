@@ -3,7 +3,10 @@ stations.json
 settings.json
 
 # dolphin config file
-*.directory
+.directory
+
+# PyCharm
+.idea
 
 # pycache
 __pycache__
